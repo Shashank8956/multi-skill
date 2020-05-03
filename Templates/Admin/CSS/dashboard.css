@@ -1,0 +1,76 @@
+/*********** body/html start ***********/
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
+
+.full-page{
+    display:flex;
+    min-height: 100vh;
+    align-items: stretch;
+}
+/*######### body/html end #########*/
+
+/*********** sidenav start ***********/
+.sidenav{
+    display: inline-flex;
+    position: relative;
+    align-items: stretch;
+    width: 15%;
+    background-color: darkslategray;
+    
+}
+
+.sidenav-list{
+    list-style-type:none;
+    padding-top: 15px;
+    padding-left: 0px;
+    width: 100%;
+}
+/*######### sidenav end #########*/
+
+/*********** list-item start ***********/
+.list-item{
+    padding: 10px 5px 10px 25px;
+    width: 100%;
+}
+
+.list-item:hover{
+    background-color: #a8f3ff;
+}
+
+.list-item img {
+    float: left;
+    width: 20px;
+    height: 20px;
+  }
+  
+.list-item h6 {
+    position: relative;
+    top: 0px;
+    left: 10px;
+    margin: 0px;
+  }
+  
+.list-item a{
+    color: #ffffff;
+    text-decoration: none;
+}
+/*######### list-item end #########*/
+
+/*********** topbar start ***********/
+.topbar{
+    height:5vh;
+    background-color: bisque;
+}
+/*######### topbar end #########*/
+
+/*********** main-section start ***********/
+.main-section{
+    align-items: stretch;
+    background-color: darkturquoise;
+    flex-grow: 1;
+}
+/*######### main-section end #########*/
