@@ -4,6 +4,7 @@ html {
 }
 body {
     min-height: 100%;
+    font-family: 'Roboto', sans-serif;
 }
 
 .full-page{
@@ -18,8 +19,8 @@ body {
     display: inline-flex;
     position: relative;
     align-items: stretch;
-    width: 15%;
-    background-color: darkslategray;
+    width: 180px;
+    background-color: #36324A;
     
 }
 
@@ -33,12 +34,12 @@ body {
 
 /*********** list-item start ***********/
 .list-item{
-    padding: 10px 5px 10px 25px;
+    padding: 10px 5px 10px 20px;
     width: 100%;
 }
 
 .list-item:hover{
-    background-color: #a8f3ff;
+    background-color: #02ceee;
 }
 
 .list-item img {
@@ -49,9 +50,11 @@ body {
   
 .list-item h6 {
     position: relative;
-    top: 0px;
+    top: 3px;
     left: 10px;
     margin: 0px;
+    font-size: 14px;
+    font: bold;
   }
   
 .list-item a{
@@ -63,14 +66,15 @@ body {
 /*********** topbar start ***********/
 .topbar{
     height:5vh;
-    background-color: bisque;
+    background-color: white;
 }
 /*######### topbar end #########*/
 
 /*********** main-section start ***********/
 .main-section{
     align-items: stretch;
-    background-color: darkturquoise;
+    background-color: rgb(223, 223, 223);
     flex-grow: 1;
 }
+
 /*######### main-section end #########*/
