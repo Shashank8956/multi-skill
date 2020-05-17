@@ -1,4 +1,4 @@
-const addEmpBtn = document.getElementById("testCreateBtn");
+const addEmpBtn = document.getElementById("addTestBtn");
 const modal = document.getElementById("id_modal_shadow");
 addEmpBtn.addEventListener("click", loadModal);
 window.addEventListener("click", closeModal);

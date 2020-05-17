@@ -45,17 +45,104 @@
             <!--Main Section-->
             <div class="main-section">
                 <div class="topbar">
+                  <input id="searchBar" type="text" placeholder="Search employee">
+                  <div id="userIcon"></div>
                 </div>
     <!--Filter section-->
-                <div class="filter-section">  
-                    <button id="testCreateBtn" type="button" class="create-test">Create Test</button>              
+                <div class="filter-section">
+                    <div id="filter-title"><h3>Manage Tests</h3></div>
+                  <div id="filter-contents">
+                    <div style="display: flex;">
+                      <div>
+                        <label class="filter-labels">Station</label><br>
+                        <select id="station-filter" class="test-select">
+                            <option  class="select_option" selected="selected">Select Station</option>
+                            <option class="select_option">Station 1</option>
+                            <option class="select_option">Station 2</option>
+                            <option class="select_option">Station 3</option>
+                            <option class="select_option">Station 4</option>
+                        </select>
+                      </div>
+                      <div style="margin-left: 10px;">
+                        <label class="filter-labels">Stage</label><br>
+                        <select id="stage-filter" class="test-select">
+                            <option  class="select_option" selected="selected">Select Stage</option>
+                            <option class="select_option">Stage 1</option>
+                            <option class="select_option">Stage 2</option>
+                            <option class="select_option">Stage 3</option>
+                            <option class="select_option">Stage 4</option>
+                        </select><br>
+                      </div> 
+                    </div>
+                      <div style="float: right; margin-top: 10px;"> 
+                        <button type="button" id="deleteTestBtn" class="delete-button" disabled>Delete</button>
+                        <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
+                        <button id="addTestBtn" type="button" class="create-test">Create Test</button> 
+                      </div>
+                  </div>
+             
                 </div>
     <!--########### Filter Section - END ###########-->
 
     <!--Modal section-->
     <div id="id_modal_shadow" class="modal_shadow">
         <div id="id_modal_box" class="modal_box">
+            <form>
+                <header class="modal-header">
+                  <div class="modalHeaderTitle">
+                    <h5>Test Details</h5>
+                  </div>
+                </header>
+                <div class="modal-body">  
+                  <div style="flex-basis: 100%;">
+                    <label id="first-modal-label">Test Title</label><br>
+                    <input id="new-title" class="test-textbox modal_inputs" type="text" placeholder="Title">
+                  </div>
 
+                  <div style="flex-grow: 1; margin-right: 20px;">
+                    <label class="modal_labels">Station</label><br>
+                    <select id="new-station" class="test-select">
+                        <option  class="select_option" selected="selected">Select Stage</option>
+                        <option class="select_option">Stage 1</option>
+                        <option class="select_option">Stage 2</option>
+                        <option class="select_option">Stage 3</option>
+                        <option class="select_option">Stage 4</option>
+                    </select>
+                  </div>
+
+                  <div style="flex-grow: 1;">
+                    <label class="modal_labels">Stage</label><br>
+                    <select id="new-stage" class="test-select">
+                        <option  class="select_option" selected="selected">Select Stage</option>
+                        <option class="select_option">Stage 1</option>
+                        <option class="select_option">Stage 2</option>
+                        <option class="select_option">Stage 3</option>
+                        <option class="select_option">Stage 4</option>
+                    </select>
+                  </div>
+
+                  <div style="display: flex; flex-basis: 100%; justify-content: space-between;">
+                    <div>
+                        <label class="modal_labels">Total Questions</label><br>
+                        <input id="new-questionNo" class="test-textbox modal_inputs" type="number" placeholder="Questions">
+                    </div>
+
+                    <div>
+                        <label class="modal_labels">Time</label><br>
+                        <input id="new-time" class="test-textbox  modal_inputs" type="number" placeholder="Time (mins)">
+                    </div>
+
+                    <div>
+                        <label class="modal_labels">Passing Marks</label><br>
+                        <input id="new-marks" class="test-textbox modal_inputs" type="number" placeholder="Marks">
+                    </div>
+                  </div>
+                  <div class="modal-buttons">
+                    <button id="cancelNewBtn" type="cancel">Cancel</button>
+                    <button id="submitNewBtn" type="submit">Save</button>
+                  </div>
+                </div>
+              </form>
         </div>
       </div>
     <!--########### Modal Section - END ###########-->
