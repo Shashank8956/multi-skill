@@ -8,23 +8,23 @@
     <title>Login</title>
 </head>
 <body>
-    <div class= "container">
-        <div class = "row card">
-            <div class="front_slider">
-                <div class="col">
-                    <h2 class="Main-title justify-content-centre">Login</h2>
-                    <p>Test users click below to login</p>
-                    <button class="btn btn-primary">Test Users</button>
-                </div>
+    <div class= "full-page">
+        <div class = "card">
+            <div id="front_slider">
+                <h6 id="logo">Skill Index</h6>
+                <h1 id="welcomeText">Welcome Back</h1>
+                <p id="infoText">Enter the details to login as an admin or click below to login as a user</p>
+                <button id="switchBtn" class="btnBasic">Test User</button>
             </div>
-            <div class="bottom_slider">
-                <div>
-                    <h1>Admin Sign in</h1>
-                    <input type="text" placeholder="Username"/>
-                    <input type="password" placeholder="Password"/>
-                </div>
+            <div id="bottom_slider">
+                <h1 id="bottom_slider_title">Admin Login</h1>
+                <input id="username_input" class="inputBasic" type="text" placeholder="Username">
+                <input id="password_input" class="inputBasic" type="password" placeholder="Password">
+                <button id="loginBtn" class="btnBasic">Sign In</button>
             </div>
         </div>
     </div>
+
+    <script src="./JS/login.js"></script>
 </body>
 </html>
