@@ -34,6 +34,7 @@ input::-webkit-input-placeholder {
     border-radius: 10px;
     border: none;
     overflow: hidden;       /*Clips the extra part of children. Forces children to follow parent's borders*/
+    background-color: rgb(247, 247, 247);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
 /*############ Central container-section end ##############*/
@@ -48,6 +49,7 @@ input::-webkit-input-placeholder {
     justify-content: center;
     flex-direction: column;
     background-color: #524786;
+    z-index: 1;
 }
 
 #logo{
@@ -96,6 +98,8 @@ input::-webkit-input-placeholder {
 .inputBasic{
     width: 350px;
     height: 40px;
+    padding-left: 10px;
+    font-size: 14px;
     margin-bottom: 20px;
     border-radius: 5px;
     border: none;
@@ -139,6 +143,24 @@ input::-webkit-input-placeholder {
 /************ Animations start **************/
 .flMoveRight{
     transform: translateX(500px);
+    transition-property: transform ease-in-out;
+    transition-duration: 1.5s;
+}
+
+.flMoveLeft{
+    transform: translateX(-1px);
+    transition-property: transform ease-in-out;
+    transition-duration: 1.5s;
+}
+
+.bkMoveRight{
+    transform: translateX(1px);
+    transition-property: transform ease-in-out;
+    transition-duration: 1.5s;
+}
+
+.bkMoveLeft{
+    transform: translateX(-400px);
     transition-property: transform ease-in-out;
     transition-duration: 1.5s;
 }
