@@ -1,0 +1,143 @@
+/************ full-page-section start **************/
+.full-page{
+    display: flex;
+    width: 100vw;
+    align-items: stretch;
+}
+
+.topbar{
+    display: flex;
+    height:40px;
+    background-color: white;
+}
+
+#titlebar{
+    padding-left: 15px;
+    width: 100%;
+    outline: none;
+    border: none;
+}
+/*############ full-page-section end ##############*/
+
+/************ left-panel-section start **************/
+.left-panel{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 240px;
+    min-height: 100vh;
+    background-color: gray;
+}
+
+.modal_labels{
+    margin: 10px 0 0 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.test-select{
+    width: 160px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(224, 224, 224);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.test-select:focus{
+    outline: none;
+}
+
+.modal_inputs{
+    height: 30px;
+}
+
+.test-textbox{
+    border: none;
+    width: 160px;
+    border-radius: 4px;
+    background-color: rgb(224, 224, 224);
+}
+
+.test-textbox:focus{
+    background-color: rgb(214, 214, 214);
+    outline:none;
+}
+
+.basicBtn{
+    width: 130px;
+    height: 40px;
+    font-weight: bold;
+    margin: 35px 0 15px 0;
+    border-radius: 20px;
+    border: none;
+}
+/*############ left-panel-section end ##############*/
+
+/************ mid-panel-section start **************/
+.mid-panel{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    flex-grow: 3;
+    background-color: rgb(184, 184, 184);
+}
+
+.question-list{
+    width: 80%;
+    list-style-type:none;
+}
+
+.list-item-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 100%;
+    background-color: white;
+}
+
+.list-item-card:hover .option-row{
+    display: flex;
+}
+
+.question:active .option-row{
+    display: flex;
+}
+
+.question{
+    margin: 20px 15px 15px 15px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.option-row{
+    display: none;
+    width: 100%;
+    max-width: 500px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.option{
+    margin: 15px 20px 15px 20px;
+}
+
+/*############ mid-panel-section end ##############*/
+
+
+/************ right-panel-section start **************/
+.right-panel{
+    flex-grow: 2;
+    align-items: stretch;
+    background-color: rgb(97, 96, 96);
+}
+
+/*############ right-panel-section end ##############*/
+
+/*############ Animation-section end ##############*/
+
+/*############ Animation-section end ##############*/

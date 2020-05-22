@@ -3,11 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/testDetail.css">
     <title>Edit Test Details</title>
 </head>
 <body>
-    
+    <div class="topbar">
+        <input id="titlebar" type="text" placeholder="The Title of the page will be displayed here">
+        <div id="userIcon"></div>
+    </div>
+
+    <div class="full-page">
+
+        <div class="left-panel">
+            <button id="addQuestionBtn" class="basicBtn">Add Question</button>
+            <div style="width: 160px;">
+                <label class="modal_labels">Station</label><br>
+                <select id="new-station" class="test-select">
+                    <option  class="select_option" selected="selected">Select Stage</option>
+                    <option class="select_option">Stage 1</option>
+                    <option class="select_option">Stage 2</option>
+                    <option class="select_option">Stage 3</option>
+                    <option class="select_option">Stage 4</option>
+                </select>
+            </div>
+
+            <div style="width: 160px;">
+                <label class="modal_labels">Stage</label><br>
+                <select id="new-stage" class="test-select">
+                    <option  class="select_option" selected="selected">Select Stage</option>
+                    <option class="select_option">Stage 1</option>
+                    <option class="select_option">Stage 2</option>
+                    <option class="select_option">Stage 3</option>
+                    <option class="select_option">Stage 4</option>
+                </select>
+            </div>
+
+            <div style="width: 160px;">
+                <label class="modal_labels">Total Questions</label><br>
+                <input id="new-questionNo" class="test-textbox modal_inputs" type="number" placeholder="Questions">
+            </div>
+
+            <div style="width: 160px;">
+                <label class="modal_labels">Time</label><br>
+                <input id="new-time" class="test-textbox  modal_inputs" type="number" placeholder="Time (mins)">
+            </div>
+
+            <div style="width: 160px;">
+                <label class="modal_labels">Passing Marks</label><br>
+                <input id="new-marks" class="test-textbox modal_inputs" type="number" placeholder="Marks">
+            </div>
+        </div>
+        <div class="mid-panel">
+            <ul id="questionList" class="question-list">
+                <li>
+                    <div class="list-item-card">
+                        <h5 class="question">1. is this Some stupid question that will be displayed to the test user?</h5>
+                        <div id="questionOptions">
+                            <div class="option-row">
+                                <h6 class="option option-left">a. Option 1</h6>
+                                <h6 class="option option-right">b. Option 2</h6>
+                            </div>
+                            <div class="option-row">
+                                <h6 class="option">c. Option 3</h6>
+                                <h6 class="option">d. Option 4</h6>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="right-panel"></div>
+    </div>
 </body>
 </html>

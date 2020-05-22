@@ -50,7 +50,6 @@ function changeContent(){
         password_input.placeholder = "Mobile No";
         password_input.value = "";
         password_input.type = "tel";
-        
 
     }else if(isAdmin==true){
         

@@ -27,3 +27,10 @@ function closeModal(e){
         modal.style.display = "none";
 }
 
+function loadDoc() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://reqres.in/api/users?pages=2", true);
+    xhr.onload = function(){
+    console.log(xhr.responseText);
+    }
+}
