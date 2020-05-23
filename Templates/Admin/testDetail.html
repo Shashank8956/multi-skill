@@ -16,7 +16,7 @@
 
     <div class="full-page">
 
-        <div class="left-panel">
+        <div id="left-panel">
             <button id="addQuestionBtn" class="basicBtn">Add Question</button>
             <div style="width: 160px;">
                 <label class="modal_labels">Station</label><br>
@@ -54,26 +54,66 @@
                 <label class="modal_labels">Passing Marks</label><br>
                 <input id="new-marks" class="test-textbox modal_inputs" type="number" placeholder="Marks">
             </div>
+
+            <div style="width: 200px; display: flex; flex-direction: row; justify-content: space-between;">
+                <button id="cancelTestBtn" class="basicBtn">Cancel</button>
+                <button id="createTestBtn" class="basicBtn">Submit</button>
+            </div>
         </div>
-        <div class="mid-panel">
+        <div id="mid-panel">
             <ul id="questionList" class="question-list">
-                <li>
-                    <div class="list-item-card">
-                        <h5 class="question">1. is this Some stupid question that will be displayed to the test user?</h5>
-                        <div id="questionOptions">
-                            <div class="option-row">
-                                <h6 class="option option-left">a. Option 1</h6>
-                                <h6 class="option option-right">b. Option 2</h6>
-                            </div>
-                            <div class="option-row">
-                                <h6 class="option">c. Option 3</h6>
-                                <h6 class="option">d. Option 4</h6>
+                <li style="border-bottom: solid 2px rgb(228, 227, 227);">
+                    <div id="id-list-item-card" class="list-item-card">
+                        <div id="id-questionRow" class="question-row">
+                            <h5 id="id-listQuestionNo" class="mid_questionNo">1. </h5>
+                            <h5 id="id-listQuestion1" class="question">is this Some stupid question that will be displayed to the test user?</h5>
+                        </div>
+                        <div id="id-option-row" class="option-row">
+                            <h6 class="option">a. Option 1</h6>
+                            <h6 class="option">b. Option 2</h6>
+                        </div>
+                        <div id="id-option-row2" class="option-row">
+                            <h6 class="option">c. Option 3</h6>
+                            <h6 class="option">d. Option 4</h6>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="right-panel"></div>
+        <div id="right-panel">
+            <div style="display: flex; justify-content: space-between; width: 100%; padding: 15px 20px 25px 20px;">
+                <h6 class="subHeading">Edit Question</h6>
+                <h3>X</h3>
+            </div>
+
+            <div class="right-panel-row-question">
+                <h6 id="right-panel-questionNo">1.</h6>
+                <input id="input-questionEdit" class="test-textbox" type="text" placeholder="Edit question">
+            </div>
+            <h6 class="subHeading">Options</h6>
+            <div class="right-panel-row">
+                <input id="edit-radio1" class="right-panel-radio" type="radio">
+                <input id="edit-option1" class="test-textbox right_panel_inputs" type="text" placeholder="Option A">
+            </div>
+            <div class="right-panel-row">
+                <input id="edit-radio1" class="right-panel-radio" type="radio">
+                <input id="edit-option2" class="test-textbox right_panel_inputs" type="text" placeholder="Option B">
+            </div>
+            <div class="right-panel-row">
+                <input id="edit-radio1" class="right-panel-radio" type="radio">
+                <input id="edit-option3" class="test-textbox right_panel_inputs" type="text" placeholder="Option C">
+            </div>
+            <div class="right-panel-row">
+                <input id="edit-radio1" class="right-panel-radio" type="radio">
+                <input id="edit-option4" class="test-textbox right_panel_inputs" type="text" placeholder="Option D">
+            </div>
+
+            <div class="right-panel-row-button">
+                <button id="resetBtn" class="basicBtn">Reset Question</button>
+                <button id="saveQuestionBtn"class="basicBtn">Save Changes</button>
+            </div>
+        </div>
     </div>
+    <script src="./JS/testDetail.js"></script>
 </body>
 </html>
