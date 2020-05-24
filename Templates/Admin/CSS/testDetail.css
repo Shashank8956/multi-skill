@@ -67,6 +67,9 @@
     width: 160px;
     border-radius: 4px;
     background-color: rgb(224, 224, 224);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .test-textbox:focus{
@@ -86,6 +89,36 @@
 .basicBtn:focus{
     outline: none;
 }
+
+#addQuestionBtn{
+    width: 160px;
+    color: white;
+    background-color: #7e76a3;
+}
+
+#addQuestionBtn:hover{
+    background-color: #696190;
+}
+
+#cancelTestBtn{
+    margin-right: 30px;
+    color: white;
+    background-color: #797979;
+}
+
+#cancelTestBtn:hover{
+    background-color: #919191;
+}
+
+#createTestBtn{
+    color: white;
+    background-color: #41ff33;
+}
+
+#createTestBtn:hover{
+    background-color: #0ba100;
+}
+
 /*############ left-panel-section end ##############*/
 
 /************ mid-panel-section start **************/
@@ -206,7 +239,8 @@
 }
 
 .subHeading{
-    margin-top: 0px;
+    align-self: flex-start;
+    margin: 20px 0px 0px 20px;
     font-weight: bold;
 }
 
