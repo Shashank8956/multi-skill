@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height= device-height, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/test.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/test.css' %}">
     <title>Manage Tests</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
                     <li>
                         <div class="list-item">
                             <a href="./dashboard.html">
-                                <img src="static/white/icon_white_dashboard.svg"/>
+                                <img src="{% static 'images/white/icon_white_dashboard.svg' %}"/>
                                 <h6>Dashboard</h6>
                             </a>
                         </div>
@@ -25,7 +26,7 @@
                     <li>
                         <div class="list-item">
                             <a href="./employee.html">
-                                <span><img src="static/white/icon_white_employee.svg"/></span>
+                                <span><img src="{% static 'images/white/icon_white_employee.svg' %}"/></span>
                                 <h6>Employees</h6>
                             </a>
                         </div>
@@ -33,7 +34,7 @@
                     <li>
                         <div class="list-item">
                             <a href="./test.html">
-                                <span><img src="static/white/icon_white_test.svg"/></span>
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
                                 <h6>Manage Tests</h6>
                             </a>
                         </div>
@@ -256,6 +257,6 @@
     </div>
     </div>
 
-    <script src="JS/test.js"></script>
+    <script src="{% static 'JS/test.js' %}"></script>
 </body>
 </html>

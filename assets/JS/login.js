@@ -70,7 +70,7 @@ function Login(){
     if(username.length == 0 || password.length == 0){
         alert("Please enter the details!");
     }else if(isAdmin == true && username == "admin" && password == "admin") {
-        window.location.href = "./Admin/dashboard.html";
+        window.location.href = "dashboard.html";
     }else if(isAdmin == false && username == "1234" && password == "1234"){
         alert("Comming Soon!");
     }else{
