@@ -70,12 +70,21 @@ function Login(){
     if(username.length == 0 || password.length == 0){
         alert("Please enter the details!");
     }else if(isAdmin == true && username == "admin" && password == "admin") {
-        window.location.href = "dashboard.html";
+        console.log("Login?");
+        window.location.href = "./adminview/dashboard";
     }else if(isAdmin == false && username == "1234" && password == "1234"){
         alert("Comming Soon!");
     }else{
         alert("Invalid credentials!");
         username_input.value = "";
         password_input.value = "";
+    }
+
+    function loadDashboard() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://localhost/abcd/abcd", true);
+        xhr.onload = function(){
+        console.log(xhr.responseText);
+        }
     }
 }
