@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminview.apps.AdminviewConfig',
+
+    'station',
+    'stage',
+    'employee',
+    'question',
+    'result',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +128,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'multi_skill/static'),
+    os.path.join(BASE_DIR, 'adminview/static'),    
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
