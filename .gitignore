@@ -1,0 +1,2 @@
+#ignore assets folder, since it can be generated using collectstatic
+assets
