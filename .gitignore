@@ -15,9 +15,17 @@
 *.pyc
 __pycache__/
 local_settings.py
-./media
-./static
-./.venv
+/media
+/static/
+.venv/
+
+## Sqlite Stuff ##
+db.sqlite3
+sqldiff.exe
+sqlite3_analyzer.exe
+sqlite3.exe
+
+
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
