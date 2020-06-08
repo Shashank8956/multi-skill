@@ -18,6 +18,9 @@ def displayEmployeePage(request):
 def displayTestPage(request):
     return render(request, 'Admin/test.html')
 
+def displayTestDetails(request):
+    return render(request, 'Admin/testDetail.html')
+
 def get_employee(request, emp_token):
     if request.method == 'GET':
         try:
@@ -75,7 +78,7 @@ def addEmployee(request):
 
 @csrf_exempt
 def addEmpTrial(request):
-    response = json.dumps([{}])
+    #response = json.dumps([{}])
     #print(request.POST.get('new_token',''))
     #print(request.POST.get('new_name',''))
     #print(request.POST.get('new_gender',''))
@@ -107,11 +110,17 @@ def addEmpTrial(request):
             print("Before save")
             emp.save()
             print("after save")
-            response = json.dumps([{'Success': 'Employee added successfully!'}])
+            #response = json.dumps([{'Success': 'Employee added successfully!'}])
         except:
             response = json.dumps([{'Error': 'Employee could not be added!'}])
     return HttpResponseRedirect('/adminview/employee')
 
+def addTestDetails(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        print(payload['title'])
+        
+    return HttpResponseRedirect('/adminview/test')
 
 def get_allEmployees(request):
     if request.method == 'GET':

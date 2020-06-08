@@ -12,4 +12,6 @@ urlpatterns = [
     path('employee', views.displayEmployeePage, name='employees'),
     path('test', views.displayTestPage, name='test'),
     path('add_newEmp', views.addEmpTrial, name='add_employee'),
+    path('testDetail', views.displayTestDetails, name='loadTestDetail'),
+    path('addTest', views.addTestDetails, name='addTestDetail'),
 ]

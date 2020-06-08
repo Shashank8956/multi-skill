@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### VisualStudioCode ###
 .vscode
 !.vscode/settings.json
@@ -37,3 +38,7 @@ sqlite3.exe
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
 #Pipfile.lock
+=======
+#ignore assets folder, since it can be generated using collectstatic
+assets
+>>>>>>> master

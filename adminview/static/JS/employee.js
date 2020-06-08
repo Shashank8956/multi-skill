@@ -1,7 +1,16 @@
+const empModal = document.getElementById("emp-modal-id");
+const cancelEmpBtn = document.getElementById("cancelEmpBtn")
+const saveEmpBtn = document.getElementById("submitEmpBtn");
+
+const stationModal = document.getElementById("station-modal-id");
+const cancelStationBtn = document.getElementById("cancelStationBtn")
+const saveStationBtn = document.getElementById("submitStationBtn");
+
+const stageModal = document.getElementById("stage-modal-id");
+const cancelStageBtn = document.getElementById("cancelStageBtn")
+const saveStageBtn = document.getElementById("submitStageBtn");
+
 const addEmpBtn = document.getElementById("addEmpBtn");
-const modal = document.getElementById("emp-modal-id");
-const cancelBtn = document.getElementById("cancelNewBtn")
-const saveBtn = document.getElementById("submitNewBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const empList = document.getElementById("id_EmpList");
 
@@ -9,45 +18,55 @@ const empList = document.getElementById("id_EmpList");
 initialize();
 
 function initialize(){
-    getData();
+    //getData();
     eventListeners();
     //loadList();
     getAllData();
 }
 
 function eventListeners(){
-    addEmpBtn.addEventListener("click", loadModal);
+    addEmpBtn.addEventListener("click", loadEmpModal);
     window.addEventListener("click", closeModal);
-    cancelBtn.addEventListener("click", cancelModal);
-    saveBtn.addEventListener("click", submitData);
+    cancelEmpBtn.addEventListener("click", cancelModal);
+    saveEmpBtn.addEventListener("click", submitData);
     clearFilterBtn.addEventListener("click", clearFilters);
 }
 
 function clearFilters(){
-    console.log("Clear filters!!");
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/12345');
-    xhr.send();
+    console.log("Clear filters does nothing!!");
 }
 
-function loadModal(){
-    modal.style.display = "inline-block";
+function loadEmpModal(){
+    empModal.style.display = "inline-block";
+}
+
+function loadStageModal(){
+    stageModal.style.display = "inline-block";
+}
+
+function loadStationModal(){
+    stationModal.style.display = "inline-block";
 }
 
 function cancelModal(){
-    modal.style.display = "none";
+    empModal.style.display = "none";
+    stationModal.style.display = "none";
+    stageModal.style.display = "none";
 }
 
 function submitData(){
     /* Do some shit to send data */
-    
     modal.style.display = "none";
     loadList();
 }
 
 function closeModal(e){
-    if(e.target == modal)
-        modal.style.display = "none";
+    if(e.target == empModal)
+        empModal.style.display = "none";
+    else if(e.target == stationModal)
+        stationModal.style.display = "none";
+    else if(e.target == stageModal)
+        stageModal.style.display = "none";
 }
 
 function getData() {
@@ -84,7 +103,6 @@ function getAllData() {
 
 
 function loadList(listData) {
-    console.log(listData);
     if(listData!=null){
 
             let newRow = document.createElement("tr");
@@ -103,12 +121,6 @@ function loadList(listData) {
             tableData[4].innerText = listData.mobile;
             tableData[5].innerText = listData.current_station;
 
-            console.log(listData.emp_token);
-            console.log(listData.emp_name);
-            console.log(listData.doj);
-            console.log(listData.mobile);
-            console.log(listData.current_station);
-
             for(let i=0; i<6; i++){
                 newRow.appendChild(tableData[i]);
             }
@@ -118,8 +130,6 @@ function loadList(listData) {
 }
 
 function loadEntireList(listData){
-    console.log(listData);
-    console.log(listData.length);
     if(listData!=null){
 
             for(let i=0; i<listData.length; i++){
@@ -138,12 +148,6 @@ function loadEntireList(listData){
                 tableData[3].innerText = listData[i].doj;
                 tableData[4].innerText = listData[i].mobile;
                 tableData[5].innerText = listData[i].current_station;
-
-                console.log(listData[i].emp_token);
-                console.log(listData[i].emp_name);
-                console.log(listData[i].doj);
-                console.log(listData[i].mobile);
-                console.log(listData[i].current_station);
 
                 for(let i=0; i<6; i++){
                     newRow.appendChild(tableData[i]);

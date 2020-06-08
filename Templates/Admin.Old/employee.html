@@ -47,6 +47,7 @@
 <!--Main Section-->
             <div class="main-section">
                 <div class="topbar">
+                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="menuBtn" alt="Hamburger Icon"/>
                   <input id="searchBar" type="text" placeholder="Search employee">
                   <div id="userIcon"></div>
                 </div>
@@ -109,8 +110,66 @@
                       <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
                     </div>
                     <div class="modal-buttons">
-                      <button id="cancelNewBtn" type="cancel">Cancel</button>
-                      <button id="submitNewBtn" class ="emp-textbox" type="submit">Save</button>
+                      <button id="cancelEmpBtn" type="cancel">Cancel</button>
+                      <button id="submitEmpBtn" class ="emp-textbox" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="station-modal-id" class="emp-modal">
+              <div class="modal-box">
+                <form action="./add_newStation" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Add Station</h5>
+                    </div>
+                  </header>
+                  <div class="modal-body">
+                    <div>
+                      <label class="modal-labels">Station Name</label><br>
+                      <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Required Manpower</label><br>
+                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+                    </div>
+
+                    <div class="modal-buttons">
+                      <button id="cancelStationBtn" type="cancel">Cancel</button>
+                      <button id="submitStationBtn" class ="emp-textbox" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="stage-modal-id" class="emp-modal">
+              <div class="modal-box">
+                <form action="./add_newStation" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Add Stage</h5>
+                    </div>
+                  </header>
+                  <div class="modal-body">
+                    <div>
+                      <label class="modal-labels">Stage Name</label><br>
+                      <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Skill Level</label><br>
+                      <input id="new-skill-level" class="emp-textbox modal_inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
+                    </div>
+
+                    <div class="modal-buttons">
+                      <button id="cancelStageBtn" type="cancel">Cancel</button>
+                      <button id="submitStageBtn" class ="emp-textbox" type="submit">Save</button>
                     </div>
                   </div>
                 </form>

@@ -1,4 +1,11 @@
 //Element declarations
+let titleInput = document.getElementById("titlebar");
+let stationInput = document.getElementById("new-station");
+let stageInput = document.getElementById("new-stage");
+let questionNoInput = document.getElementById("new-questionNo");
+let timeInput = document.getElementById("new-time");
+let marksInput = document.getElementById("new-marks");
+
 let addQuestionButton = document.getElementById("addQuestionBtn");
 let questionList = document.getElementById("questionList");
 let questionCard = document.getElementsByClassName("list-item-card");
@@ -25,12 +32,52 @@ let questionOp3Array = [];
 let questionOp4Array = [];
 let correctOpArray = [];
 let questionCounter = 0;
+let cookieValue = '';
 
 initializePage();
 
 function initializePage(){
     setEvents();
     hideRightPanel();
+    getSessionData();
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function getSessionData(){
+    cookieValue = getCookie('csrftoken');
+    titleInput.value = sessionStorage.getItem('title');
+    questionNoInput.value = sessionStorage.getItem('questionNo');
+    timeInput.value = sessionStorage.getItem('time');
+    marksInput.value = sessionStorage.getItem('marks');
+
+    for (var opt, i = 0; opt = stationInput[i]; i++) {
+        if (opt.value == sessionStorage.getItem('station')) {
+            stationInput.selectedIndex = i;
+            break;
+        }
+    }
+
+    for (var opt, i = 0; opt = stageInput[i]; i++) {
+        if (opt.value == sessionStorage.getItem('stage')) {
+            stageInput.selectedIndex = i;
+            break;
+        }
+    }
 }
 
 function setEvents(){
@@ -51,7 +98,6 @@ function hideRightPanel(){
 
     let child = rightPanel.children;
     for (var i = 0; i < child.length; i++){
-        console.log(child[i].tagName);  
         child[i].style.display = "none";
     };
 
@@ -63,8 +109,7 @@ function showRightPanel(){
 
     let child = rightPanel.children;
     
-    for (var i = 0; i < child.length; i++){
-        console.log(child[i].tagName);  
+    for (var i = 0; i < child.length; i++){ 
         child[i].style.display = "flex";
     };
 
@@ -204,4 +249,53 @@ function cancelTestEditing(){
 
 function submitTestDetails(){
     //submit test
+    testData = bundleDataForSend();
+    saveAndCloseTestDetails(testData);
+}
+
+function saveAndCloseTestDetails(testData){
+    var xhr = new XMLHttpRequest();
+    var finalData = JSON.stringify(testData);
+    console.log(finalData);
+
+    xhr.open('POST', 'http://127.0.0.1:8000/adminview/addTest', true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', cookieValue);
+    console.log(cookieValue);
+
+    xhr.onreadystatechange = function() {//Call a function when the state changes.
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            alert(this.responseText);
+        }
+    }
+    xhr.send(finalData);
+}
+
+function bundleDataForSend(){
+    testData = {};
+    questionDetails = [];
+
+    testData["title"] = titleInput.value;
+    testData["station"] = stationInput.options[stationInput.selectedIndex].value;
+    testData["stage"] = stageInput.options[stageInput.selectedIndex].value;
+    testData["questions"] = questionNoInput.value;
+    testData["time"] = timeInput.value;
+    testData["marks"] = marksInput.value;
+
+
+    for(let i = 0; i< questionTextArray.length; i++){
+        tempJson = {};
+        tempJson["q" + questionNoArray[i]] = questionTextArray[i];
+        tempJson["Op1"] = questionOp1Array[i];
+        tempJson["Op2"] = questionOp2Array[i];
+        tempJson["Op3"] = questionOp3Array[i];
+        tempJson["Op4"] = questionOp4Array[i];
+        //tempJson["Correct"] = correctOpArray[i];
+        
+        questionDetails.push(tempJson);
+    }
+
+    testData["Question Details"] = questionDetails;
+    console.log(testData);
+    return testData;
 }

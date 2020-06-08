@@ -7,6 +7,11 @@
     border-color: rgba(0, 0, 0, 0);
 }
 
+#id-top-menu{
+    width: 25px;
+    height: 25px;
+}
+
 #userIcon{
     margin-top: auto;
     margin-bottom: auto;
