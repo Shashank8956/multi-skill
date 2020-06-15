@@ -40,12 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminview.apps.AdminviewConfig',
-
-    'station',
-    'stage',
-    'employee',
-    'question',
-    'result',
 ]
 
 MIDDLEWARE = [
