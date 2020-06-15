@@ -52,6 +52,7 @@ class EmployeeSkill(models.Model):
 
 
 class TestHeader(models.Model):
+    Title = models.TextField()
     Station = models.ForeignKey(Station, on_delete = models.DO_NOTHING)
     Stage = models.ForeignKey(Stage, on_delete = models.DO_NOTHING)
     Total_Question = models.IntegerField()
