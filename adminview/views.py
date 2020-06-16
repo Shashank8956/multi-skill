@@ -6,25 +6,25 @@ import json
 
 # Create your views here.
 
-def displayLoginPage(request):
+def display_login_page(request):
     return render(request, 'login.html')
 
-def displayDashboard(request):
-    return render(request, 'Admin/dashboard.html')
+def display_dashboard(request):
+    return render(request, 'admin/dashboard.html')
 
-def displayEmployeePage(request):
-    return render(request, 'Admin/employee.html')
+def display_employee_page(request):
+    return render(request, 'admin/employee.html')
 
-def displayTestPage(request):
-    return render(request, 'Admin/test.html')
+def display_test_page(request):
+    return render(request, 'admin/test.html')
 
-def displayTestDetails(request):
-    return render(request, 'Admin/testDetail.html')
+def display_test_details(request):
+    return render(request, 'admin/testDetail.html')
 
 def get_employee(request, emp_token):
     if request.method == 'GET':
         try:
-            emp = Employee.objects.get(emp_token = 12346)
+            emp = Employee.objects.get(emp_token = emp_token)
             dictionary = {'emp_token': emp.emp_token,
                             'emp_name': emp.emp_name,
                             'gender': emp.gender,
@@ -44,7 +44,7 @@ def get_employee(request, emp_token):
 
 
 @csrf_exempt
-def addEmployee(request):
+def add_employee(request):
     response = json.dumps([{}])
     if request.method == 'POST':
         payload = json.loads(request.body)
@@ -77,7 +77,7 @@ def addEmployee(request):
 
 
 @csrf_exempt
-def addEmpTrial(request):
+def add_emp_trial(request):
     #response = json.dumps([{}])
     #print(request.POST.get('new_token',''))
     #print(request.POST.get('new_name',''))
@@ -115,14 +115,18 @@ def addEmpTrial(request):
             response = json.dumps([{'Error': 'Employee could not be added!'}])
     return HttpResponseRedirect('/adminview/employee')
 
-def addTestDetails(request):
+# TO BE EDITED
+
+def add_test_details(request):
     if request.method == 'POST':
         payload = json.loads(request.body)
         print(payload['title'])
-        
+        """
+       {"title":"How are you?","station":"Stage 1","stage":"Stage 1","questions":"545653165","time":"2512435","marks":"553365546","Question Details":[{"q1":"How the fuck you?","Op1":"Good Nigga","Op2":"Fynnn","Op3":"Good Nigga","Op4":"Fynnn"}]} 
+    """
     return HttpResponseRedirect('/adminview/test')
 
-def get_allEmployees(request):
+def get_all_employees(request):
     if request.method == 'GET':
         try:
             emp = Employee.objects.all()
