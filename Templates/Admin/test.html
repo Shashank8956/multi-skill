@@ -46,6 +46,14 @@
             <!--Main Section-->
             <div class="main-section">
                 <div class="topbar">
+                    <div class="dropdown">
+                        <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
+                        <div class="dropdown-content">
+                            <button id="id-stationMenu" class="menuBtn">Add Station</button>
+                            <button id="id-stageMenu" class="menuBtn">Add Stage</button>
+                            <button id="" class="menuBtn">Add something new</button>
+                        </div>
+                      </div>
                   <input id="searchBar" type="text" placeholder="Search employee">
                   <div id="userIcon"></div>
                 </div>
@@ -139,13 +147,71 @@
                     </div>
                   </div>
                   <div class="modal-buttons">
-                    <button id="cancelTestBtn" type="cancel">Cancel</button>
-                    <button id="submitTestBtn" type="submit">Save</button>
+                    <button id="cancelTestBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                    <button id="submitTestBtn" class="modalSubmitBtn" type="submit">Save</button>
                   </div>
                 </div>
               </form>
         </div>
-      </div>
+    </div>
+
+    <div id="station-modal-id" class="modal_shadow">
+    <div id="station-modal-box-id" class="modal_box">
+        <form action="./add_newStation" method="POST">
+        {% csrf_token %}
+        <header class="modal-header">
+            <div class="modalHeaderTitle">
+            <h5>Add Station</h5>
+            </div>
+        </header>
+        <div id="station-modal-body-id" class="modal-body">
+            <div>
+            <label class="modal-labels">Station Name</label><br>
+            <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
+            </div>
+
+            <div>
+            <label class="modal-labels">Required Manpower</label><br>
+            <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+            </div>
+
+            <div class="modal-buttons">
+            <button id="cancelStationBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+            <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+    <div id="stage-modal-id" class="modal_shadow">
+    <div id="stage-modal-box-id" class="modal_box">
+        <form action="./add_newStation" method="POST">
+        {% csrf_token %}
+        <header class="modal-header">
+            <div class="modalHeaderTitle">
+            <h5>Add Stage</h5>
+            </div>
+        </header>
+        <div id="stage-modal-body-id" class="modal-body">
+            <div>
+            <label class="modal-labels">Stage Name</label><br>
+            <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
+            </div>
+
+            <div>
+            <label class="modal-labels">Skill Level</label><br>
+            <input id="new-skill-level" class="emp-textbox modal_inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
+            </div>
+
+            <div class="modal-buttons">
+            <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+            <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    </div>
     <!--########### Modal Section - END ###########-->
 
     <!--Table section-->

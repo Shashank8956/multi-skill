@@ -14,5 +14,5 @@ class Employee(models.Model):
     isAdmin = models.BooleanField(default=True)
     objects = models.Manager()
 
-
+#python manage.py collectstatic --noinput --clear
 #emp = Employee(emp_token = 12345, emp_name = 'Trial Admin', gender = 'M', current_station = 'Some weird station', mobile = '9876543210', language_preference = 'English', createdBy = 'Some stupid admin 1', isAdmin = True)

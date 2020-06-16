@@ -18,7 +18,7 @@ from django.urls import path, include
 from adminview import views
 
 urlpatterns = [
-    path('', views.displayLoginPage, name='loginStart'),
-    path('admin/', admin.site.urls),
+    path('', views.displayLoginPage, name='loginStart'), #localhost:8080
+    path('admin/', admin.site.urls),                     #localhost:8080/admin
     path('adminview/', include('adminview.urls')),
 ]
