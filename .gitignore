@@ -1,6 +1,6 @@
 #ignore assets folder, since it can be generated using collectstatic
-assets/
-.vscode/
+assets
+.vscode
 
 ### Django ###
 *.log

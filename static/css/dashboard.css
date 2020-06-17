@@ -1,0 +1,160 @@
+/*********** body/html start ***********/
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.full-page{
+    display:flex;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+input::-webkit-input-placeholder {
+    font-size: 13px;
+    font-weight: bold;
+    padding-left: 5px;
+    line-height: 3;
+    color: rgb(114, 114, 114);
+} 
+/*######### body/html end #########*/
+
+/*********** sidenav start ***********/
+.sidenav{
+    display: inline-flex;
+    position: relative;
+    align-items: stretch;
+    width: 180px;
+    background-color: #36324A;
+    
+}
+
+.sidenav-list{
+    list-style-type:none;
+    padding-top: 15px;
+    padding-left: 0px;
+    width: 100%;
+}
+/*######### sidenav end #########*/
+
+/*********** list-item start ***********/
+.list-item{
+    padding: 10px 5px 10px 20px;
+    width: 100%;
+}
+
+.list-item:hover{
+    background-color: #02ceee;
+}
+
+.list-item img {
+    float: left;
+    width: 20px;
+    height: 20px;
+  }
+  
+.list-item h6 {
+    position: relative;
+    top: 3px;
+    left: 10px;
+    margin: 0px;
+    font-size: 14px;
+    font: bold;
+  }
+  
+.list-item a{
+    color: #ffffff;
+    text-decoration: none;
+}
+/*######### list-item end #########*/
+
+/*********** topbar start ***********/
+.topbar{
+    display: flex;
+    height:6.5%;
+    background-color: white;
+    justify-content: space-between;
+}
+
+#id-top-menu{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    align-self: center;
+    justify-self: center;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 13px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: flex;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .menuBtn{
+    width: 100%;
+    height: 25px;
+    border: none;
+    text-align: left;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content button {
+    color: black;
+    font-size: small;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  #userIcon{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    height: 35px;
+    width: 35px;
+    background-color: gray;
+    border-radius: 30px;
+}
+
+/*######### topbar end #########*/
+
+/*********** main-section start ***********/
+.main-section{
+    align-items: stretch;
+    background-color: rgb(223, 223, 223);
+    flex-grow: 1;
+}
+
+/*######### main-section end #########*/

@@ -285,12 +285,13 @@ function bundleDataForSend(){
 
     for(let i = 0; i< questionTextArray.length; i++){
         tempJson = {};
-        tempJson["q" + questionNoArray[i]] = questionTextArray[i];
+        tempJson["Question Number"] = questionNoArray[i];
+        tempJson["Question"] = questionTextArray[i];
         tempJson["Op1"] = questionOp1Array[i];
         tempJson["Op2"] = questionOp2Array[i];
         tempJson["Op3"] = questionOp3Array[i];
         tempJson["Op4"] = questionOp4Array[i];
-        //tempJson["Correct"] = correctOpArray[i];
+        tempJson["Correct"] = null;//correctOpArray[i];
         
         questionDetails.push(tempJson);
     }

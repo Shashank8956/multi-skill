@@ -94,8 +94,8 @@
     <!--########### Filter Section - END ###########-->
 
     <!--Modal section-->
-    <div id="id_modal_shadow" class="modal_shadow">
-        <div id="id_modal_box" class="modal_box">
+    <div id="test-modal-id" class="modal_shadow">
+        <div id="test_modal_box_id" class="modal-box">
             <form action="./testDetail" method="GET">
                 <header class="modal-header">
                   <div class="modalHeaderTitle">
@@ -105,11 +105,11 @@
                 <div class="modal-body">  
                   <div style="flex-basis: 100%;">
                     <label id="first-modal-label">Test Title</label><br>
-                    <input id="new-title" class="test-textbox modal_inputs" type="text" placeholder="Title">
+                    <input id="new-title" class="test-textbox model-inputs" type="text" placeholder="Title">
                   </div>
 
                   <div style="flex-grow: 1; margin-right: 20px;">
-                    <label class="modal_labels">Station</label><br>
+                    <label class="modal-labels">Station</label><br>
                     <select id="new-station" class="test-select">
                         <option  class="select_option" selected="selected">Select Stage</option>
                         <option class="select_option">Stage 1</option>
@@ -120,7 +120,7 @@
                   </div>
 
                   <div style="flex-grow: 1;">
-                    <label class="modal_labels">Stage</label><br>
+                    <label class="modal-labels">Stage</label><br>
                     <select id="new-stage" class="test-select">
                         <option  class="select_option" selected="selected">Select Stage</option>
                         <option class="select_option">Stage 1</option>
@@ -132,22 +132,22 @@
 
                   <div style="display: flex; flex-basis: 100%; justify-content: space-between;">
                     <div>
-                        <label class="modal_labels">Total Questions</label><br>
-                        <input id="new-questionNo" class="test-textbox modal_inputs" type="number" placeholder="Questions">
+                        <label class="modal-labels">Total Questions</label><br>
+                        <input id="new-questionNo" class="test-textbox model-inputs" type="number" placeholder="Questions">
                     </div>
 
                     <div>
-                        <label class="modal_labels">Time</label><br>
-                        <input id="new-time" class="test-textbox  modal_inputs" type="number" placeholder="Time (mins)">
+                        <label class="modal-labels">Time</label><br>
+                        <input id="new-time" class="test-textbox  model-inputs" type="number" placeholder="Time (mins)">
                     </div>
 
                     <div>
-                        <label class="modal_labels">Passing Marks</label><br>
-                        <input id="new-marks" class="test-textbox modal_inputs" type="number" placeholder="Marks">
+                        <label class="modal-labels">Passing Marks</label><br>
+                        <input id="new-marks" class="test-textbox model-inputs" type="number" placeholder="Marks">
                     </div>
                   </div>
                   <div class="modal-buttons">
-                    <button id="cancelTestBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                    <button id="cancelTestBtn" class="modalCancelBtn">Cancel</button>
                     <button id="submitTestBtn" class="modalSubmitBtn" type="submit">Save</button>
                   </div>
                 </div>
@@ -156,61 +156,61 @@
     </div>
 
     <div id="station-modal-id" class="modal_shadow">
-    <div id="station-modal-box-id" class="modal_box">
-        <form action="./add_newStation" method="POST">
-        {% csrf_token %}
-        <header class="modal-header">
-            <div class="modalHeaderTitle">
-            <h5>Add Station</h5>
-            </div>
-        </header>
-        <div id="station-modal-body-id" class="modal-body">
-            <div>
-            <label class="modal-labels">Station Name</label><br>
-            <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
-            </div>
+        <div id="station-modal-box-id" class="modal-box">
+          <form action="./add_newStation" method="POST">
+            {% csrf_token %}
+            <header class="modal-header">
+              <div class="modalHeaderTitle">
+                <h5>Add Station</h5>
+              </div>
+            </header>
+            <div id="station-modal-body-id" class="modal-body">
+              <div>
+                <label class="modal-labels">Station Name</label><br>
+                <input id="new-station-name" class="test-textbox model-inputs" name="new_stationName"  type="text" placeholder="Station name">
+              </div>
 
-            <div>
-            <label class="modal-labels">Required Manpower</label><br>
-            <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
-            </div>
+              <div>
+                <label class="modal-labels">Required Manpower</label><br>
+                <input id="new-station-requiredManpower" class="test-textbox model-inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+              </div>
 
-            <div class="modal-buttons">
-            <button id="cancelStationBtn" class="modalCancelBtn" type="cancel">Cancel</button>
-            <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+              <div class="modal-buttons">
+                <button id="cancelStationBtn" class="modalCancelBtn">Cancel</button>
+                <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+              </div>
             </div>
+          </form>
         </div>
-        </form>
-    </div>
     </div>
 
     <div id="stage-modal-id" class="modal_shadow">
-    <div id="stage-modal-box-id" class="modal_box">
-        <form action="./add_newStation" method="POST">
-        {% csrf_token %}
-        <header class="modal-header">
-            <div class="modalHeaderTitle">
-            <h5>Add Stage</h5>
-            </div>
-        </header>
-        <div id="stage-modal-body-id" class="modal-body">
-            <div>
-            <label class="modal-labels">Stage Name</label><br>
-            <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
-            </div>
+        <div id="stage-modal-box-id" class="modal-box">
+          <form action="./add_newStation" method="POST">
+            {% csrf_token %}
+            <header class="modal-header">
+              <div class="modalHeaderTitle">
+                <h5>Add Stage</h5>
+              </div>
+            </header>
+            <div id="stage-modal-body-id" class="modal-body">
+              <div>
+                <label class="modal-labels">Stage Name</label><br>
+                <input id="new-stage-name" class="test-textbox model-inputs" name="new_stageName"  type="text" placeholder="Stage Name">
+              </div>
 
-            <div>
-            <label class="modal-labels">Skill Level</label><br>
-            <input id="new-skill-level" class="emp-textbox modal_inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
-            </div>
+              <div>
+                <label class="modal-labels">Skill Level</label><br>
+                <input id="new-skill-level" class="test-textbox model-inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
+              </div>
 
-            <div class="modal-buttons">
-            <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
-            <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+              <div class="modal-buttons">
+                <button id="cancelStageBtn" class="modalCancelBtn">Cancel</button>
+                <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+              </div>
             </div>
+          </form>
         </div>
-        </form>
-    </div>
     </div>
     <!--########### Modal Section - END ###########-->
 
