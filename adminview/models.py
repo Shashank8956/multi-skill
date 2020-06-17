@@ -15,7 +15,6 @@ class Employee(models.Model):
     is_admin = models.BooleanField(default=True)
     objects = models.Manager()
 
-
 class TestHeader(models.Model):
     test_title = models.CharField(max_length=200)
     test_station = models.CharField(max_length=20)
