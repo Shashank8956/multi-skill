@@ -17,12 +17,14 @@ const empList = document.getElementById("id_EmpList");
 
 initialize();
 
+
 function initialize(){
     //getData();
     eventListeners();
     //loadList();
     getAllData();
 }
+
 
 function eventListeners(){
     addEmpBtn.addEventListener("click", loadEmpModal);
@@ -32,21 +34,26 @@ function eventListeners(){
     clearFilterBtn.addEventListener("click", clearFilters);
 }
 
+
 function clearFilters(){
     console.log("Clear filters does nothing!!");
 }
+
 
 function loadEmpModal(){
     empModal.style.display = "inline-block";
 }
 
+
 function loadStageModal(){
     stageModal.style.display = "inline-block";
 }
 
+
 function loadStationModal(){
     stationModal.style.display = "inline-block";
 }
+
 
 function cancelModal(){
     empModal.style.display = "none";
@@ -54,11 +61,13 @@ function cancelModal(){
     stageModal.style.display = "none";
 }
 
+
 function submitData(){
     /* Do some shit to send data */
     modal.style.display = "none";
     loadList();
 }
+
 
 function closeModal(e){
     if(e.target == empModal)
@@ -68,6 +77,7 @@ function closeModal(e){
     else if(e.target == stageModal)
         stageModal.style.display = "none";
 }
+
 
 function getData() {
     var xhr = new XMLHttpRequest();
@@ -84,6 +94,7 @@ function getData() {
         }
     };
 }
+
 
 function getAllData() {
     var xhr = new XMLHttpRequest();
@@ -128,6 +139,7 @@ function loadList(listData) {
             empList.appendChild(newRow);
     }
 }
+
 
 function loadEntireList(listData){
     if(listData!=null){
