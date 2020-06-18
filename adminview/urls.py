@@ -15,5 +15,5 @@ urlpatterns = [
     path('test', views.display_test_page, name='test'),
     path('add_newEmp', views.add_emp_trial, name='add_employee'),
     path('testDetail', views.display_test_details, name='loadTestDetail'),
-    path('addTest', views.add_test_details, name='addTestDetail'),
+    path('addTest', views.add_test_details, name='addTest'),
 ]
