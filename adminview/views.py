@@ -136,8 +136,6 @@ def add_test_details(request):
             max_marks=max_marks
         )
         test_header.save()
-        test_id = test_header.id
-        print("TEST ID: ", test_id)
         for question_details in payload['Question Details']:
             question_number = question_details['Question Number']
             question = question_details['Question']
@@ -146,7 +144,7 @@ def add_test_details(request):
             option_3 = question_details['Op3']
             option_4 = question_details['Op4']
             test_question = TestQuestions(
-                test_id=test_id,
+                test_id=test_header,
                 question_number=question_number,
                 question=question,
                 option_1=option_1,
@@ -155,7 +153,7 @@ def add_test_details(request):
                 option_4=option_4
             )
             test_question.save()
-            print("TEST QUESTION ID:", test_question.id)
+            print("TEST QUESTION ID:", test_question)
 
     return HttpResponseRedirect('/adminview/test')
 
@@ -204,12 +202,10 @@ def get_results(request):
                             'test_date': data.test_date
                             }
                 query_data.append(temp_data) # query_data = {**query_data, **temp_data}
-            
             print(query_data)
             response = json.dumps(query_data)
-        except: 
+        except:
             response = json.dumps([{'Error': 'Could not get data!'}])
-        
         return HttpResponse(response, content_type= 'text/json')
 
 
@@ -224,12 +220,10 @@ def get_result(request, result_id):
                             'total_marks': query_result.total_marks,
                             'test_date': query_result.test_date
                             }
-                            
             print(query_data)
             response = json.dumps(query_data)
-        except: 
+        except:
             response = json.dumps([{'Error': 'Could not get data!'}])
-        
         return render(request, 'Admin/result.html')
 
 
@@ -250,7 +244,6 @@ def add_result(request):
                                    total_marks = total_marks,
                                    test_date = test_date
                                    )
-        
         try:
             result_data.save()
             json.dumps([{'Success': 'Result Header added'}])
