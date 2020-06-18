@@ -1,5 +1,6 @@
 from django.db import models
 
+
 from django.contrib.auth.models import User
 
 from datetime import datetime
@@ -22,65 +23,6 @@ class Stage(models.Model):
         return self.name
 
 
-class Employee(models.Model):
-    token = models.IntegerField()
-    name = models.CharField(max_length = 50)
-    gender = models.CharField(max_length = 50)
-    contact = models.CharField(max_length = 50)
-    email = models.CharField(max_length = 50, blank = True)
-    station = models.ForeignKey(Station, on_delete = models.DO_NOTHING) 
-    prefered_language = models.CharField(max_length = 50)
-    date_of_joining = models.DateField()
-    is_admin = models.BooleanField(default=True)
-    created_on = models.DateTimeField(default = datetime.now, blank = True)
-    created_by = models.ForeignKey(User, on_delete = models.DO_NOTHING)
-
-    def __str__(self):
-        return self.name
-
-    # emp = Employee(emp_token = 12345, emp_name = 'Trial Admin', gender = 'M', 
-    # current_station = 'Some weird station', mobile = '9876543210', 
-    # language_preference = 'English', createdBy = 'Some stupid admin 1', 
-    # isAdmin = True)
-
-
-class EmployeeSkill(models.Model):
-    employee = models.ForeignKey(Employee, on_delete = models.DO_NOTHING)
-    station = models.ForeignKey(Station, on_delete = models.DO_NOTHING)
-    stage = models.ForeignKey(Stage, on_delete = models.DO_NOTHING)   
-    test_date = models.DateTimeField(default = datetime.now, blank = True)
-
-    def __str__(self):
-        return self.employee.name
-
-
-class TestHeader(models.Model):
-    title = models.TextField()
-    station = models.ForeignKey(Station, on_delete = models.DO_NOTHING)
-    stage = models.ForeignKey(Stage, on_delete = models.DO_NOTHING)
-    total_question = models.IntegerField()
-    passing_marks = models.IntegerField()
-    duration = models.IntegerField()
-    created_on = models.DateTimeField(default = datetime.now, blank = True)
-
-    def __str__(self):
-        return (str(self.station) + "'s Test")
-
-
-class TestQuestion(models.Model):
-    test = models.ForeignKey(TestHeader, on_delete = models.DO_NOTHING)
-    question_num = models.IntegerField()
-    question = models.TextField()
-    option_a = models.CharField(max_length = 50)
-    option_b = models.CharField(max_length = 50)
-    option_c = models.CharField(max_length = 50)
-    option_d = models.CharField(max_length = 50)
-    correct_option = models.CharField(max_length = 1) #A, B, C, D
-
-    def __str__(self):
-        return (str(self.test) + "'s Question " + str(self.question_num))
-
-
 class ResultHeader(models.Model):
     test = models.ForeignKey(TestHeader, on_delete = models.DO_NOTHING)
     employee = models.ForeignKey(Employee, on_delete = models.DO_NOTHING)
@@ -101,3 +43,34 @@ class ResultQuestion(models.Model):
     def __str__(self):
         return str(self.result.employee.name) + "'s " + str(self.result.test.station)
         + "'s Question" + str(self.question.question_num)
+
+class Employee(models.Model):
+    emp_token = models.IntegerField(unique=True)
+    emp_name = models.CharField(max_length=200)
+    gender = models.CharField(max_length=7)
+    current_station = models.CharField(default="Some station", max_length=200)
+    mobile = models.CharField(max_length=12)
+    doj = models.DateField(auto_now_add=True)
+    language_preference = models.CharField(default="English", max_length=200)
+    created_on = models.DateField(auto_now_add=True)
+    created_by = models.CharField(default="Some Admin", max_length=200)
+    is_admin = models.BooleanField(default=True)
+    objects = models.Manager()
+
+class TestHeader(models.Model):
+    test_title = models.CharField(max_length=200)
+    test_station = models.CharField(max_length=20)
+    test_stage = models.CharField(max_length=20)
+    no_of_questions = models.IntegerField()
+    test_time = models.IntegerField()
+    max_marks = models.IntegerField()
+
+
+class TestQuestions(models.Model):
+    test_id = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
+    question_number = models.IntegerField()
+    question = models.CharField(max_length=500)
+    option_1 = models.CharField(max_length=100)
+    option_2 = models.CharField(max_length=100)
+    option_3 = models.CharField(max_length=100)
+    option_4 = models.CharField(max_length=100)

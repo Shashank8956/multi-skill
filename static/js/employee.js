@@ -1,3 +1,6 @@
+const stageMenu = document.getElementById("id-stageMenu");
+const stationMenu = document.getElementById("id-stationMenu");
+
 const empModal = document.getElementById("emp-modal-id");
 const cancelEmpBtn = document.getElementById("cancelEmpBtn")
 const saveEmpBtn = document.getElementById("submitEmpBtn");
@@ -25,9 +28,13 @@ function initialize(){
 }
 
 function eventListeners(){
+    stageMenu.addEventListener("click", loadStageModal);
+    stationMenu.addEventListener("click", loadStationModal);
     addEmpBtn.addEventListener("click", loadEmpModal);
     window.addEventListener("click", closeModal);
     cancelEmpBtn.addEventListener("click", cancelModal);
+    cancelStationBtn.addEventListener("click", cancelModal);
+    cancelStageBtn.addEventListener("click", cancelModal);
     saveEmpBtn.addEventListener("click", submitData);
     clearFilterBtn.addEventListener("click", clearFilters);
 }

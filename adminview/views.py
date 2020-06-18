@@ -3,80 +3,80 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Employee, ResultHeader
+from .models import Employee, ResultHeader, TestHeader, TestQuestions
 
 import json
 
-
-def displayLoginPage(request):
+def display_login_page(request):
     return render(request, 'login.html')
 
 
-def displayDashboard(request):
-    return render(request, 'Admin/dashboard.html')
 
 
-def displayEmployeePage(request):
-    return render(request, 'Admin/employee.html')
+def display_dashboard(request):
+    return render(request, 'admin/dashboard.html')
 
 
-def displayTestPage(request):
-    return render(request, 'Admin/test.html')
+def display_employee_page(request):
+    return render(request, 'admin/employee.html')
 
 
-def displayTestDetails(request):
-    return render(request, 'Admin/testDetail.html')
+def display_test_page(request):
+    return render(request, 'admin/test.html')
+
+
+def display_test_details(request):
+    return render(request, 'admin/testDetail.html')
+
 
 
 def get_employee(request, emp_token):
     if request.method == 'GET':
         try:
-            emp = Employee.objects.get(emp_token = 12346)
-            dictionary = {
-                        'emp_token': emp.emp_token,
-                        'emp_name': emp.emp_name,
-                        'gender': emp.gender,
-                        'mobile': emp.mobile,
-                        'doj': str(emp.doj),
-                        'current_station': emp.current_station,
-                        'language_preference': emp.language_preference,
-                        'createOn': str(emp.createdOn),
-                        'createdBy': emp.createdBy,
-                        'isAdmin': str(emp.isAdmin)
-                        }
+            emp = Employee.objects.get(emp_token=emp_token)
+            dictionary = {'emp_token': emp.emp_token,
+                          'emp_name': emp.emp_name,
+                          'gender': emp.gender,
+                          'mobile': emp.mobile,
+                          'doj': str(emp.doj),
+                          'current_station': emp.current_station,
+                          'language_preference': emp.language_preference,
+                          'createOn': str(emp.created_on),
+                          'createdBy': emp.created_by,
+                          'isAdmin': str(emp.is_admin)}
+
 
             response = json.dumps([dictionary])
-
         except:
             response = json.dumps([{'Error': 'Could not get data!'}])
     return HttpResponse(response, content_type='text/json')
 
 
 @csrf_exempt
-def addEmployee(request):
+def add_employee(request):
     response = json.dumps([{}])
     if request.method == 'POST':
         payload = json.loads(request.body)
         token = payload['emp_token']
         name = payload['emp_name']
         gender = payload['gender']
-        currentStation = payload['current_station']
-        mobileNo = payload['mobile']
-        dateOfJoining = payload['doj']
+        current_station = payload['current_station']
+        mobile_no = payload['mobile']
+        date_of_joining = payload['doj']
         language_pref = payload['language_preference']
-        creationDate = payload['createOn']
-        createdby = payload['createdBy']
-        isAdmin = True
-        emp = Employee(emp_token = token,
-                        emp_name = name,
-                        gender = gender,
-                        mobile = mobileNo,
-                        doj = dateOfJoining,
-                        current_station = currentStation,
-                        language_preference = language_pref,
-                        createOn = creationDate,
-                        createdBy = createdby,
-                        isAdmin = isAdmin)
+        creation_date = payload['createOn']
+        created_by = payload['createdBy']
+        is_admin = True
+        emp = Employee(emp_token=token,
+                       emp_name=name,
+                       gender=gender,
+                       mobile=mobile_no,
+                       doj=date_of_joining,
+                       current_station=current_station,
+                       language_preference=language_pref,
+                       create_on=creation_date,
+                       created_by=created_by,
+                       is_admin=is_admin)
         try:
             emp.save()
             response = json.dumps([{'Success': 'Employee added successfully!'}])
@@ -86,82 +86,106 @@ def addEmployee(request):
 
 
 @csrf_exempt
-def addEmpTrial(request):
-    #response = json.dumps([{}])
-    #print(request.POST.get('new_token',''))
-    #print(request.POST.get('new_name',''))
-    #print(request.POST.get('new_gender',''))
-    #print(request.POST.get('new_contact',''))
-    #print(request.POST.get('new_station',''))
-    #print(request.POST.get('new_doj',''))
-
+def add_emp_trial(request):
     if request.method == 'POST':
         token = request.POST.get('new_token')
         name = request.POST.get('new_name')
         gender = request.POST.get('new_gender')
-        currentStation = request.POST.get('new_station')
-        mobileNo = request.POST.get('new_contact')
-        #dateOfJoining = request.POST.get('doj')
+        current_station = request.POST.get('new_station')
+        mobile_no = request.POST.get('new_contact')
+        # dateOfJoining = request.POST.get('doj')
         language_pref = 'English'
-        createdby = 'Some Name 1'
-        isAdmin = True
+        created_by = 'Some Name 1'
+        is_admin = True
         print("Before emp: ", token)
-        emp = Employee(
-                    emp_token = token,
-                    emp_name = name,
-                    gender = gender,
-                    mobile = mobileNo,
-                    #doj = DateField(dateOfJoining),
-                    current_station = currentStation,
-                    language_preference = language_pref,
-                    createdBy = createdby,
-                    isAdmin = isAdmin
-                    )
+        emp = Employee(emp_token=token,
+                       emp_name=name,
+                       gender=gender,
+                       mobile=mobile_no,
+                       # doj = DateField(dateOfJoining),
+                       current_station=current_station,
+                       language_preference=language_pref,
+                       created_by=created_by,
+                       is_admin=is_admin)
         try:
             print("Before save")
             emp.save()
             print("after save")
-            #response = json.dumps([{'Success': 'Employee added successfully!'}])
+            # response = json.dumps([{'Success': 'Employee added successfully!'}])
         except:
             response = json.dumps([{'Error': 'Employee could not be added!'}])
     return HttpResponseRedirect('/adminview/employee')
 
 
-def addTestDetails(request):
+def add_test_details(request):
     if request.method == 'POST':
         payload = json.loads(request.body)
-        print(payload['title'])
-        
+        print(json.dumps(payload, indent=4))
+        test_title = payload['title']
+        test_station = payload['station']
+        test_stage = payload['stage']
+        no_of_questions = payload['questions']
+        test_time = payload['time']
+        max_marks = payload['marks']
+        test_header = TestHeader(
+            test_title=test_title,
+            test_station=test_station,
+            test_stage=test_stage,
+            no_of_questions=no_of_questions,
+            test_time=test_time,
+            max_marks=max_marks
+        )
+        test_header.save()
+        test_id = test_header.id
+        print("TEST ID: ", test_id)
+        for question_details in payload['Question Details']:
+            question_number = question_details['Question Number']
+            question = question_details['Question']
+            option_1 = question_details['Op1']
+            option_2 = question_details['Op2']
+            option_3 = question_details['Op3']
+            option_4 = question_details['Op4']
+            test_question = TestQuestions(
+                test_id=test_id,
+                question_number=question_number,
+                question=question,
+                option_1=option_1,
+                option_2=option_2,
+                option_3=option_3,
+                option_4=option_4
+            )
+            test_question.save()
+            print("TEST QUESTION ID:", test_question.id)
+
     return HttpResponseRedirect('/adminview/test')
 
 
-def get_allEmployees(request):
+
+def get_all_employees(request):
     if request.method == 'GET':
         try:
             emp = Employee.objects.all()
             print(emp)
-            dataArray = []
+            data_array = []
             for eachRow in emp:
-                dictionary = {
-                            'emp_token': eachRow.emp_token,
-                            'emp_name': eachRow.emp_name,
-                            'gender': eachRow.gender,
-                            'mobile': eachRow.mobile,
-                            'doj': str(eachRow.doj),
-                            'current_station': eachRow.current_station,
-                            'language_preference': eachRow.language_preference,
-                            'createOn': str(eachRow.createdOn),
-                            'createdBy': eachRow.createdBy,
-                            'isAdmin': str(eachRow.isAdmin)
-                            }
-                dataArray.append(dictionary)
-            print(dataArray)
-            response = json.dumps(dataArray)
+                dictionary = {'emp_token': eachRow.emp_token,
+                              'emp_name': eachRow.emp_name,
+                              'gender': eachRow.gender,
+                              'mobile': eachRow.mobile,
+                              'doj': str(eachRow.doj),
+                              'current_station': eachRow.current_station,
+                              'language_preference': eachRow.language_preference,
+                              'createOn': str(eachRow.created_on),
+                              'createdBy': eachRow.created_by,
+                              'isAdmin': str(eachRow.is_admin)}
+                data_array.append(dictionary)
+            print(data_array)
+            response = json.dumps(data_array)
+
 
         except:
             response = json.dumps([{'Error': 'Could not get data!'}])
     return HttpResponse(response, content_type='text/json')
-
 
 ## Result Header Stuff
 
