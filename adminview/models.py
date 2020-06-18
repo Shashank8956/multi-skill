@@ -1,7 +1,49 @@
 from django.db import models
 
 
-# Create your models here.
+from django.contrib.auth.models import User
+
+from datetime import datetime
+
+class Station(models.Model):
+    name = models.CharField(max_length = 50)
+    current_manpower = models.IntegerField(default = 0, blank = False)
+    required_manpower = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class Stage(models.Model):
+    # Name = Skill, Novice = 1, Competent = 2, Proficient = 3, Expert = 4
+    name = models.CharField(max_length = 50) 
+    skill = models.IntegerField()   
+
+    def __str__(self):
+        return self.name
+
+
+class ResultHeader(models.Model):
+    test = models.ForeignKey(TestHeader, on_delete = models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete = models.DO_NOTHING)
+    marks_obtained = models.FloatField()
+    total_marks = models.FloatField()
+    status = models.CharField(max_length = 4)
+    test_date = models.DateField(default = datetime.now, blank = True)
+    
+    def __str__(self):
+        return str(self.employee.name) + "'s " + str(self.test.station) + "'s Result"
+
+
+class ResultQuestion(models.Model):
+    result = models.ForeignKey(ResultHeader, on_delete = models.DO_NOTHING)
+    question = models.ForeignKey(TestQuestion, on_delete = models.DO_NOTHING)
+    response = models.CharField(max_length = 1)
+
+    def __str__(self):
+        return str(self.result.employee.name) + "'s " + str(self.result.test.station)
+        + "'s Question" + str(self.question.question_num)
+
 class Employee(models.Model):
     emp_token = models.IntegerField(unique=True)
     emp_name = models.CharField(max_length=200)
@@ -32,24 +74,3 @@ class TestQuestions(models.Model):
     option_2 = models.CharField(max_length=100)
     option_3 = models.CharField(max_length=100)
     option_4 = models.CharField(max_length=100)
-
-
-"""
-{
-    "title": "How are you?",
-    "station": "Stage 2",
-    "stage": "Stage 2",
-    "questions": "77",
-    "time": "8587",
-    "marks": "88",
-    "Question Details": [
-        {
-            "q1": "Add details for this question",
-            "Op1": "Add Option 1",
-            "Op2": "Add Option 2",
-            "Op3": "Add Option 1",
-            "Op4": "Add Option 2"
-        }
-    ]
-}
-"""
