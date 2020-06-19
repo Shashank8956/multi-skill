@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from datetime import datetime
 
 
@@ -15,6 +14,7 @@ class Employee(models.Model):
     created_by = models.CharField(default="Some Admin", max_length=200)
     is_admin = models.BooleanField(default=True)
     objects = models.Manager()
+
 
 class TestHeader(models.Model):
     test_title = models.CharField(max_length=200)
@@ -36,8 +36,8 @@ class TestQuestions(models.Model):
 
 
 class Station(models.Model):
-    name = models.CharField(max_length = 50)
-    current_manpower = models.IntegerField(default = 0, blank = False)
+    name = models.CharField(max_length=50)
+    current_manpower = models.IntegerField(default=0, blank=False)
     required_manpower = models.IntegerField()
 
     def __str__(self):
@@ -46,7 +46,7 @@ class Station(models.Model):
 
 class Stage(models.Model):
     # Name = Skill, Novice = 1, Competent = 2, Proficient = 3, Expert = 4
-    name = models.CharField(max_length = 50)
+    name = models.CharField(max_length=50)
     skill = models.IntegerField()
 
     def __str__(self):
@@ -54,21 +54,21 @@ class Stage(models.Model):
 
 
 class ResultHeader(models.Model):
-    test = models.ForeignKey(TestHeader, on_delete = models.DO_NOTHING)
-    employee = models.ForeignKey(Employee, on_delete = models.DO_NOTHING)
+    test = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     marks_obtained = models.FloatField()
     total_marks = models.FloatField()
-    status = models.CharField(max_length = 4)
-    test_date = models.DateField(default = datetime.now, blank = True)
+    status = models.CharField(max_length=4)
+    test_date = models.DateField(default=datetime.now, blank=True)
 
     def __str__(self):
         return str(self.employee.name) + "'s " + str(self.test.station) + "'s Result"
 
 
 class ResultQuestion(models.Model):
-    result = models.ForeignKey(ResultHeader, on_delete = models.DO_NOTHING)
-    question = models.ForeignKey(TestQuestions, on_delete = models.DO_NOTHING)
-    response = models.CharField(max_length = 1)
+    result = models.ForeignKey(ResultHeader, on_delete=models.DO_NOTHING)
+    question = models.ForeignKey(TestQuestions, on_delete=models.DO_NOTHING)
+    response = models.CharField(max_length=1)
 
     def __str__(self):
         return str(self.result.employee.name) + "'s " + str(self.result.test.station)
