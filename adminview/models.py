@@ -15,6 +15,9 @@ class Employee(models.Model):
     is_admin = models.BooleanField(default=True)
     objects = models.Manager()
 
+    def __str__(self):
+        return "{} - {}".format(self.emp_token, self.emp_name)
+
 
 class TestHeader(models.Model):
     test_title = models.CharField(max_length=200)
@@ -23,6 +26,9 @@ class TestHeader(models.Model):
     no_of_questions = models.IntegerField()
     test_time = models.IntegerField()
     max_marks = models.IntegerField()
+
+    def __str__(self):
+        return "Test Title : {}".format(self.test_title)
 
 
 class TestQuestions(models.Model):
@@ -33,6 +39,9 @@ class TestQuestions(models.Model):
     option_2 = models.CharField(max_length=100)
     option_3 = models.CharField(max_length=100)
     option_4 = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "Test Question: {}".format(self.question)
 
 
 class Station(models.Model):
