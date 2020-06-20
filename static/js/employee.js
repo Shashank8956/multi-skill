@@ -16,7 +16,7 @@ const saveStageBtn = document.getElementById("submitStageBtn");
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const empList = document.getElementById("id_EmpList");
-
+const empIDVar = 0;
 
 initialize();
 
@@ -79,7 +79,7 @@ function closeModal(e){
 function getData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/12345', true);
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeData?'+empId, true);
     //xhr.responseType = 'json';            Preconverts incoming data to json
     xhr.send();
     
@@ -95,7 +95,7 @@ function getData() {
 function getAllData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/getAllEmployees', true);
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     

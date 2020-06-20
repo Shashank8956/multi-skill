@@ -258,7 +258,7 @@ function saveAndCloseTestDetails(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('POST', 'http://127.0.0.1:8000/adminview/addTest', true);
+    xhr.open('POST', 'http://127.0.0.1:8000/adminview/testData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
     console.log(cookieValue);
