@@ -10,6 +10,9 @@ urlpatterns = [
     path('employee', TemplateView.as_view(template_name='admin/employee.html'), name='employees'),
     path('test', TemplateView.as_view(template_name='admin/test.html'), name='test'),
     path('testDetail', TemplateView.as_view(template_name='admin/testDetail.html'), name='loadTestDetail'),
+    path('skillPlatform', TemplateView.as_view(template_name='admin/skillPlatform.html'), name='skillPlatform'),
+    path('shiftManagement', TemplateView.as_view(template_name='admin/shiftManagement.html'), name='shiftManagement'),
+    path('trainingManagement', TemplateView.as_view(template_name='admin/trainingManagement.html'), name='trainingManagement'),
 
     path('employeeData', EmployeeView.as_view(), name="employeeData"),
     path('testData', TestView.as_view(), name="testData"),
