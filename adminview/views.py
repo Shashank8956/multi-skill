@@ -23,7 +23,8 @@ class EmployeeView(View):
                     'language_preference': employee_data.language_preference,
                     'createOn': str(employee_data.created_on),
                     'createdBy': employee_data.created_by,
-                    'isAdmin': str(employee_data.is_admin)
+                    'isAdmin': str(employee_data.is_admin),
+                    'weeklyOff': str(employee_data.weekly_off),
                 }
 
                 response = json.dumps(dictionary)
@@ -46,7 +47,8 @@ class EmployeeView(View):
                         'language_preference': each_row.language_preference,
                         'createOn': str(each_row.created_on),
                         'createdBy': each_row.created_by,
-                        'isAdmin': str(each_row.is_admin)
+                        'isAdmin': str(each_row.is_admin),
+                        'weeklyOff': str(each_row.weekly_off),
                     }
                     data_array.append(dictionary)
                 print(data_array)
@@ -67,6 +69,7 @@ class EmployeeView(View):
             language_pref = 'English'
             created_by = 'Some Name 1'
             is_admin = True
+            weekly_off = 'some_days'
             print("Before emp: ", token)
             emp = Employee(
                 emp_token=token,
@@ -77,7 +80,9 @@ class EmployeeView(View):
                 current_station=current_station,
                 language_preference=language_pref,
                 created_by=created_by,
-                is_admin=is_admin
+                is_admin=is_admin,
+                # shift = shift,
+                weekly_off= weekly_off,
             )
             emp.save()
             response = json.dumps({'Success': 'Employee added successfully!'})
@@ -96,9 +101,9 @@ class TestView(View):
             test_header_data = TestHeader.objects.all()
             for test_header in test_header_data:
                 output_json = {
+                    "station": test_header.station_id,
+                    "stage": test_header.stage_id,
                     "title": test_header.test_title,
-                    "station": test_header.test_station,
-                    "stage": test_header.test_stage,
                     "questions": test_header.no_of_quetions,
                     "time": test_header.test_time,
                     "marks": test_header.max_marks
@@ -117,8 +122,8 @@ class TestView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
             test_title = payload['title']
-            test_station = payload['station']
-            test_stage = payload['stage']
+            test_station = payload['station']  # to be edited to receive station_id FK
+            test_stage = payload['stage']  # to be edited to receive stage_id FK
             no_of_questions = payload['questions']
             test_time = payload['time']
             max_marks = payload['marks']
