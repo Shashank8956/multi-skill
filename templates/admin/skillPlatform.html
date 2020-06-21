@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height= device-height, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/employee.css' %}">
-    <title>Employee</title>
+    <link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/skill.css' %}">
+    <title>Skill Management</title>
 </head>
 <body>
     <div class= "full-page">
@@ -18,7 +18,7 @@
                     <li>
                         <div class="list-item">
                             <a href="./dashboard">
-                                <img src="{% static 'images/white/icon_white_dashboard.svg' %}"/>
+                                <img src= "{% static 'images/white/icon_white_dashboard.svg' %}"/>
                                 <h6>Dashboard</h6>
                             </a>
                         </div>
@@ -34,35 +34,35 @@
                     <li>
                         <div class="list-item">
                             <a href="./test">
-                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
-                                <h6>Manage Tests</h6>
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Manage Tests</h6>
                             </a>
                         </div>
                     </li>
                     <li>
-                      <div class="list-item">
-                          <a href="./skillPlatform">
-                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
-                              <h6>Skill Management</h6>
-                          </a>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="list-item">
-                          <a href="./test">
-                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
-                              <h6>Shift Management</h6>
-                          </a>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="list-item">
-                          <a href="./test">
-                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
-                              <h6>Training Plan</h6>
-                          </a>
-                      </div>
-                  </li>
+                        <div class="list-item">
+                            <a href="./skillPlatform">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Skill Management</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="#">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Shift Management</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="#">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Training Plan</h6>
+                            </a>
+                        </div>
+                    </li>
                 </ul>
             </div>
     <!--########### Side nav list items - END ###########-->
@@ -71,51 +71,69 @@
 <!--Main Section-->
             <div class="main-section">
                 <div class="topbar">
-                  <div class="dropdown">
-                    <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
-                    <div class="dropdown-content">
-                      <button id="id-stationMenu" class="menuBtn">Add Station</button>
-                      <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                      <button id="" class="menuBtn">Add something new</button>
-                    </div>
-                  </div>
+                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="menuBtn" alt="Hamburger Icon"/>
                   <input id="searchBar" type="text" placeholder="Search employee">
                   <div id="userIcon"></div>
                 </div>
     <!--Filter section-->
                 <div class="filter-section">
-                  <div id="filter-title"><h3>Employees</h3></div>
+                  <div id="filter-title"><h3>Manpower Multi Skill Format</h3></div>
                   <div id="filter-contents">
                     <div style="display: flex;">
-                      <div>
-                        <label class="filter-labels">Date of Joining</label><br>
-                        <input id="date-filter" class="emp-textbox" type="date" placeholder="Doj">
+                        <div>
+                            <label class="filter-labels">Select Station</label><br>
+                            <select id="station-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Station</option>
+                                <option class="select_option">Station 1</option>
+                                <option class="select_option">Station 2</option>
+                                <option class="select_option">Station 3</option>
+                                <option class="select_option">Station 4</option>
+                            </select>
+                          </div>
+                          <div style="margin-left: 10px;">
+                            <label class="filter-labels">Select Shift</label><br>
+                            <select id="stage-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Stage</option>
+                                <option class="select_option">Shift 1</option>
+                                <option class="select_option">Shift 2</option>
+                                <option class="select_option">Shift 3</option>
+                                <option class="select_option">Shift 4</option>
+                            </select><br>
+                          </div>  
+                          <div style="margin-left: 10px;">
+                            <label class="filter-labels">Weekly Off</label><br>
+                            <select id="stage-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Stage</option>
+                                <option class="select_option">Monday</option>
+                                <option class="select_option">Tuesday</option>
+                                <option class="select_option">Wednesday</option>
+                                <option class="select_option">Thursday</option>
+                                <option class="select_option">Friday</option>
+                                <option class="select_option">Saturday</option>
+                                <option class="select_option">Sunday</option> 
+                            </select><br>
+                          </div>
                       </div>
-                      <div style="margin-left: 10px;">
-                        <label class="filter-labels">Station Name</label><br>
-                        <input id="station-filter" class="emp-textbox" type="text" placeholder="Station"><br>
-                      </div> 
+                        <div style="float: right;"> 
+                          <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
+                          <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
+                          <button type="button" id="addEmpBtn" class="create-button">+ Employee</button>                
+                        </div>
                     </div>
-                      <div style="float: right;"> 
-                        <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
-                        <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
-                        <button type="button" id="addEmpBtn" class="create-button">+ Employee</button>                
-                      </div>
-                  </div>
                 </div>
     <!--########### Filter Section - END ###########-->
 
     <!--Modal section-->
             <div id="emp-modal-id" class="emp-modal">
-              <div id="emp-modal-box-id" class="modal-box">
-                <form action="./employeeData" method="POST">
+              <div class="modal-box">
+                <form action="./add_newEmp" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
                       <h5>Add Employee</h5>
                     </div>
                   </header>
-                  <div id="emp-modal-body-id" class="modal-body">
+                  <div class="modal-body">
                     <div>
                       <label class="modal-labels">Token No</label><br>
                       <input id="new-token" class="emp-textbox modal_inputs" name="new_token" type="number" placeholder="Token">
@@ -141,8 +159,8 @@
                       <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
                     </div>
                     <div class="modal-buttons">
-                      <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
-                      <button id="submitEmpBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="cancelEmpBtn" type="cancel">Cancel</button>
+                      <button id="submitEmpBtn" class ="emp-textbox" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
@@ -150,7 +168,7 @@
             </div>
 
             <div id="station-modal-id" class="emp-modal">
-              <div id="station-modal-box-id" class="modal-box">
+              <div class="modal-box">
                 <form action="./add_newStation" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
@@ -158,7 +176,7 @@
                       <h5>Add Station</h5>
                     </div>
                   </header>
-                  <div id="station-modal-body-id" class="modal-body">
+                  <div class="modal-body">
                     <div>
                       <label class="modal-labels">Station Name</label><br>
                       <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
@@ -170,8 +188,8 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStationBtn" class="modalCancelBtn" type="cancel">Cancel</button>
-                      <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="cancelStationBtn" type="cancel">Cancel</button>
+                      <button id="submitStationBtn" class ="emp-textbox" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
@@ -179,7 +197,7 @@
             </div>
 
             <div id="stage-modal-id" class="emp-modal">
-              <div id="stage-modal-box-id" class="modal-box">
+              <div class="modal-box">
                 <form action="./add_newStation" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
@@ -187,7 +205,7 @@
                       <h5>Add Stage</h5>
                     </div>
                   </header>
-                  <div id="stage-modal-body-id" class="modal-body">
+                  <div class="modal-body">
                     <div>
                       <label class="modal-labels">Stage Name</label><br>
                       <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
@@ -199,8 +217,8 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
-                      <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="cancelStageBtn" type="cancel">Cancel</button>
+                      <button id="submitStageBtn" class ="emp-textbox" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
@@ -212,28 +230,30 @@
                 <div class="table-section">
                     <table id="id_EmpList" class="table-content">
                         <tr>    
-                            <th><input type="checkbox"></th>
-                            <th>Token No</th>
+                            <th>Sr. No.</th>
                             <th>Name</th>
-                            <th>Doj</th>
-                            <th>Contact</th>
-                            <th>Station</th>
+                            <th>M6-B Front Cover Torquing</th>
+                            <th>M6-C Front Cover Bolts</th>
+                            <th>M7-A ROSR torquing,pully</th>
+                            <th>M7-B ROSR Selant Application</th>
+                            <th>M8-B Oil Pan Torquing</th>
+                            <th>M9-A Spill Cut-off Operation</th>
+                            <th>M9-A FIP Back Side Bolts</th>
+                            <th>OSA-1-A Camshaft Idler Oil Pump</th>
+                            <th>OSA-2-A Front Cover Sub</th>
+                            <th>PSA-A Piston Ring Insertion</th>
+                            <th>PSA-B Con Rod Cap Removal</th>
+                            <th>PSA-C Piston-Con Rod Subassy</th>
+                            <th>QP1-A Qp1 Torquing</th>
                         </tr>
-                        <!--<tr>
-                            <td><input type="checkbox"></td>
-                            <td>001001</td>
-                            <td>Maria Anders</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 1</td>
-                          </tr>
                     </table>
                 </div>
+                  
     <!--########### Table Section - END ###########-->
             </div>
 <!--########### Main Section - END ###########-->
     </div>
 
-    <script src="{% static 'js/employee.js' %}"></script>
+    <script src="{% static '/js/skill.js' %}"></script>
 </body>
 </html>

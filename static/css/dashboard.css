@@ -28,8 +28,8 @@ input::-webkit-input-placeholder {
     position: relative;
     align-items: stretch;
     width: 180px;
+    min-width: 180px;
     background-color: #36324A;
-    
 }
 
 .sidenav-list{
@@ -152,6 +152,7 @@ input::-webkit-input-placeholder {
 
 /*********** main-section start ***********/
 .main-section{
+    width: calc(100% - 180px);    /*100% of the screen - width of left side nav*/
     align-items: stretch;
     background-color: rgb(223, 223, 223);
     flex-grow: 1;
