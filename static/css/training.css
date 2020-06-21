@@ -123,6 +123,28 @@
     outline:none;
 }
 
+.test-select{
+    width: 160px;
+    height: 28px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(224, 224, 224);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.test-select:focus{
+    outline: none;
+}
+
+.select_option{
+    color: rgb(114, 114, 114);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
 .filter-labels{
     margin: 0 0 0 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -167,7 +189,7 @@
 }
 
 #addEmpBtn{
-    width: 107px;
+    width: 127px;
     height: 31px;
     border: none;
     border-radius: 3px;
@@ -185,10 +207,12 @@
 
 /************ table-section start **************/
 .table-section{
+    display: flex;
+    overflow-x: auto;               /*This makes the table responsive i.e., adds x-axis scroll when table column increases*/
+    /*white-space: nowrap;            /*Should have made the above scrollbar visible. But it's not.*/
     margin: 20px 10px 20px 10px;
     height: 440px;
     background-color: white;
-    /*border: solid 1px black;*/
 }
 
 .table-content{
@@ -196,6 +220,7 @@
 }
 
 th{
+    max-width: 100px;
     color: white;
     background-color: #36324A;
     padding: 5px 10px 5px 10px;
@@ -204,7 +229,7 @@ th{
 }
 
 tr{
-    width: 100%;
+    /*width: 100%;*/
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
 }

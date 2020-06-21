@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, height= device-height, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/skill.css' %}">
+    <link rel="stylesheet" href="{% static 'css/training.css' %}">
     <title>Skill Management</title>
 </head>
 <body>
@@ -77,7 +77,7 @@
                 </div>
     <!--Filter section-->
                 <div class="filter-section">
-                  <div id="filter-title"><h3>Manpower Multi Skill Format</h3></div>
+                  <div id="filter-title"><h3>Training Plan</h3></div>
                   <div id="filter-contents">
                     <div style="display: flex;">
                         <div>
@@ -117,7 +117,7 @@
                         <div style="float: right;  margin-top: 10px;"> 
                           <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
                           <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
-                          <button type="button" id="addEmpBtn" class="create-button">+ Employee</button>                
+                          <button type="button" id="addEmpBtn" class="create-button">Set Training Plan</button>                
                         </div>
                     </div>
                 </div>
@@ -227,33 +227,28 @@
     <!--########### Modal Section - END ###########-->
 
     <!--Table section-->
-                <div class="table-section">
-                    <table id="id_EmpList" class="table-content">
-                        <tr>    
-                            <th>Sr. No.</th>
-                            <th>Name</th>
-                            <th>M6-B Front Cover Torquing</th>
-                            <th>M6-C Front Cover Bolts</th>
-                            <th>M7-A ROSR torquing,pully</th>
-                            <th>M7-B ROSR Selant Application</th>
-                            <th>M8-B Oil Pan Torquing</th>
-                            <th>M9-A Spill Cut-off Operation</th>
-                            <th>M9-A FIP Back Side Bolts</th>
-                            <th>OSA-1-A Camshaft Idler Oil Pump</th>
-                            <th>OSA-2-A Front Cover Sub</th>
-                            <th>PSA-A Piston Ring Insertion</th>
-                            <th>PSA-B Con Rod Cap Removal</th>
-                            <th>PSA-C Piston-Con Rod Subassy</th>
-                            <th>QP1-A Qp1 Torquing</th>
-                        </tr>
-                    </table>
-                </div>
+        <div class="table-section">
+            <table id="id_EmpList" class="table-content">
+                <tr>    
+                    <th><input type="checkbox"></th>
+                    <th>Token No</th>
+                    <th>Name</th>
+                    <th>Doj</th>
+                    <th>No. of Stages</th>
+                    <th>Training Stage</th>
+                    <th>Shift Officer</th>
+                    <th>Trainer Token No</th>
+                    <th>Trainer Name</th>
+                    <th>Training Date</th>
+                </tr>
+            </table>
+        </div>
                   
     <!--########### Table Section - END ###########-->
             </div>
 <!--########### Main Section - END ###########-->
     </div>
 
-    <script src="{% static '/js/skill.js' %}"></script>
+    <script src="{% static '/js/training.js' %}"></script>
 </body>
 </html>
