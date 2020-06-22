@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class Station(models.Model):
+    objects = models.Manager()
     station_name = models.CharField(max_length=50)
     current_manpower = models.IntegerField(default=0, blank=False)
     required_manpower = models.IntegerField()
@@ -13,6 +14,7 @@ class Station(models.Model):
 
 class Stage(models.Model):
     # Name = Skill, Novice = 1, Competent = 2, Proficient = 3, Expert = 4
+    objects = models.Manager()
     stage_name = models.CharField(max_length=50)
     skill_level = models.IntegerField()
 
@@ -20,13 +22,18 @@ class Stage(models.Model):
         return self.stage_name
 
 
-class EmployeeShift(models.Model):
+class Shift(models.Model):
+    objects = models.Manager()
     shift_name = models.CharField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def __str__(self):
+        return self.shift_name
+
 
 class Employee(models.Model):
+    objects = models.Manager()
     emp_token = models.IntegerField(unique=True)
     emp_name = models.CharField(max_length=200)
     gender = models.CharField(max_length=7)
@@ -37,26 +44,27 @@ class Employee(models.Model):
     created_on = models.DateField(auto_now_add=True)
     created_by = models.CharField(default="Some Admin", max_length=200)
     is_admin = models.BooleanField(default=True)
-    shift = models.ForeignKey(EmployeeShift, on_delete=models.DO_NOTHING)
+    shift = models.ForeignKey(Shift, on_delete=models.DO_NOTHING)
     weekly_off = models.CharField(max_length=100)
-    objects = models.Manager()
 
     def __str__(self):
         return "{} - {}".format(self.emp_token, self.emp_name)
 
 
 class EmployeeSkill(models.Model):
+    objects = models.Manager()
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    stage_id = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
-    acquired_on = models.DateField(default=datetime.now, blank=True)
+    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    acquired_on = models.DateField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return str(self.result_id.employee.emp_name) + "'s " + str(stage_id.skill_level) + " level"
+        return str(self.result.employee.emp_name) + "'s " + str(stage.skill_level) + " level"
 
 
 class TestHeader(models.Model):
-    station_id = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
-    stage_id = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    objects = models.Manager()
+    station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
+    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     test_title = models.CharField(max_length=200)
     no_of_questions = models.IntegerField()
     test_time = models.IntegerField()
@@ -67,7 +75,7 @@ class TestHeader(models.Model):
 
 
 class TestQuestions(models.Model):
-    test_id = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
+    test = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
     question_number = models.IntegerField()
     question = models.CharField(max_length=500)
     option_1 = models.CharField(max_length=100)
@@ -80,7 +88,7 @@ class TestQuestions(models.Model):
 
 
 class ResultHeader(models.Model):
-    test_id = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
+    test = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     marks_obtained = models.FloatField()
     total_marks = models.FloatField()
@@ -88,18 +96,20 @@ class ResultHeader(models.Model):
     test_date = models.DateField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return str(self.employee.name) + "'s " + str(self.test_id.station_id.station_name) + "'s Result"
+        return str(self.employee.name) + "'s " + str(self.test.station.station_name) + "'s Result"
 
 
 class ResultQuestion(models.Model):
-    result_id = models.ForeignKey(ResultHeader, on_delete=models.DO_NOTHING)
-    question_id = models.ForeignKey(TestQuestions, on_delete=models.DO_NOTHING)
+    result = models.ForeignKey(ResultHeader, on_delete=models.DO_NOTHING)
+    question = models.ForeignKey(TestQuestions, on_delete=models.DO_NOTHING)
     response = models.CharField(max_length=1)
 
     def __str__(self):
-        return str(self.result_id.employee.emp_name) + "'s " + str(self.result_id.test_id.station_id.station_name)
-        + "'s Question" + str(self.question_id.question_number)
+        return str(self.result.employee.emp_name) + "'s " + str(self.result.test.station.station_name)
+        + "'s Question" + str(self.question.question_number)
 
+
+# Training model to be added
 
 
 

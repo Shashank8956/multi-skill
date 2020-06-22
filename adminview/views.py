@@ -1,9 +1,141 @@
-from .models import Employee, TestHeader, TestQuestions, Station
+from .models import Station, Stage, Shift, Employee, TestHeader, TestQuestions, EmployeeSkill
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 import traceback
 import json
+
+
+class StationView(View):
+
+    def get(self, request):
+        try:
+            data_array = []
+            station_data = Station.objects.all()
+            for data in station_data:
+                output_json = {
+                    'StationName': data.station_name,
+                    'CurrentManpower': data.current_manpower,
+                    'RequiredManpower': data.required_manpower,
+                }
+                data_array.append(output_json)
+                print(data)
+
+            response = json.dumps(data_array)
+
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Could not find station data'})
+
+        return HttpResponse(response, content_type='text/json')
+
+    def post(self, request):
+        try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
+            station_name = payload['StationName']
+            current_manpower = payload['CurrentManpower']
+            required_manpower = payload['RequiredManpower']
+
+            station = Station(
+                station_name=station_name,
+                current_manpower=current_manpower,
+                required_manpower=required_manpower
+            )
+            station.save()
+
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Cannot save station data'})
+
+        return HttpResponse(response, content_type='text/json')
+
+
+class StageView(View):
+    def get(self, request):
+        try:
+            data_array = []
+            stage_data = Stage.objects.all()
+
+            for data in stage_data:
+                output_json = {
+                    'StageName': data.stage_name,
+                    'SkillLevel': data.skill_level
+                }
+                data_array.append(output_json)
+
+            response = json.dumps(data_array)
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Could not find Stage data'})
+
+        return HttpResponse(response, content_type='text/json')
+
+    def post(self, request):
+        try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
+            stage_name = payload["StageName"]
+            skill_level = payload["SkillLevel"]
+
+            stage = Stage(
+                stage_name=stage_name,
+                skill_level=skill_level
+            )
+            stage.save()
+
+        except Exception:
+            traceback.print_exc()
+
+            response = json.dumps({'Error': 'Cannot save Stage data'})
+
+        return HttpResponse(response, content_type='text/json')
+
+
+class ShiftView(View):
+    def get(self, request):
+        try:
+            data_array = []
+            shift_data = Shift.objects.all()
+
+            for data in shift_data:
+                output_json = {
+                    'StageName': data.shift_name,
+                    'StartTime': data.start_time,
+                    'EndTime': data.end_time
+
+                }
+                data_array.append(output_json)
+
+            response = json.dumps(data_array)
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Could not find Shift data'})
+
+        return HttpResponse(response, content_type='text/json')
+
+    def post(self, request):
+        try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
+            shift_name = payload["ShiftName"]
+            start_time = payload["StartTime"]
+            end_time = payload["EndTime"]
+
+            shift = Shift(
+                shift_name=shift_name,
+                start_time=start_time,
+                end_time=end_time
+            )
+            shift.save()
+
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Cannot save Shift data'})
+
+        return HttpResponse(response, content_type='text/json')
 
 
 class EmployeeView(View):
@@ -14,17 +146,18 @@ class EmployeeView(View):
             try:
                 employee_data = Employee.objects.get(emp_token=emp_token)
                 dictionary = {
-                    'emp_token': employee_data.emp_token,
-                    'emp_name': employee_data.emp_name,
-                    'gender': employee_data.gender,
-                    'mobile': employee_data.mobile,
-                    'doj': str(employee_data.doj),
-                    'current_station': employee_data.current_station,
-                    'language_preference': employee_data.language_preference,
-                    'createOn': str(employee_data.created_on),
-                    'createdBy': employee_data.created_by,
-                    'isAdmin': str(employee_data.is_admin),
-                    'weeklyOff': str(employee_data.weekly_off),
+                    'EmpToken': employee_data.emp_token,
+                    'EmpName': employee_data.emp_name,
+                    'Gender': employee_data.gender,
+                    'Mobile': employee_data.mobile,
+                    'DOJ': str(employee_data.doj),
+                    'CurrentStationName': employee_data.current_station.station_name,
+                    'LanguagePreference': employee_data.language_preference,
+                    'CreatedOn': str(employee_data.created_on),
+                    'CreatedBy': employee_data.created_by,
+                    'IsAdmin': str(employee_data.is_admin),
+                    'ShiftName': str(employee_data.shift.shift_name),
+                    'WeeklyOff': str(employee_data.weekly_off),
                 }
 
                 response = json.dumps(dictionary)
@@ -38,17 +171,18 @@ class EmployeeView(View):
                 data_array = []
                 for each_row in employee_data:
                     dictionary = {
-                        'emp_token': each_row.emp_token,
-                        'emp_name': each_row.emp_name,
-                        'gender': each_row.gender,
-                        'mobile': each_row.mobile,
-                        'doj': str(each_row.doj),
-                        'current_station': each_row.current_station,
-                        'language_preference': each_row.language_preference,
-                        'createOn': str(each_row.created_on),
-                        'createdBy': each_row.created_by,
-                        'isAdmin': str(each_row.is_admin),
-                        'weeklyOff': str(each_row.weekly_off),
+                        'EmpToken': each_row.emp_token,
+                        'EmpName': each_row.emp_name,
+                        'Gender': each_row.gender,
+                        'Mobile': each_row.mobile,
+                        'DOJ': str(each_row.doj),
+                        'CurrentStationName': each_row.current_station.station_name,
+                        'LanguagePreference': each_row.language_preference,
+                        'CreatedOn': str(each_row.created_on),
+                        'CreatedBy': each_row.created_by,
+                        'IsAdmin': str(each_row.is_admin),
+                        'ShiftName': str(each_row.shift.shift_name),
+                        'WeeklyOff': str(each_row.weekly_off),
                     }
                     data_array.append(dictionary)
                 print(data_array)
@@ -60,37 +194,62 @@ class EmployeeView(View):
 
     def post(self, request):
         try:
-            token = request.POST.get('new_token')
-            name = request.POST.get('new_name')
-            gender = request.POST.get('new_gender')
-            current_station = request.POST.get('new_station')
-            mobile_no = request.POST.get('new_contact')
-            # dateOfJoining = request.POST.get('doj')
-            language_pref = 'English'
-            created_by = 'Some Name 1'
-            is_admin = True
-            weekly_off = 'some_days'
-            print("Before emp: ", token)
+            emp_token = request.POST.get('EmpToken')
+            name = request.POST.get('EmpName')
+            gender = request.POST.get('Gender')
+            station_name = request.POST.get('StationName')
+            mobile_no = request.POST.get('MobileNo')
+            # doj = request.POST.get('DOJ')
+            current_station = Station.objects.get(station_name=station_name)
+            language_preference = 'English'  # request.POST.get('LanguagePreference')
+            created_by = 'Some Name 1'  # request.POST.get('CreatedBy')
+            is_admin = True  # request.POST.get('IsAdmin')
+            weekly_off = 'Sunday'  # request.POST.get('WeeklyOff')
+            shift_name = request.POST.get('ShiftName')
+            shift = Shift.objects.get(shift_name=shift_name)
             emp = Employee(
-                emp_token=token,
+                emp_token=emp_token,
                 emp_name=name,
                 gender=gender,
                 mobile=mobile_no,
-                # doj = DateField(dateOfJoining),
+                # doj = DateField(doj),
                 current_station=current_station,
-                language_preference=language_pref,
+                language_preference=language_preference,
                 created_by=created_by,
                 is_admin=is_admin,
-                # shift = shift,
-                weekly_off= weekly_off,
+                shift=shift,
+                weekly_off=weekly_off,
             )
             emp.save()
-            response = json.dumps({'Success': 'Employee added successfully!'})
         except Exception:
             traceback.print_exc()
             response = json.dumps({'Error': 'Employee could not be added!'})
             return HttpResponse(response, content_type='text/json')
         return HttpResponseRedirect('/adminview/employee')
+
+
+class EmployeeSkillView(View):
+    def post(self, request):
+        try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
+            emp_token = payload["EmpToken"]
+            employee = EmployeeSkill.objects.get(emp_token=emp_token)
+            stage_name = payload["StageName"]
+            stage = Stage.objects.get(stage_name=stage_name)
+            # acquired_on = payload["AcquiredOn"]
+            employee_skill = EmployeeSkill(
+                employee=employee,
+                stage=stage
+            )
+            employee_skill.save()
+
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Cannot save Shift data'})
+
+        return HttpResponse(response, content_type='text/json')
 
 
 class TestView(View):
@@ -101,12 +260,12 @@ class TestView(View):
             test_header_data = TestHeader.objects.all()
             for test_header in test_header_data:
                 output_json = {
-                    "station": test_header.station_id,
-                    "stage": test_header.stage_id,
-                    "title": test_header.test_title,
-                    "questions": test_header.no_of_quetions,
-                    "time": test_header.test_time,
-                    "marks": test_header.max_marks
+                    "StationName": test_header.station.station_name,
+                    "StageName": test_header.stage.stage_name,
+                    "Title": test_header.test_title,
+                    "Questions": test_header.no_of_quetions,
+                    "Time": test_header.test_time,
+                    "Marks": test_header.max_marks
                 }
                 data_array.append(output_json)
                 print(test_header)
@@ -121,23 +280,28 @@ class TestView(View):
         try:
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
-            test_title = payload['title']
-            test_station = payload['station']  # to be edited to receive station_id FK
-            test_stage = payload['stage']  # to be edited to receive stage_id FK
-            no_of_questions = payload['questions']
-            test_time = payload['time']
-            max_marks = payload['marks']
+
+            test_title = payload['Title']
+            station_name = payload['StationName']
+            station = Station.objects.get(station_name=station_name)
+            stage_name = payload['StageName']
+            stage = Stage.objects.get(stage_name=stage_name)
+            no_of_questions = payload['Questions']
+            test_time = payload['Time']
+            max_marks = payload['Marks']
+
             test_header = TestHeader(
+                station=station,
+                stage=stage,
                 test_title=test_title,
-                test_station=test_station,
-                test_stage=test_stage,
                 no_of_questions=no_of_questions,
                 test_time=test_time,
                 max_marks=max_marks
             )
             test_header.save()
-            for question_details in payload['Question Details']:
-                question_number = question_details['Question Number']
+
+            for question_details in payload['QuestionDetails']:
+                question_number = question_details['QuestionNumber']
                 question = question_details['Question']
                 option_1 = question_details['Op1']
                 option_2 = question_details['Op2']
@@ -160,52 +324,4 @@ class TestView(View):
 
         return HttpResponseRedirect('/adminview/test')
 
-
 # Station Class
-class StationView(View):
-    
-    def get(self, request):
-        try:
-            data_array = []
-            station_data = Station.objects.all()
-            for data in station_data:
-                output_json = {
-                    'station_name': data.station_name,
-                    'current_manpower': data.current_manpower,
-                    'required_manpower': data.required_manpower,
-                }
-                data_array.append(output_json)
-                print(data)
-            
-            response = json.dumps(data_array)
-
-        except Exception:
-            traceback.print_exc()
-            response = json.dumps({'Error' : 'Could not find station data'})
-        
-        return HttpResponse(response, content_type='text/json')
-    
-
-    def post(self, request):
-        try:
-            payload = json.loads(request.body)            
-            print(json.dumps(payload, indent=4))
-            
-            station_name = payload['station_name']
-            current_manpower = payload['current_manpower']
-            required_manpower = payload['required_manpower']
-
-            station = Station(
-                station_name = station_name,
-                current_manpower = current_manpower,
-                required_manpower = required_manpower
-            )
-            station.save()
-
-            #response = json.dumps(payload) ###########
-
-        except Exception:
-            traceback.print_exc()
-            response = json.dumps({'Error' : 'Cannot save station data'})
-
-        return HttpResponse(response, content_type = 'text/json')
