@@ -1,4 +1,4 @@
-from .models import Employee, ResultHeader, TestHeader, TestQuestions
+from .models import Employee, TestHeader, TestQuestions, Station
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
@@ -114,7 +114,7 @@ class TestView(View):
             response = json.dumps(data_array)
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not Test Header data!'})
+            response = json.dumps({'Error': 'Could not find Test Header data!'})
         return HttpResponse(response, content_type='text/json')
 
     def post(self, request):
@@ -161,70 +161,51 @@ class TestView(View):
         return HttpResponseRedirect('/adminview/test')
 
 
-# Result Header Stuff
-
-def get_results(request):
-    if request.method == 'GET':
+# Station Class
+class StationView(View):
+    
+    def get(self, request):
         try:
-            result = ResultHeader.objects.all()
-            query_data = []
-            for data in result:
-                temp_data = {
-                    'test': data.test,
-                    'employee': data.employee,
-                    'marks_obtained': data.marks_obtained,
-                    'total_marks': data.total_marks,
-                    'test_date': data.test_date
+            data_array = []
+            station_data = Station.objects.all()
+            for data in station_data:
+                output_json = {
+                    'station_name': data.station_name,
+                    'current_manpower': data.current_manpower,
+                    'required_manpower': data.required_manpower,
                 }
-                query_data.append(temp_data)
-            print(query_data)
-            response = json.dumps(query_data)
+                data_array.append(output_json)
+                print(data)
+            
+            response = json.dumps(data_array)
+
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not get data!'})
+            response = json.dumps({'Error' : 'Could not find station data'})
+        
         return HttpResponse(response, content_type='text/json')
+    
 
-
-def get_result(request, result_id):
-    if request.method == 'GET':
+    def post(self, request):
         try:
-            query_result = ResultHeader.objects.get(pk=result_id)
-            query_data = {
-                'test': query_result.test,
-                'employee': query_result.employee,
-                'marks_obtained': query_result.marks_obtained,
-                'total_marks': query_result.total_marks,
-                'test_date': query_result.test_date
-            }
-            print(query_data)
-            response = json.dumps(query_data)
-        except Exception:
-            traceback.print_exc()
-            response = json.dumps({'Error': 'Could not get data!'})
-        return HttpResponse(response, content_type='text/json')
+            payload = json.loads(request.body)            
+            print(json.dumps(payload, indent=4))
+            
+            station_name = payload['station_name']
+            current_manpower = payload['current_manpower']
+            required_manpower = payload['required_manpower']
 
-
-@csrf_exempt
-def add_result(request):
-    if request.method == "POST":
-        try:
-            payload = json.loads(request.body)
-            test = payload['test']
-            employee = payload['employee']
-            marks_obtained = payload['marks_obtained']
-            total_marks = payload['total_marks']
-            test_date = payload['test_date']
-
-            result_data = ResultHeader(
-                test=test,
-                employee=employee,
-                marks_obtained=marks_obtained,
-                total_marks=total_marks,
-                test_date=test_date
+            station = Station(
+                station_name = station_name,
+                current_manpower = current_manpower,
+                required_manpower = required_manpower
             )
-            result_data.save()
+            station.save()
+
+            #response = json.dumps(payload) ###########
+
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Cannot add Result Header'})
-            return HttpResponse(response, content_type='text/json')
-        return HttpResponseRedirect('/adminview/result')
+            response = json.dumps({'Error' : 'Cannot save station data'})
+
+        return HttpResponse(response, content_type = 'text/json')
