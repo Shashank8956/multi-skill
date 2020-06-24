@@ -1,9 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import View
+from .models import *
 import traceback
 import json
 
-from .models import *
 
 class StationView(View):
 
@@ -13,6 +13,7 @@ class StationView(View):
             station_data = Station.objects.all()
             for data in station_data:
                 output_json = {
+                    'StationId': data.id,
                     'StationName': data.station_name,
                     'CurrentManpower': data.current_manpower,
                     'RequiredManpower': data.required_manpower,
@@ -33,14 +34,15 @@ class StationView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
+            _station_id = payload["StationId"]
             station_name = payload['StationName']
             current_manpower = payload['CurrentManpower']
             required_manpower = payload['RequiredManpower']
 
             station = Station(
-                station_name = station_name,
-                current_manpower = current_manpower,
-                required_manpower = required_manpower
+                station_name=station_name,
+                current_manpower=current_manpower,
+                required_manpower=required_manpower
             )
             station.save()
 
@@ -59,6 +61,7 @@ class StageView(View):
 
             for data in stage_data:
                 output_json = {
+                    'StageId': data.id,
                     'StageName': data.stage_name,
                     'SkillLevel': data.skill_level
                 }
@@ -76,6 +79,7 @@ class StageView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
+            _stage_id = payload["Stage_Id"]
             stage_name = payload["StageName"]
             skill_level = payload["SkillLevel"]
 
@@ -101,7 +105,8 @@ class ShiftView(View):
 
             for data in shift_data:
                 output_json = {
-                    'StageName': data.shift_name,
+                    'ShiftId': data.id,
+                    'ShiftName': data.shift_name,
                     'StartTime': data.start_time,
                     'EndTime': data.end_time
 
@@ -120,6 +125,7 @@ class ShiftView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
+            _shift_id = payload["ShiftId"]
             shift_name = payload["ShiftName"]
             start_time = payload["StartTime"]
             end_time = payload["EndTime"]
@@ -142,20 +148,22 @@ class EmployeeView(View):
 
     def get(self, request):
         if request.GET:
-            emp_token = request.GET.get("emp_token")
+            token = request.GET.get("EmpToken")
             try:
-                employee_data = Employee.objects.get(emp_token=emp_token)
+                employee_data = Employee.objects.get(token=token)
                 dictionary = {
-                    'EmpToken': employee_data.emp_token,
-                    'EmpName': employee_data.emp_name,
+                    'EmpToken': employee_data.token,
+                    'EmpName': employee_data.name,
                     'Gender': employee_data.gender,
                     'Mobile': employee_data.mobile,
                     'DOJ': str(employee_data.doj),
-                    'CurrentStationName': employee_data.current_station.station_name,
+                    'StationId': employee_data.current_station.id,
+                    'StationName': employee_data.current_station.station_name,
                     'LanguagePreference': employee_data.language_preference,
                     'CreatedOn': str(employee_data.created_on),
                     'CreatedBy': employee_data.created_by,
                     'IsAdmin': str(employee_data.is_admin),
+                    'ShiftId': employee_data.shift.id,
                     'ShiftName': str(employee_data.shift.shift_name),
                     'WeeklyOff': str(employee_data.weekly_off),
                 }
@@ -169,20 +177,22 @@ class EmployeeView(View):
                 employee_data = Employee.objects.all()
                 print(employee_data)
                 data_array = []
-                for each_row in employee_data:
+                for employee in employee_data:
                     dictionary = {
-                        'EmpToken': each_row.emp_token,
-                        'EmpName': each_row.emp_name,
-                        'Gender': each_row.gender,
-                        'Mobile': each_row.mobile,
-                        'DOJ': str(each_row.doj),
-                        'CurrentStationName': each_row.current_station.station_name,
-                        'LanguagePreference': each_row.language_preference,
-                        'CreatedOn': str(each_row.created_on),
-                        'CreatedBy': each_row.created_by,
-                        'IsAdmin': str(each_row.is_admin),
-                        'ShiftName': str(each_row.shift.shift_name),
-                        'WeeklyOff': str(each_row.weekly_off),
+                        'EmpToken': employee.token,
+                        'EmpName': employee.name,
+                        'Gender': employee.gender,
+                        'Mobile': employee.mobile,
+                        'DOJ': str(employee.doj),
+                        'StationId': employee.current_station.id,
+                        'StationName': employee.current_station.station_name,
+                        'LanguagePreference': employee.language_preference,
+                        'CreatedOn': str(employee.created_on),
+                        'CreatedBy': employee.created_by,
+                        'IsAdmin': str(employee.is_admin),
+                        'ShiftId': employee.shift.id,
+                        'ShiftName': str(employee.shift.shift_name),
+                        'WeeklyOff': str(employee.weekly_off),
                     }
                     data_array.append(dictionary)
                 print(data_array)
@@ -194,26 +204,28 @@ class EmployeeView(View):
 
     def post(self, request):
         try:
-            emp_token = request.POST.get('EmpToken')
+            token = request.POST.get('EmpToken')
             name = request.POST.get('EmpName')
             gender = request.POST.get('Gender')
-            station_name = request.POST.get('StationName')
-            mobile_no = request.POST.get('MobileNo')
+            station_id = request.POST.get('StationId')
+            _station_name = request.POST.get('StationName')
+            mobile = request.POST.get('Mobile')
             # doj = request.POST.get('DOJ')
-            current_station = Station.objects.get(station_name=station_name)
+            station = Station.objects.get(id=station_id)
             language_preference = 'English'  # request.POST.get('LanguagePreference')
             created_by = 'Some Name 1'  # request.POST.get('CreatedBy')
             is_admin = True  # request.POST.get('IsAdmin')
             weekly_off = 'Sunday'  # request.POST.get('WeeklyOff')
-            shift_name = request.POST.get('ShiftName')
-            shift = Shift.objects.get(shift_name=shift_name)
+            shift_id = request.POST.get("ShiftId")
+            _shift_name = request.POST.get('ShiftName')
+            shift = Shift.objects.get(id=shift_id)
             emp = Employee(
-                emp_token=emp_token,
-                emp_name=name,
+                token=token,
+                name=name,
                 gender=gender,
-                mobile=mobile_no,
+                mobile=mobile,
                 # doj = DateField(doj),
-                current_station=current_station,
+                station=station,
                 language_preference=language_preference,
                 created_by=created_by,
                 is_admin=is_admin,
@@ -236,8 +248,8 @@ class EmployeeSkillView(View):
 
             emp_token = payload["EmpToken"]
             employee = EmployeeSkill.objects.get(emp_token=emp_token)
-            stage_name = payload["StageName"]
-            stage = Stage.objects.get(stage_name=stage_name)
+            stage_id = payload["StageId"]
+            stage = Stage.objects.get(id=stage_id)
             # acquired_on = payload["AcquiredOn"]
             employee_skill = EmployeeSkill(
                 employee=employee,
@@ -260,7 +272,9 @@ class TestView(View):
             test_header_data = TestHeader.objects.all()
             for test_header in test_header_data:
                 output_json = {
+                    "StationId": test_header.station.id,
                     "StationName": test_header.station.station_name,
+                    "StageId": test_header.stage.id,
                     "StageName": test_header.stage.stage_name,
                     "Title": test_header.test_title,
                     "Questions": test_header.no_of_quetions,
@@ -282,10 +296,12 @@ class TestView(View):
             print(json.dumps(payload, indent=4))
 
             test_title = payload['Title']
-            station_name = payload['StationName']
-            station = Station.objects.get(station_name=station_name)
-            stage_name = payload['StageName']
-            stage = Stage.objects.get(stage_name=stage_name)
+            station_id = payload["StationId"]
+            _station_name = payload['StationName']
+            station = Station.objects.get(id=station_id)
+            stage_id = payload["stage_id"]
+            _stage_name = payload['StageName']
+            stage = Stage.objects.get(id=stage_id)
             no_of_questions = payload['Questions']
             test_time = payload['Time']
             max_marks = payload['Marks']
@@ -334,15 +350,18 @@ class TrainingView(View):
 
             for data in training_data:
                 output_json = {
-                    'trainee': data.trainee,
-                    'token': data.token,
-                    'stage_id': data.stage_id,
-                    'training_stage': data.training_stage,
-                    'shift_officer': data.shift_officer,
-                    'trainer': data.trainer,
-                    'date': data.date
+                    'Trainee': data.trainee,
+                    'EmpToken': data.token,
+                    'StageId': data.stage.id,
+                    'StageName': data.stage.stage_name,
+                    'TrainingStage': data.training_stage,
+                    'ShiftOfficerId': data.shift_officer.id,
+                    'ShiftOfficerName': data.shift_officer.name,
+                    'TrainerId': data.trainer.id,
+                    'TrainerName': data.trainer.name,
+                    'Date': data.date
                 }
-                data_array.append(outputjson)
+                data_array.append(output_json)
 
             print(data_array)
             response = json.dumps(data_array)
@@ -350,36 +369,41 @@ class TrainingView(View):
         except Exception:
             traceback.print_exc()
             response = json.dumps({'Error': 'Training data not found'})
-        
-        return HttpResponse(response, content_type = 'text/json')
+
+        return HttpResponse(response, content_type='text/json')
 
     def post(self, request):
         try:
             payload = json.loads(request.data)
-            print(json.dumps(payload, indent = 4))
+            print(json.dumps(payload, indent=4))
 
-            trainee =  payload[trainee]
-            token =  payload[token],
-            stage_id = payload[stage_id]
-            training_stage = payload[training_stage]
-            shift_officer = payload[shift_officer]
-            trainer = payload[trainer]
-            date = payload[date]
+            trainee = payload["Trainee"]
+            token = payload["Token"]
+            stage_id = payload["StageId"]
+            _stage_name = payload["StageName"]
+            stage = Stage.objects.get(id=stage_id)
+            training_stage = payload["TrainingStage"]
+            shift_officer_id = payload["ShiftOfficerId"]
+            _shift_officer_name = payload["ShiftOfficerName"]
+            shift_officer = Employee.objects.get(id=shift_officer_id)
+            trainer_id = payload["TrainerId"]
+            _trainer_name = payload["TrainerName"]
+            trainer = Employee.objects.get(id=trainer_id)
+            date = payload["Date"]
 
             training = Training(
-                trainee = trainee,
-                token = token,
-                stage_id = stage_id,
-                training_stage = training_stage,
-                shift_officer = shift_officer,
-                trainer = trainer,
-                date = date
+                trainee=trainee,
+                token=token,
+                stage=stage,
+                training_stage=training_stage,
+                shift_officer=shift_officer,
+                trainer=trainer,
+                date=date
             )
 
             training.save()
-        
+
         except Exception:
             traceback.print_exc()
             response = json.dumps({'Error': 'Cannot save data'})
-    
-        return HttpResponse(response, content_type = "text/json")
+        return HttpResponse(response, content_type="text/json")

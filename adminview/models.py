@@ -37,7 +37,7 @@ class Employee(models.Model):
     token = models.IntegerField(unique=True)
     name = models.CharField(max_length=200)
     gender = models.CharField(max_length=7)
-    current_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
+    station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     mobile = models.CharField(max_length=12)
     doj = models.DateField(auto_now_add=True)
     language_preference = models.CharField(default="English", max_length=200)
@@ -110,15 +110,13 @@ class ResultQuestion(models.Model):
 
 
 class Training(models.Model):
-    trainee = models.CharField(max_length = 50)
-    token = models.IntegerField(default = 0)
-    stage_id = models.ForeignKey(Stage, on_delete = models.DO_NOTHING)
-    training_stage = models.IntegerField(default = 0)
-    shift_officer = models.ForeignKey(Employee, on_delete = models.DO_NOTHING, 
-            related_name = '%(class)s_shift_officer')
-    trainer = models.ForeignKey(Employee, on_delete = models.DO_NOTHING, 
-            related_name = '%(class)s_trainer')
-    date = models.DateTimeField(blank = True)
+    trainee = models.CharField(max_length=50)
+    token = models.IntegerField(default=0)
+    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    training_stage = models.IntegerField(default=0)
+    shift_officer = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='%(class)s_shift_officer')
+    trainer = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='%(class)s_trainer')
+    date = models.DateTimeField(blank=True)
 
-
-
+    def __str__(self):
+        return str(self.trainee)

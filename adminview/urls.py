@@ -1,7 +1,7 @@
-from django.urls import path
 from django.views.generic.base import TemplateView
-
+from django.urls import path
 from .views import *
+
 
 app_name = 'adminview'
 
@@ -20,8 +20,5 @@ urlpatterns = [
     path('stageData', StageView.as_view(), name='stageData'),
     path('shiftData', ShiftView.as_view(), name='shiftData'),
     path('employeeSkillData', EmployeeSkillView.as_view(), name='employeeSkillData'),
-
-    path('trainingData', TrainingView.as_view(), name = 'trainingData')
+    path('trainingData', TrainingView.as_view(), name='trainingData')
 ]
-
-
