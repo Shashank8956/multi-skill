@@ -1,9 +1,9 @@
-from .models import Station, Stage, Shift, Employee, TestHeader, TestQuestions, EmployeeSkill
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import View
 import traceback
 import json
 
+from .models import *
 
 class StationView(View):
 
@@ -38,9 +38,9 @@ class StationView(View):
             required_manpower = payload['RequiredManpower']
 
             station = Station(
-                station_name=station_name,
-                current_manpower=current_manpower,
-                required_manpower=required_manpower
+                station_name = station_name,
+                current_manpower = current_manpower,
+                required_manpower = required_manpower
             )
             station.save()
 
@@ -324,4 +324,62 @@ class TestView(View):
 
         return HttpResponseRedirect('/adminview/test')
 
-# Station Class
+
+class TrainingView(View):
+
+    def get(self, request):
+        try:
+            data_array = []
+            training_data = Training.objects.all()
+
+            for data in training_data:
+                output_json = {
+                    'trainee': data.trainee,
+                    'token': data.token,
+                    'stage_id': data.stage_id,
+                    'training_stage': data.training_stage,
+                    'shift_officer': data.shift_officer,
+                    'trainer': data.trainer,
+                    'date': data.date
+                }
+                data_array.append(outputjson)
+
+            print(data_array)
+            response = json.dumps(data_array)
+
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Training data not found'})
+        
+        return HttpResponse(response, content_type = 'text/json')
+
+    def post(self, request):
+        try:
+            payload = json.loads(request.data)
+            print(json.dumps(payload, indent = 4))
+
+            trainee =  payload[trainee]
+            token =  payload[token],
+            stage_id = payload[stage_id]
+            training_stage = payload[training_stage]
+            shift_officer = payload[shift_officer]
+            trainer = payload[trainer]
+            date = payload[date]
+
+            training = Training(
+                trainee = trainee,
+                token = token,
+                stage_id = stage_id,
+                training_stage = training_stage,
+                shift_officer = shift_officer,
+                trainer = trainer,
+                date = date
+            )
+
+            training.save()
+        
+        except Exception:
+            traceback.print_exc()
+            response = json.dumps({'Error': 'Cannot save data'})
+    
+        return HttpResponse(response, content_type = "text/json")
