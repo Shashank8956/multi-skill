@@ -34,18 +34,18 @@ class Shift(models.Model):
 
 class Employee(models.Model):
     objects = models.Manager()
-    emp_token = models.IntegerField(unique=True)
-    emp_name = models.CharField(max_length=200)
+    token = models.IntegerField(unique=True)
+    name = models.CharField(max_length=200)
     gender = models.CharField(max_length=7)
     current_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     mobile = models.CharField(max_length=12)
     doj = models.DateField(auto_now_add=True)
     language_preference = models.CharField(default="English", max_length=200)
-    created_on = models.DateField(auto_now_add=True)
-    created_by = models.CharField(default="Some Admin", max_length=200)
     is_admin = models.BooleanField(default=True)
     shift = models.ForeignKey(Shift, on_delete=models.DO_NOTHING)
     weekly_off = models.CharField(max_length=100)
+    created_on = models.DateField(auto_now_add=True)
+    created_by = models.CharField(default="Some Admin", max_length=200)
 
     def __str__(self):
         return "{} - {}".format(self.emp_token, self.emp_name)
@@ -109,8 +109,16 @@ class ResultQuestion(models.Model):
         + "'s Question" + str(self.question.question_number)
 
 
-# Training model to be added
-
+class Training(models.Model):
+    trainee = models.CharField(max_length = 50)
+    token = models.IntegerField(default = 0)
+    stage_id = models.ForeignKey(Stage, on_delete = models.DO_NOTHING)
+    training_stage = models.IntegerField(default = 0)
+    shift_officer = models.ForeignKey(Employee, on_delete = models.DO_NOTHING, 
+            related_name = '%(class)s_shift_officer')
+    trainer = models.ForeignKey(Employee, on_delete = models.DO_NOTHING, 
+            related_name = '%(class)s_trainer')
+    date = models.DateTimeField(blank = True)
 
 
 
