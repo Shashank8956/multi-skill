@@ -151,7 +151,7 @@
 
             <div id="station-modal-id" class="emp-modal">
               <div id="station-modal-box-id" class="modal-box">
-                <form action="./add_newStation" method="POST">
+                <form action="./stationData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -166,11 +166,11 @@
 
                     <div>
                       <label class="modal-labels">Required Manpower</label><br>
-                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="number" placeholder="Required Manpower">
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStationBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="cancelStationBtn" class="modalCancelBtn">Cancel</button>
                       <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
@@ -180,7 +180,7 @@
 
             <div id="stage-modal-id" class="emp-modal">
               <div id="stage-modal-box-id" class="modal-box">
-                <form action="./add_newStation" method="POST">
+                <form action="./stageData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">

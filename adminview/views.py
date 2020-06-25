@@ -31,13 +31,9 @@ class StationView(View):
 
     def post(self, request):
         try:
-            payload = json.loads(request.body)
-            print(json.dumps(payload, indent=4))
-
-            _station_id = payload["StationId"]
-            station_name = payload['StationName']
-            current_manpower = payload['CurrentManpower']
-            required_manpower = payload['RequiredManpower']
+            station_name = request.POST.get('new_stationName')          #Refer using the name attribute of the html tag
+            current_manpower = 0                                        #Set it to zero because it doesn't have any manpower yet
+            required_manpower = request.POST.get('new_requiredManpower')
 
             station = Station(
                 station_name=station_name,
@@ -45,6 +41,7 @@ class StationView(View):
                 required_manpower=required_manpower
             )
             station.save()
+            response = json.dumps({'Success': 'Station data saved successfully'})
 
         except Exception:
             traceback.print_exc()
@@ -76,19 +73,15 @@ class StageView(View):
 
     def post(self, request):
         try:
-            payload = json.loads(request.body)
-            print(json.dumps(payload, indent=4))
-
-            _stage_id = payload["Stage_Id"]
-            stage_name = payload["StageName"]
-            skill_level = payload["SkillLevel"]
+            stage_name = request.POST.get("new_stageName")
+            skill_level = request.POST.get("new_skillLevel")
 
             stage = Stage(
                 stage_name=stage_name,
                 skill_level=skill_level
             )
             stage.save()
-
+            response = json.dumps({'Success': 'Stage data saved successfully'})
         except Exception:
             traceback.print_exc()
 
@@ -122,13 +115,9 @@ class ShiftView(View):
 
     def post(self, request):
         try:
-            payload = json.loads(request.body)
-            print(json.dumps(payload, indent=4))
-
-            _shift_id = payload["ShiftId"]
-            shift_name = payload["ShiftName"]
-            start_time = payload["StartTime"]
-            end_time = payload["EndTime"]
+            shift_name = request.POST.get("new_shiftName")
+            start_time = request.POST.get("new_startTime")
+            end_time = request.POST.get("new_endTime")
 
             shift = Shift(
                 shift_name=shift_name,
@@ -136,6 +125,7 @@ class ShiftView(View):
                 end_time=end_time
             )
             shift.save()
+            response = json.dumps({'Success': 'Shift data saved successfully'})
 
         except Exception:
             traceback.print_exc()
@@ -402,6 +392,7 @@ class TrainingView(View):
             )
 
             training.save()
+            response = json.dumps({'Success': 'Training data saved successfully'})
 
         except Exception:
             traceback.print_exc()

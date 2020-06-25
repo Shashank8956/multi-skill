@@ -25,6 +25,8 @@ function initialize(){
     eventListeners();
     //loadList();
     getAllData();
+    getAllStageData();
+    getAllStationData();
 }
 
 function eventListeners(){
@@ -108,6 +110,35 @@ function getAllData() {
     };
 }
 
+function getAllStationData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            console.log("Station Data\n:" + myArr);
+        }
+    };
+}
+
+function getAllStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            console.log("Station Data\n:" + myArr);
+        }
+    };
+}
 
 function loadList(listData) {
     if(listData!=null){
