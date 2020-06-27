@@ -19,7 +19,7 @@ class StationView(View):
                     'RequiredManpower': data.required_manpower,
                 }
                 data_array.append(output_json)
-                #print(data)
+                # print(data)
 
             response = json.dumps(data_array)
 
@@ -31,8 +31,8 @@ class StationView(View):
 
     def post(self, request):
         try:
-            station_name = request.POST.get('new_stationName')          #Refer using the name attribute of the html tag
-            current_manpower = 0                                        #Set it to zero because it doesn't have any manpower yet
+            station_name = request.POST.get('new_stationName')  # Refer using the name attribute of the html tag
+            current_manpower = 0  # Set it to zero because it doesn't have any manpower yet
             required_manpower = request.POST.get('new_requiredManpower')
 
             station = Station(
@@ -100,8 +100,8 @@ class ShiftView(View):
                 output_json = {
                     'ShiftId': data.id,
                     'ShiftName': data.shift_name,
-                    'StartTime': data.start_time,
-                    'EndTime': data.end_time
+                    'StartTime': str(data.start_time),
+                    'EndTime': str(data.end_time)
 
                 }
                 data_array.append(output_json)
@@ -197,23 +197,23 @@ class EmployeeView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
-            token = request.POST.get('new_token')
-            name = request.POST.get('new_name')
-            gender = request.POST.get('new_gender')
-            station_id = request.POST.get('new_stationId')
+            token = payload['new_token']
+            name = payload['new_name']
+            gender = payload['new_gender']
+            station_id = payload['new_stationId']
             print(station_id)
-            _station_name = request.POST.get('new_stationName')
+            _station_name = payload['new_stationName']
             print(_station_name)
-            mobile = request.POST.get('new_contact')
-            # doj = request.POST.get('new_doj')
+            mobile = payload['new_contact']
+            # doj = payload('new_doj')
             station = Station.objects.get(id=station_id)
-            #station = Station.objects.get(station_name = _station_name)
-            language_preference = 'English'  # request.POST.get('new_language')
-            created_by = 'Some Name 1'  # request.POST.get('CreatedBy')
-            is_admin = True  # request.POST.get('new_isAdmin')
-            weekly_off = 'Sunday'  # request.POST.get('new_weeklyOff')
-            shift_id = request.POST.get("new_shiftId")
-            _shift_name = request.POST.get('new_shiftName')
+            # station = Station.objects.get(station_name = _station_name)
+            language_preference = 'English'  # payload['new_language']
+            created_by = 'Some Name 1'  # payload['CreatedBy']
+            is_admin = True  # payload['new_isAdmin']
+            weekly_off = 'Sunday'  # payload['new_weeklyOff']
+            shift_id = payload["new_shiftId"]
+            _shift_name = payload['new_shiftName']
             shift = Shift.objects.get(id=shift_id)
             emp = Employee(
                 token=token,
