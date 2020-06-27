@@ -194,22 +194,26 @@ class EmployeeView(View):
 
     def post(self, request):
         try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
             token = request.POST.get('new_token')
             name = request.POST.get('new_name')
             gender = request.POST.get('new_gender')
-            station_id = 3#request.POST.get('StationId')
-            _station_name = request.POST.get('new_station')
+            station_id = request.POST.get('new_stationId')
+            print(station_id)
+            _station_name = request.POST.get('new_stationName')
             print(_station_name)
             mobile = request.POST.get('new_contact')
-            # doj = request.POST.get('DOJ')
+            # doj = request.POST.get('new_doj')
             station = Station.objects.get(id=station_id)
             #station = Station.objects.get(station_name = _station_name)
-            language_preference = 'English'  # request.POST.get('LanguagePreference')
+            language_preference = 'English'  # request.POST.get('new_language')
             created_by = 'Some Name 1'  # request.POST.get('CreatedBy')
-            is_admin = True  # request.POST.get('IsAdmin')
-            weekly_off = 'Sunday'  # request.POST.get('WeeklyOff')
-            shift_id = request.POST.get("ShiftId")
-            _shift_name = request.POST.get('ShiftName')
+            is_admin = True  # request.POST.get('new_isAdmin')
+            weekly_off = 'Sunday'  # request.POST.get('new_weeklyOff')
+            shift_id = request.POST.get("new_shiftId")
+            _shift_name = request.POST.get('new_shiftName')
             shift = Shift.objects.get(id=shift_id)
             emp = Employee(
                 token=token,

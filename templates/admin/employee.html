@@ -76,7 +76,7 @@
                     <div class="dropdown-content">
                       <button id="id-stationMenu" class="menuBtn">Add Station</button>
                       <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                      <button id="" class="menuBtn">Add something new</button>
+                      <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
                     </div>
                   </div>
                   <input id="searchBar" type="text" placeholder="Search employee">
@@ -110,7 +110,7 @@
     <!--Modal section-->
             <div id="emp-modal-id" class="emp-modal">
               <div id="emp-modal-box-id" class="modal-box">
-                <form action="./employeeData" method="POST">
+                <form id="employee-form-id"  name="employee-form-name" onsubmit="return PrintFormData(event)"> 
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -136,7 +136,7 @@
                     </div>
                     <div>
                       <label class="modal-labels">Current Station</label><br>
-                      <select id="emp-station-modal" class="test-select" name="new_station">
+                      <select id="new-station" class="test-select" name="new_station">
                         <option  class="select_option" selected="selected" disabled>Select Station</option>
                       </select>    
                     </div>
@@ -165,7 +165,7 @@
                     </div>
                     <div>
                       <label class="modal-labels">Role</label><br>
-                      <select id="new-role" class="test-select" name="new_isAdmin">
+                      <select id="new-isAdmin" class="test-select" name="new_isAdmin">
                         <option  class="select_option" selected="selected"d disabled>Select Role</option>
                         <option  class="select_option">Admin</option>
                         <option  class="select_option">User</option>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="modal-buttons">
                       <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
-                      <button id="submitEmpBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="submitEmpBtn" class="modalSubmitBtn" onclick="PrintFormData">Save</button>
                     </div>
                   </div>
                 </form>
@@ -239,7 +239,7 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="cancelStageBtn" class="modalCancelBtn">Cancel</button>
                       <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
@@ -273,8 +273,8 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
-                      <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="cancelShiftBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
                 </form>

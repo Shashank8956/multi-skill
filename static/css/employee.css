@@ -367,12 +367,33 @@ tr:hover{
     width: 400px;
 }
 
+#shift-modal-box-id{
+    height: 185px;
+    width: 420px;
+}
+
 #stage-modal-body-id{
     height: 50px;
 }
 
 #station-modal-body-id{
     height: 50px;
+}
+
+#shift-modal-body-id{
+    height: 50px;
+}
+
+#shift-modal-body-id{
+    height: 50px;
+}
+
+#new-start-time{
+    width: 100px;
+}
+
+#new-end-time{
+    width: 100px;
 }
 
 .modalCancelBtn{
