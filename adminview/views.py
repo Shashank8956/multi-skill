@@ -19,7 +19,7 @@ class StationView(View):
                     'RequiredManpower': data.required_manpower,
                 }
                 data_array.append(output_json)
-                print(data)
+                #print(data)
 
             response = json.dumps(data_array)
 
@@ -194,14 +194,16 @@ class EmployeeView(View):
 
     def post(self, request):
         try:
-            token = request.POST.get('EmpToken')
-            name = request.POST.get('EmpName')
-            gender = request.POST.get('Gender')
-            station_id = request.POST.get('StationId')
-            _station_name = request.POST.get('StationName')
-            mobile = request.POST.get('Mobile')
+            token = request.POST.get('new_token')
+            name = request.POST.get('new_name')
+            gender = request.POST.get('new_gender')
+            station_id = 3#request.POST.get('StationId')
+            _station_name = request.POST.get('new_station')
+            print(_station_name)
+            mobile = request.POST.get('new_contact')
             # doj = request.POST.get('DOJ')
             station = Station.objects.get(id=station_id)
+            #station = Station.objects.get(station_name = _station_name)
             language_preference = 'English'  # request.POST.get('LanguagePreference')
             created_by = 'Some Name 1'  # request.POST.get('CreatedBy')
             is_admin = True  # request.POST.get('IsAdmin')

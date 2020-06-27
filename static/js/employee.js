@@ -13,10 +13,16 @@ const stageModal = document.getElementById("stage-modal-id");
 const cancelStageBtn = document.getElementById("cancelStageBtn")
 const saveStageBtn = document.getElementById("submitStageBtn");
 
+const filterStationDropdown = document.getElementById("station-filter");
+const empModalStationDropdown = document.getElementById("emp-station-modal");
+
+
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const empList = document.getElementById("id_EmpList");
 const empIDVar = 0;
+let stationJson = null;
+
 
 initialize();
 
@@ -119,8 +125,9 @@ function getAllStationData() {
     
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var myArr = JSON.parse(this.responseText);
-            console.log("Station Data\n:" + myArr);
+            stationJson = JSON.parse(this.responseText);
+            console.log("Station Data\n:" + stationJson[0].StationId);
+            loadStationDropdown();
         }
     };
 }
@@ -135,7 +142,7 @@ function getAllStageData() {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var myArr = JSON.parse(this.responseText);
-            console.log("Station Data\n:" + myArr);
+            console.log("Stage Data\n:" + myArr);
         }
     };
 }
@@ -194,4 +201,22 @@ function loadEntireList(listData){
                 empList.appendChild(newRow);
             }
         }
+}
+
+function loadStationDropdown(){
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        filterStationDropdown.appendChild(childOption);
+    }
+    
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        empModalStationDropdown.appendChild(childOption);
+    }
 }

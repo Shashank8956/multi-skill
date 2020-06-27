@@ -93,7 +93,9 @@
                       </div>
                       <div style="margin-left: 10px;">
                         <label class="filter-labels">Station Name</label><br>
-                        <input id="station-filter" class="emp-textbox" type="text" placeholder="Station"><br>
+                        <select id="station-filter" class="test-select">
+                          <option  class="select_option" selected="selected" disabled>Select Station</option>
+                      </select><br>
                       </div> 
                     </div>
                       <div style="float: right;"> 
@@ -134,11 +136,49 @@
                     </div>
                     <div>
                       <label class="modal-labels">Current Station</label><br>
-                      <input id="new-station" class="emp-textbox modal_inputs" name="new_station" type="text" placeholder="Station Name">
+                      <select id="emp-station-modal" class="test-select" name="new_station">
+                        <option  class="select_option" selected="selected" disabled>Select Station</option>
+                      </select>    
                     </div>
                     <div>
                       <label class="modal-labels">Doj</label><br>
                       <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
+                    </div>
+                    <div>
+                      <label class="modal-labels">Shift</label><br>
+                      <select id="new-shift" class="test-select" name="new_shift">
+                        <option  class="select_option" selected="selected" disabled>Select Shift</option>  
+                      </select>
+                    </div>
+                    <div>
+                      <label class="modal-labels">Weekly Off</label><br>
+                      <select id="new-weeklyOff" class="test-select" name="new_weeklyOff">
+                        <option  class="select_option" selected="selected" disabled>Select day</option>
+                        <option  class="select_option">Sunday</option>
+                        <option  class="select_option">Monday</option>
+                        <option  class="select_option">Tuesday</option>
+                        <option  class="select_option">Wednesday</option>
+                        <option  class="select_option">Thursday</option>
+                        <option  class="select_option">Friday</option>
+                        <option  class="select_option">Satruday</option>
+                      </select>    
+                    </div>
+                    <div>
+                      <label class="modal-labels">Role</label><br>
+                      <select id="new-role" class="test-select" name="new_isAdmin">
+                        <option  class="select_option" selected="selected"d disabled>Select Role</option>
+                        <option  class="select_option">Admin</option>
+                        <option  class="select_option">User</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="modal-labels">Language Preference</label><br>
+                      <select id="new-language" class="test-select" name="new_language">
+                        <option  class="select_option" selected="selected" disabled>Select Language</option>
+                        <option  class="select_option">English</option>
+                        <option  class="select_option">Hindi</option>
+                        <option  class="select_option">Marathi</option>
+                      </select>  
                     </div>
                     <div class="modal-buttons">
                       <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
@@ -196,6 +236,40 @@
                     <div>
                       <label class="modal-labels">Skill Level</label><br>
                       <input id="new-skill-level" class="emp-textbox modal_inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
+                    </div>
+
+                    <div class="modal-buttons">
+                      <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="shift-modal-id" class="emp-modal">
+              <div id="shift-modal-box-id" class="modal-box">
+                <form action="./shiftData" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Add Shift</h5>
+                    </div>
+                  </header>
+                  <div id="shift-modal-body-id" class="modal-body">
+                    <div>
+                      <label class="modal-labels">Stage Name</label><br>
+                      <input id="new-shift-name" class="emp-textbox modal_inputs" name="new_shiftName"  type="text" placeholder="Stage Name">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift Start Time</label><br>
+                      <input id="new-start-time" class="emp-textbox modal_inputs" name="new_startTime" type="time" placeholder="Skill Level">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift End Time</label><br>
+                      <input id="new-end-time" class="emp-textbox modal_inputs" name="new_endTime" type="time" placeholder="Skill Level">
                     </div>
 
                     <div class="modal-buttons">
