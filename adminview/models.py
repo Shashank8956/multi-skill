@@ -48,7 +48,7 @@ class Employee(models.Model):
     created_by = models.CharField(default="Some Admin", max_length=200)
 
     def __str__(self):
-        return "{} - {}".format(self.emp_token, self.emp_name)
+        return "{} - {}".format(self.token, self.name)
 
 
 class EmployeeSkill(models.Model):

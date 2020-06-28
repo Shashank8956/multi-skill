@@ -19,7 +19,7 @@ class StationView(View):
                     'RequiredManpower': data.required_manpower,
                 }
                 data_array.append(output_json)
-                # print(data)
+                print("Shift Data:",data)
 
             response = json.dumps(data_array)
 
@@ -147,8 +147,8 @@ class EmployeeView(View):
                     'Gender': employee_data.gender,
                     'Mobile': employee_data.mobile,
                     'DOJ': str(employee_data.doj),
-                    'StationId': employee_data.current_station.id,
-                    'StationName': employee_data.current_station.station_name,
+                    'StationId': employee_data.station.id,
+                    'StationName': employee_data.station.station_name,
                     'LanguagePreference': employee_data.language_preference,
                     'CreatedOn': str(employee_data.created_on),
                     'CreatedBy': employee_data.created_by,
@@ -174,8 +174,8 @@ class EmployeeView(View):
                         'Gender': employee.gender,
                         'Mobile': employee.mobile,
                         'DOJ': str(employee.doj),
-                        'StationId': employee.current_station.id,
-                        'StationName': employee.current_station.station_name,
+                        'StationId': employee.station.id,
+                        'StationName': employee.station.station_name,
                         'LanguagePreference': employee.language_preference,
                         'CreatedOn': str(employee.created_on),
                         'CreatedBy': employee.created_by,
