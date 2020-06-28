@@ -262,11 +262,11 @@ function loadEntireList(listData){
                 newCheckBox.type = "checkbox";
                 tableData[0].appendChild(newCheckBox);
 
-                tableData[1].innerText = listData[i].emp_token;
-                tableData[2].innerText = listData[i].emp_name;
-                tableData[3].innerText = listData[i].doj;
-                tableData[4].innerText = listData[i].mobile;
-                tableData[5].innerText = listData[i].current_station;
+                tableData[1].innerText = listData[i].EmpToken;
+                tableData[2].innerText = listData[i].EmpName;
+                tableData[3].innerText = listData[i].DOJ;
+                tableData[4].innerText = listData[i].Mobile;
+                tableData[5].innerText = listData[i].StationName;
 
                 for(let i=0; i<6; i++){
                     newRow.appendChild(tableData[i]);
@@ -296,10 +296,10 @@ function loadStationDropdown(){
 }
 
 function loadShiftDropdown(){
-    for(let i=0; i<stationJson.length; i++){
+    for(let i=0; i<shiftJson.length; i++){
         childOption = document.createElement("option");
-        childOption.id = stationJson[i].ShiftId;
-        childOption.innerText = stationJson[i].ShiftName;
+        childOption.id = shiftJson[i].ShiftId;
+        childOption.innerText = shiftJson[i].ShiftName;
         childOption.classList.add("select_option")
         empModalShiftDropdown.appendChild(childOption);
     }
