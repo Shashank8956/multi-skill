@@ -25,12 +25,16 @@ const empModalShiftDropdown = document.getElementById("new-shift");
 
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
+const deleteEmpButton = document.getElementById("deleteEmpBtn");
 const empList = document.getElementById("id_EmpList");
 
 const empIDVar = 0;
+let employeeJson = null;
 let stationJson = null;
 let shiftJson = null;
 let cookieValue = null;
+let checkedCount = 0;
+
 
 function PrintFormData(e){
     var formInstance = e.target;
@@ -182,9 +186,9 @@ function getAllData() {
     
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var myArr = JSON.parse(this.responseText);
-            console.log(myArr);
-            loadEntireList(myArr);
+            employeeJson = JSON.parse(this.responseText);
+            console.log(employeeJson);
+            loadEntireList(employeeJson);
         }
     };
 }
@@ -249,8 +253,19 @@ function loadList(listData) {
 }
 
 function loadEntireList(listData){
+    empList.innerHTML = "";
+    let tableHeader = `<thead>
+                        <tr>    
+                            <th><input type="checkbox"></th>
+                            <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#9650</th>
+                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#9650</th>
+                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Doj &#9650</th>
+                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">Contact &#9650</th>
+                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Station &#9650</th>
+                        </tr>
+                    </thead>`;
+    empList.innerHTML += tableHeader; 
     if(listData!=null){
-
             for(let i=0; i<listData.length; i++){
                 let newRow = document.createElement("tr");
                 let tableData = []
@@ -260,6 +275,8 @@ function loadEntireList(listData){
 
                 let newCheckBox = document.createElement("input");
                 newCheckBox.type = "checkbox";
+                newCheckBox.id = listData[i].EmpToken;
+                newCheckBox.addEventListener("click", selectRow);
                 tableData[0].appendChild(newCheckBox);
 
                 tableData[1].innerText = listData[i].EmpToken;
@@ -271,7 +288,7 @@ function loadEntireList(listData){
                 for(let i=0; i<6; i++){
                     newRow.appendChild(tableData[i]);
                 }
-
+                
                 empList.appendChild(newRow);
             }
         }
