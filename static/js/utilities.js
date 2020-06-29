@@ -72,17 +72,18 @@ function sortColumn(e){
     let column = e.target;
     let columnName = column.getAttribute("data-columnName");
     let sortedList = [];
+    let columnText = column.innerText;
+    columnText = columnText.substring(0, columnText.length - 1);
 
     if (column.getAttribute("data-order") == "desc"){
         column.setAttribute("data-order", "asc");
-        console.log("first");
+        columnText += "\u25B4";
         sortedList = employeeJson.sort((a,b) => a[columnName] > b[columnName] ? 1 : -1);
-        console.log("second");
     }else{
         column.setAttribute("data-order", "desc");
-        console.log("first");
+        columnText += "\u25BE";
         sortedList = employeeJson.sort((a,b) => a[columnName] < b[columnName] ? 1 : -1);
-        console.log("second");
     }
+    column.innerText = columnText;
     loadEntireList(sortedList);
 }

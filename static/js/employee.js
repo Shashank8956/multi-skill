@@ -27,6 +27,8 @@ const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const deleteEmpButton = document.getElementById("deleteEmpBtn");
 const empList = document.getElementById("id_EmpList");
+const empListHead = document.getElementById("id_EmpList_head");
+const empListBody = document.getElementById("id_EmpList_body");
 
 const empIDVar = 0;
 let employeeJson = null;
@@ -100,7 +102,7 @@ function initialize(){
     getAllData();
     getAllShiftData();
     getAllStationData();
-    
+    loadListHeader();
     cookieValue = getCookie('csrftoken');
 }
 
@@ -253,18 +255,7 @@ function loadList(listData) {
 }
 
 function loadEntireList(listData){
-    empList.innerHTML = "";
-    let tableHeader = `<thead>
-                        <tr>    
-                            <th><input type="checkbox"></th>
-                            <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#9650</th>
-                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#9650</th>
-                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Doj &#9650</th>
-                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">Contact &#9650</th>
-                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Station &#9650</th>
-                        </tr>
-                    </thead>`;
-    empList.innerHTML += tableHeader; 
+    empListBody.innerHTML = ""; 
     if(listData!=null){
             for(let i=0; i<listData.length; i++){
                 let newRow = document.createElement("tr");
@@ -289,7 +280,7 @@ function loadEntireList(listData){
                     newRow.appendChild(tableData[i]);
                 }
                 
-                empList.appendChild(newRow);
+                empListBody.appendChild(newRow);
             }
         }
 }
@@ -320,4 +311,18 @@ function loadShiftDropdown(){
         childOption.classList.add("select_option")
         empModalShiftDropdown.appendChild(childOption);
     }
+}
+
+function loadListHeader(){
+    let tableHeader = `<thead>
+                        <tr>    
+                            <th><input type="checkbox"></th>
+                            <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#x25B4</th>
+                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>
+                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Doj &#x25B4</th>
+                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">Contact &#x25B4</th>
+                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Station &#x25B4</th>
+                        </tr>
+                    </thead>`;
+    empListHead.innerHTML += tableHeader;
 }
