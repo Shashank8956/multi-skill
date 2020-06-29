@@ -273,7 +273,7 @@ class TestView(View):
                     "StageId": test_header.stage.id,
                     "StageName": test_header.stage.stage_name,
                     "Title": test_header.test_title,
-                    "Questions": test_header.no_of_quetions,
+                    "Questions": test_header.no_of_questions,           #fixed typo from: no_of_quetion to: no_of_question
                     "Time": test_header.test_time,
                     "Marks": test_header.max_marks
                 }

@@ -23,6 +23,9 @@ let resetButton = document.getElementById("resetBtn");
 let cancelButton = document.getElementById("cancelTestBtn");
 let submitButton = document.getElementById("createTestBtn");
 
+const stationDropdown = document.getElementById("new-station");
+const stageDropdown = document.getElementById("new-stage");
+
 //Array declarations
 let questionNoArray = [];
 let questionTextArray = [];
@@ -31,6 +34,8 @@ let questionOp2Array = [];
 let questionOp3Array = [];
 let questionOp4Array = [];
 let correctOpArray = [];
+let stationJson = [];
+let stageJson = [];
 let questionCounter = 0;
 let cookieValue = '';
 
@@ -40,6 +45,8 @@ function initializePage(){
     setEvents();
     hideRightPanel();
     getSessionData();
+    getStageData();
+    getStationData();
 }
 
 function getCookie(name) {
@@ -299,4 +306,53 @@ function bundleDataForSend(){
     testData["Question Details"] = questionDetails;
     console.log(testData);
     return testData;
+}
+
+function getStationData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stationJson = JSON.parse(this.responseText);
+            loadStationDropdown();
+        }
+    };
+}
+
+function getStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stageJson = JSON.parse(this.responseText);
+            loadStageDropdown();
+        }
+    };
+}
+
+function loadStationDropdown(){
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        stationDropdown.appendChild(childOption);
+    }
+}
+
+function loadStageDropdown(){
+    for(let i=0; i<stageJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stageJson[i].StageId;
+        childOption.innerText = stageJson[i].StageName;
+        childOption.classList.add("select_option")
+        stageDropdown.appendChild(childOption);
+    }
 }
