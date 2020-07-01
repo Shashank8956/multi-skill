@@ -84,20 +84,12 @@
                             <label class="filter-labels">Select Station</label><br>
                             <select id="station-filter" class="test-select">
                                 <option  class="select_option" selected="selected">Select Station</option>
-                                <option class="select_option">Station 1</option>
-                                <option class="select_option">Station 2</option>
-                                <option class="select_option">Station 3</option>
-                                <option class="select_option">Station 4</option>
                             </select>
                           </div>
                           <div style="margin-left: 10px;">
                             <label class="filter-labels">Select Shift</label><br>
                             <select id="stage-filter" class="test-select">
                                 <option  class="select_option" selected="selected">Select Shift</option>
-                                <option class="select_option">Shift 1</option>
-                                <option class="select_option">Shift 2</option>
-                                <option class="select_option">Shift 3</option>
-                                <option class="select_option">Shift 4</option>
                             </select><br>
                           </div>  
                           <div style="margin-left: 10px;">
@@ -228,24 +220,28 @@
 
     <!--Table section-->
                 <div class="table-section">
-                    <table id="id_EmpList" class="table-content">
-                        <tr>    
-                            <th>Sr. No.</th>
-                            <th>Name</th>
-                            <th>M6-B Front Cover Torquing</th>
-                            <th>M6-C Front Cover Bolts</th>
-                            <th>M7-A ROSR torquing,pully</th>
-                            <th>M7-B ROSR Selant Application</th>
-                            <th>M8-B Oil Pan Torquing</th>
-                            <th>M9-A Spill Cut-off Operation</th>
-                            <th>M9-A FIP Back Side Bolts</th>
-                            <th>OSA-1-A Camshaft Idler Oil Pump</th>
-                            <th>OSA-2-A Front Cover Sub</th>
-                            <th>PSA-A Piston Ring Insertion</th>
-                            <th>PSA-B Con Rod Cap Removal</th>
-                            <th>PSA-C Piston-Con Rod Subassy</th>
-                            <th>QP1-A Qp1 Torquing</th>
-                        </tr>
+                    <table id="id_skillList" class="table-content">
+                        <thead id="id_skillHead">
+                          <tr>
+                          <th><input type="checkbox"></th>    
+                          <th>Token No</th>
+                          <th>Name</th>
+                          <th>M6-B Front Cover Torquing</th>
+                          <th>M6-C Front Cover Bolts</th>
+                          <th>M7-A ROSR torquing,pully</th>
+                          <th>M7-B ROSR Selant Application</th>
+                          <th>M8-B Oil Pan Torquing</th>
+                          <th>M9-A Spill Cut-off Operation</th>
+                          <th>M9-A FIP Back Side Bolts</th>
+                          <th>OSA-1-A Camshaft Idler Oil Pump</th>
+                          <th>OSA-2-A Front Cover Sub</th>
+                          <th>PSA-A Piston Ring Insertion</th>
+                          <th>PSA-B Con Rod Cap Removal</th>
+                          <th>PSA-C Piston-Con Rod Subassy</th>
+                          <th>QP1-A Qp1 Torquing</th>
+                      </tr>
+                    </thead>
+                        <tbody id="id_skillBody"></tbody>
                     </table>
                 </div>
                   
@@ -255,5 +251,6 @@
     </div>
 
     <script src="{% static '/js/skill.js' %}"></script>
+    
 </body>
 </html>

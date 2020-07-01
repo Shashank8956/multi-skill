@@ -29,6 +29,10 @@ const stationModalDropdown = document.getElementById("new-station");
 const stageFilterDropdown = document.getElementById("stage-filter");
 const stageModalDropdown = document.getElementById("new-stage");
 
+const testList = document.getElementById("id_testList");
+const testListHead = document.getElementById("id_testList_head");
+const testListBody = document.getElementById("id_testList_body");
+
 let testJson = [];
 let stationJson = [];
 let stageJson = [];
@@ -40,6 +44,7 @@ function initialize(){
     getStageData();
     getStationData();
     getTestData();
+    loadListHeader();
 }
 
 function eventListeners(){
@@ -111,7 +116,7 @@ function getTestData(){
         if (this.readyState == 4 && this.status == 200) {
             testJson = JSON.parse(this.responseText);
             console.log(testJson);
-            loadTestList(testJson);
+            loadEntireList(testJson);
         }
     };
 }
@@ -183,6 +188,21 @@ function loadStageDropdown(){
     }
 }
 
-function loadTestList(){
+function loadEntireList(){
     console.log(testJson);    
+}
+
+function loadListHeader(){
+    let tableHeader = `<thead>
+                        <tr>    
+                            <th><input type="checkbox"></th>
+                            <th data-columnName = "Title" data-order="desc" onclick="sortColumn(event);">Title &#x25B4</th>
+                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Station &#x25B4</th>
+                            <th data-columnName = "StageName" data-order="desc" onclick="sortColumn(event);">Stage &#x25B4</th>
+                            <th data-columnName = "Questions" data-order="desc" onclick="sortColumn(event);">Total Questions &#x25B4</th>
+                            <th data-columnName = "Time" data-order="desc" onclick="sortColumn(event);">Passing Marks &#x25B4</th>
+                            <th data-columnName = "Marks" data-order="desc" onclick="sortColumn(event);">Time &#x25B4</th>
+                        </tr>
+                    </thead>`;
+    testListHead.innerHTML += tableHeader;
 }

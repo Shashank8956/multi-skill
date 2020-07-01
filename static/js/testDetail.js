@@ -43,10 +43,10 @@ initializePage();
 
 function initializePage(){
     setEvents();
-    hideRightPanel();
-    getSessionData();
     getStageData();
     getStationData();
+    hideRightPanel();
+    getSessionData();
 }
 
 function getCookie(name) {
@@ -72,16 +72,16 @@ function getSessionData(){
     timeInput.value = sessionStorage.getItem('time');
     marksInput.value = sessionStorage.getItem('marks');
 
-    for (var opt, i = 0; opt = stationInput[i]; i++) {
-        if (opt.value == sessionStorage.getItem('station')) {
-            stationInput.selectedIndex = i;
+    for (var i = 0; i<stationDropdown.length; i++) {
+        if (stationDropdown[i].value == sessionStorage.getItem('station')) {
+            console.log("yes");
+            stationDropdown.selectedIndex = i;
             break;
         }
     }
-
-    for (var opt, i = 0; opt = stageInput[i]; i++) {
-        if (opt.value == sessionStorage.getItem('stage')) {
-            stageInput.selectedIndex = i;
+    for (var i = 0; i<stageDropdown.length; i++) {
+        if (stageDropdown[i].value == sessionStorage.getItem('stage')) {
+            stageDropdown.selectedIndex = i;
             break;
         }
     }
@@ -123,6 +123,7 @@ function showRightPanel(){
 }
 
 function addQuestionToList(){
+    getSessionData();
     //Data update in the arrays
     questionCounter++;
     questionNoArray.push(questionCounter);
@@ -282,28 +283,30 @@ function bundleDataForSend(){
     testData = {};
     questionDetails = [];
 
-    testData["title"] = titleInput.value;
-    testData["station"] = stationInput.options[stationInput.selectedIndex].value;
-    testData["stage"] = stageInput.options[stageInput.selectedIndex].value;
-    testData["questions"] = questionNoInput.value;
-    testData["time"] = timeInput.value;
-    testData["marks"] = marksInput.value;
+    testData["Title"] = titleInput.value;
+    testData["StationId"] = stationJson[stationInput.selectedIndex -1].StationId;
+    testData["StationName"] = stationInput.options[stationInput.selectedIndex].value;
+    testData["StageId"] = stageJson[stageInput.selectedIndex -1].StageId;
+    testData["StageName"] = stageInput.options[stageInput.selectedIndex].value;
+    testData["Questions"] = questionNoInput.value;
+    testData["Time"] = timeInput.value;
+    testData["Marks"] = marksInput.value;
 
 
     for(let i = 0; i< questionTextArray.length; i++){
         tempJson = {};
-        tempJson["Question Number"] = questionNoArray[i];
+        tempJson["QuestionNumber"] = questionNoArray[i];
         tempJson["Question"] = questionTextArray[i];
         tempJson["Op1"] = questionOp1Array[i];
         tempJson["Op2"] = questionOp2Array[i];
         tempJson["Op3"] = questionOp3Array[i];
         tempJson["Op4"] = questionOp4Array[i];
-        tempJson["Correct"] = null;//correctOpArray[i];
+        tempJson["Correct"] = "Op1";//correctOpArray[i];
         
         questionDetails.push(tempJson);
     }
 
-    testData["Question Details"] = questionDetails;
+    testData["QuestionDetails"] = questionDetails;
     console.log(testData);
     return testData;
 }

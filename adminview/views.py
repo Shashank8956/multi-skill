@@ -295,7 +295,7 @@ class TestView(View):
             station_id = payload["StationId"]
             _station_name = payload['StationName']
             station = Station.objects.get(id=station_id)
-            stage_id = payload["stage_id"]
+            stage_id = payload["StageId"]
             _stage_name = payload['StageName']
             stage = Stage.objects.get(id=stage_id)
             no_of_questions = payload['Questions']
@@ -319,6 +319,7 @@ class TestView(View):
                 option_2 = question_details['Op2']
                 option_3 = question_details['Op3']
                 option_4 = question_details['Op4']
+                #correct_answer = question_details['Correct']
                 test_question = TestQuestions(
                     test_id=test_header,
                     question_number=question_number,

@@ -12,28 +12,7 @@ function setEventHandlers(){
 
 function searchLogic(e){
     var value = e.target.value;
-    console.log(value);
-    
-    loadEntireList(searchTable(value));
-}
-
-function searchTable(value){
-    var filterData = [];
-
-    for(var i=0; i< employeeJson.length; i++){
-        value = value.toLowerCase();
-        var name = employeeJson[i].EmpName.toLowerCase();
-        var token = employeeJson[i].EmpToken;
-        var doj = employeeJson[i].DOJ;
-        var mobile = employeeJson[i].mobile;
-        var StationName = employeeJson[i].StationName;
-
-        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
-            filterData.push(employeeJson[i]);
-        }
-    }
-
-    return filterData;
+    loadEntireList(searchEmployeeTable(value));
 }
 
 function selectRow(selectedCheckBox){
@@ -86,4 +65,100 @@ function sortColumn(e){
     }
     column.innerText = columnText;
     loadEntireList(sortedList);
+}
+
+function searchEmployeeTable(value){
+    var filterData = [];
+
+    for(var i=0; i< employeeJson.length; i++){
+        value = value.toLowerCase();
+        var name = employeeJson[i].EmpName.toLowerCase();
+        var token = employeeJson[i].EmpToken;
+        var doj = employeeJson[i].DOJ;
+        var mobile = employeeJson[i].mobile;
+        var StationName = employeeJson[i].StationName;
+
+        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
+            filterData.push(employeeJson[i]);
+        }
+    }
+
+    return filterData;
+}
+
+function searchTestTable(value){
+    var filterData = [];
+
+    for(var i=0; i< testJson.length; i++){
+        value = value.toLowerCase();
+        var title = testJson[i].Title.toLowerCase();
+        var stationName = testJson[i].StationName;
+        var stageName = testJson[i].StageName;
+        var time= testJson[i].Time;
+        var marks = testJson[i].Marks;
+        var questions = testJson[i].Questions;
+
+        if(title.includes(value) || stageName.includes(value) || time == value || stationName.includes(value) || marks == value ||  Questions == value){
+            filterData.push(testJson[i]);
+        }
+    }
+
+    return filterData;
+}
+
+function searchShiftTable(value){
+    var filterData = [];
+
+    for(var i=0; i< employeeJson.length; i++){
+        value = value.toLowerCase();
+        var name = employeeJson[i].EmpName.toLowerCase();
+        var token = employeeJson[i].EmpToken;
+        var doj = employeeJson[i].DOJ;
+        var mobile = employeeJson[i].mobile;
+        var StationName = employeeJson[i].StationName;
+
+        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
+            filterData.push(employeeJson[i]);
+        }
+    }
+
+    return filterData;
+}
+
+function searchSkillTable(value){
+    var filterData = [];
+
+    for(var i=0; i< employeeJson.length; i++){
+        value = value.toLowerCase();
+        var name = employeeJson[i].EmpName.toLowerCase();
+        var token = employeeJson[i].EmpToken;
+        var doj = employeeJson[i].DOJ;
+        var mobile = employeeJson[i].mobile;
+        var StationName = employeeJson[i].StationName;
+
+        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
+            filterData.push(employeeJson[i]);
+        }
+    }
+
+    return filterData;
+}
+
+function searchTrainingTable(value){
+    var filterData = [];
+
+    for(var i=0; i< employeeJson.length; i++){
+        value = value.toLowerCase();
+        var name = employeeJson[i].EmpName.toLowerCase();
+        var token = employeeJson[i].EmpToken;
+        var doj = employeeJson[i].DOJ;
+        var mobile = employeeJson[i].mobile;
+        var StationName = employeeJson[i].StationName;
+
+        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
+            filterData.push(employeeJson[i]);
+        }
+    }
+
+    return filterData;
 }
