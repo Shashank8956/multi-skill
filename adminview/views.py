@@ -319,15 +319,16 @@ class TestView(View):
                 option_2 = question_details['Op2']
                 option_3 = question_details['Op3']
                 option_4 = question_details['Op4']
-                #correct_answer = question_details['Correct']
+                correct_option = question_details['Correct']
                 test_question = TestQuestions(
-                    test_id=test_header,
+                    test=test_header,
                     question_number=question_number,
                     question=question,
                     option_1=option_1,
                     option_2=option_2,
                     option_3=option_3,
-                    option_4=option_4
+                    option_4=option_4,
+                    correct_option=correct_option,
                 )
                 test_question.save()
                 print("TEST QUESTION ID:", test_question)

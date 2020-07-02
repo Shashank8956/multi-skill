@@ -82,6 +82,7 @@ class TestQuestions(models.Model):
     option_2 = models.CharField(max_length=100)
     option_3 = models.CharField(max_length=100)
     option_4 = models.CharField(max_length=100)
+    correct_option = models.CharField(max_length=5)
 
     def __str__(self):
         return "Test Question: {}".format(self.question)
