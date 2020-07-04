@@ -36,6 +36,7 @@ const testListBody = document.getElementById("id_testList_body");
 let testJson = [];
 let stationJson = [];
 let stageJson = [];
+let checkedCount = 0;
 
 initialize();
 

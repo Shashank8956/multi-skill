@@ -312,35 +312,6 @@ tr:hover{
     height: 30px;
 }
 
-#new-token{
-    width: 120px;
-}
-
-#new-name{
-    width: 250px;
-}
-
-#new-gender{
-    width: 120px;
-}
-
-#new-contact{
-    width: 140px;
-}
-
-#new-station{
-    width: 250px;
-}
-
-#new-doj{
-    width: 145px;
-}
-
-#emp-modal-box-id{
-    height: 250px;
-    width: 600px;
-}
-
 #stage-modal-box-id{
     height: 180px;
     width: 400px;
