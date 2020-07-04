@@ -57,11 +57,11 @@ function sortColumn(e){
     if (column.getAttribute("data-order") == "desc"){
         column.setAttribute("data-order", "asc");
         columnText += "\u25B4";
-        sortedList = employeeJson.sort((a,b) => a[columnName] > b[columnName] ? 1 : -1);
+        sortedList = trainingJson.sort((a,b) => a[columnName] > b[columnName] ? 1 : -1);
     }else{
         column.setAttribute("data-order", "desc");
         columnText += "\u25BE";
-        sortedList = employeeJson.sort((a,b) => a[columnName] < b[columnName] ? 1 : -1);
+        sortedList = trainingJson.sort((a,b) => a[columnName] < b[columnName] ? 1 : -1);
     }
     column.innerText = columnText;
     loadEntireList(sortedList);
@@ -70,16 +70,16 @@ function sortColumn(e){
 function searchTable(value){
     var filterData = [];
 
-    for(var i=0; i< employeeJson.length; i++){
+    for(var i=0; i< trainingJson.length; i++){
         value = value.toLowerCase();
-        var name = employeeJson[i].EmpName.toLowerCase();
-        var token = employeeJson[i].EmpToken;
-        var doj = employeeJson[i].DOJ;
-        var mobile = employeeJson[i].mobile;
-        var StationName = employeeJson[i].StationName;
+        var name = trainingJson[i].EmpName.toLowerCase();
+        var token = trainingJson[i].EmpToken;
+        var doj = trainingJson[i].DOJ;
+        var mobile = trainingJson[i].mobile;
+        var StationName = trainingJson[i].StationName;
 
         if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
-            filterData.push(employeeJson[i]);
+            filterData.push(trainingJson[i]);
         }
     }
 

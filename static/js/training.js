@@ -32,7 +32,7 @@ const trainingListHead = document.getElementById("id_trainingList_head");
 const trainingListBody = document.getElementById("id_trainingList_body");
 
 const empIDVar = 0;
-let employeeJson = null;
+let trainingJson = [];
 let stationJson = null;
 let shiftJson = null;
 let cookieValue = null;
@@ -153,19 +153,49 @@ function getAllStationData() {
     };
 }
 
+function loadEntireList(listData){
+    trainingListBody.innerHTML = ""; 
+    if(listData!=null){
+            for(let i=0; i<listData.length; i++){
+                let newRow = document.createElement("tr");
+                let tableData = []
+                for(let i=0; i<6; i++){
+                    tableData.push(document.createElement("td"));
+                }
+
+                let newCheckBox = document.createElement("input");
+                newCheckBox.type = "checkbox";
+                newCheckBox.id = listData[i].EmpToken;
+                newCheckBox.addEventListener("click", selectRow);
+                tableData[0].appendChild(newCheckBox);
+
+                tableData[1].innerText = listData[i].EmpToken;
+                tableData[2].innerText = listData[i].EmpName;
+                tableData[3].innerText = listData[i].DOJ;
+                tableData[4].innerText = listData[i].Mobile;
+                tableData[5].innerText = listData[i].StationName;
+
+                for(let i=0; i<6; i++){
+                    newRow.appendChild(tableData[i]);
+                }
+                
+                trainingListBody.appendChild(newRow);
+            }
+        }
+}
 
 function loadListHeader(){
     let tableHeader = `<tr>    
                             <th><input type="checkbox"></th>
                             <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#x25B4</th>
-                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>
-                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Doj &#x25B4</th>
-                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">No.Of Stages &#x25B4</th>
-                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Training Stage &#x25B4</th>
-                            <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Shift Officer &#x25B4</th>
-                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Trainer Token No &#x25B4</th>
-                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Trainer Name &#x25B4</th>
-                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">Training Date &#x25B4</th>
+                            <th data-columnName = "Trainee" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>
+                            <th data-columnName = "Doj" data-order="desc" onclick="sortColumn(event);">Doj &#x25B4</th>
+                            <th data-columnName = "TotalStages" data-order="desc" onclick="sortColumn(event);">No.Of Stages &#x25B4</th>
+                            <th data-columnName = "TrainingStage" data-order="desc" onclick="sortColumn(event);">Training Stage &#x25B4</th>
+                            <th data-columnName = "ShiftOfficerName" data-order="desc" onclick="sortColumn(event);">Shift Officer &#x25B4</th>
+                            <th data-columnName = "TrainerToken" data-order="desc" onclick="sortColumn(event);">Trainer Token No &#x25B4</th>
+                            <th data-columnName = "TrainerName" data-order="desc" onclick="sortColumn(event);">Trainer Name &#x25B4</th>
+                            <th data-columnName = "Date" data-order="desc" onclick="sortColumn(event);">Training Date &#x25B4</th>
                         </tr>`;
     trainingListHead.innerHTML += tableHeader;
 }

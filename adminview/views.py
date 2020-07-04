@@ -3,6 +3,8 @@ from django.views.generic.base import View
 from .models import *
 import traceback
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class StationView(View):
@@ -27,7 +29,7 @@ class StationView(View):
             traceback.print_exc()
             response = {'Error': 'Could not find station data'}
 
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
@@ -64,6 +66,10 @@ class StationView(View):
 
 
 class StageView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(StageView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             data_array = []
@@ -82,7 +88,7 @@ class StageView(View):
             traceback.print_exc()
             response = {'Error': 'Could not find Stage data'}
 
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
@@ -94,7 +100,7 @@ class StageView(View):
                 skill_level=skill_level
             )
             stage.save()
-            response = json.dumps({'Success': 'Stage data saved successfully'})
+            response = {'Success': 'Stage data saved successfully'}
         except Exception:
             traceback.print_exc()
 
@@ -105,7 +111,7 @@ class StageView(View):
     def delete(self, request):
         try:
             stage_id = request.GET.get("StageId")
-            stage = Shift.objects.get(id=stage_id)
+            stage = Stage.objects.get(id=stage_id)
             stage.delete()
 
             response = {'Success': f'Stage data for Stage id {stage_id} successfully'}
@@ -137,7 +143,7 @@ class ShiftView(View):
             traceback.print_exc()
             response = {'Error': 'Could not find Shift data'}
 
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
@@ -174,7 +180,6 @@ class ShiftView(View):
 
 
 class EmployeeView(View):
-
     def get(self, request):
         if request.GET:
             token = request.GET.get("EmpToken")
@@ -235,7 +240,7 @@ class EmployeeView(View):
             except Exception:
                 traceback.print_exc()
                 response = {'Error': 'Could not get Employee data!'}
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
@@ -299,6 +304,32 @@ class EmployeeView(View):
 
 
 class EmployeeSkillView(View):
+    def get(self, request):
+        try:
+            employee_skill_data = EmployeeSkill.objects.all()
+            data_array = []
+            for employee_skill in employee_skill_data:
+                employee_token = employee_skill.employee.token
+                employee_name = employee_skill.employee.name
+                station_name = employee_skill.station.station_name
+                skill_level = employee_skill.stage.skill_level
+
+                data = {
+                    "EmpToken": employee_token,
+                    "EmpName": employee_name,
+                    "StationName": station_name,
+                    "SkillLevel": skill_level
+                }
+
+                data_array.append(data)
+
+            response = data_array
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Could not get Employee Skill data!'}
+
+        return JsonResponse(response, safe=False)
+
     def post(self, request):
         try:
             payload = json.loads(request.body)
@@ -325,35 +356,7 @@ class EmployeeSkillView(View):
 
         return JsonResponse(response)
 
-    def get(self, request):
-        try:
-            employee_skill_data = EmployeeSkill.objects.all()
-            data_array = []
-            for employee_skill in employee_skill_data:
-                employee_token = employee_skill.employee.token
-                employee_name = employee_skill.employee.name
-                station_name = employee_skill.station.station_name
-                skill_level = employee_skill.stage.skill_level
-
-                data = {
-                    "EmpToken": employee_token,
-                    "EmpName": employee_name,
-                    "StationName": station_name,
-                    "SkillLevel": skill_level
-                }
-
-                data_array.append(data)
-
-            response = data_array
-        except Exception:
-            traceback.print_exc()
-            response = {'Error': 'Could not get Employee Skill data!'}
-
-        return JsonResponse(response)
-
-
 class TestView(View):
-
     def get(self, request):
         try:
             data_array = []
@@ -378,7 +381,7 @@ class TestView(View):
         except Exception:
             traceback.print_exc()
             response = {'Error': 'Could not find Test Header data!'}
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
@@ -447,7 +450,6 @@ class TestView(View):
 
 
 class TrainingView(View):
-
     def get(self, request):
         try:
             data_array = []
@@ -474,7 +476,7 @@ class TrainingView(View):
             traceback.print_exc()
             response = {'Error': 'Training data not found'}
 
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         try:
