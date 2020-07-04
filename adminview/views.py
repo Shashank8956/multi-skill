@@ -9,6 +9,10 @@ from django.utils.decorators import method_decorator
 
 class StationView(View):
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(StationView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             data_array = []
@@ -123,6 +127,10 @@ class StageView(View):
 
 
 class ShiftView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShiftView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             data_array = []
@@ -252,8 +260,6 @@ class EmployeeView(View):
             gender = payload['new_gender']
             station_id = payload['new_stationId']
             print(station_id)
-            _station_name = payload['new_stationName']
-            print(_station_name)
             mobile = payload['new_contact']
             # doj = payload('new_doj')
             station = Station.objects.get(id=station_id)
@@ -263,11 +269,8 @@ class EmployeeView(View):
             is_admin = True  # payload['new_isAdmin']
             weekly_off = 'Sunday'  # payload['new_weeklyOff']
             shift_id = payload["new_shiftId"]
-            _shift_name = payload['new_shiftName']
             shift = Shift.objects.get(id=shift_id)
             stage_id = payload["new_stageId"]
-            _stage_name = payload['new_stageName']
-            _skill_level = payload['new_skill_level']
             stage = Stage.objects.get(id=stage_id)
             emp = Employee(
                 token=token,
@@ -357,6 +360,10 @@ class EmployeeSkillView(View):
         return JsonResponse(response)
 
 class TestView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(TestView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             data_array = []
@@ -390,11 +397,8 @@ class TestView(View):
 
             test_title = payload['Title']
             station_id = payload["StationId"]
-            _station_name = payload['StationName']
             station = Station.objects.get(id=station_id)
             stage_id = payload["StageId"]
-            _stage_name = payload['StageName']
-            _skill_level = payload['SkillLevel']
             stage = Stage.objects.get(id=stage_id)
             no_of_questions = payload['Questions']
             test_time = payload['Time']

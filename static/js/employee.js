@@ -21,7 +21,7 @@ const saveShiftBtn = document.getElementById("submitShiftBtn");
 const filterStationDropdown = document.getElementById("station-filter");
 const empModalStationDropdown = document.getElementById("new-station");
 const empModalShiftDropdown = document.getElementById("new-shift");
-
+const empModalStageDropdown = document.getElementById("new-stage");
 
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
@@ -34,6 +34,7 @@ const empIDVar = 0;
 let employeeJson = null;
 let stationJson = null;
 let shiftJson = null;
+let stageJson = null;
 let cookieValue = null;
 let checkedCount = 0;
 
@@ -49,9 +50,10 @@ function PrintFormData(e){
     sendData["new_contact"] = formData.get("new_contact");
     sendData["new_doj"] = formData.get("new_doj");
     sendData["new_stationId"] = stationJson[empModalStationDropdown.selectedIndex -1].StationId;
-    sendData["new_stationName"] = empModalStationDropdown.options[empModalStationDropdown.selectedIndex].value;
-    sendData["new_shiftId"] = 1;//shiftJson[document.getElementById("new-shift").selectedIndex -1].ShiftId;
-    sendData["new_shiftName"] = "temp shift name";//document.getElementById("new-shift").selectedIndex.value;
+    //sendData["new_stationName"] = empModalStationDropdown.options[empModalStationDropdown.selectedIndex].value;
+    sendData["new_shiftId"] = shiftJson[document.getElementById("new-shift").selectedIndex -1].ShiftId;
+    //sendData["new_shiftName"] = "temp shift name";//document.getElementById("new-shift").selectedIndex.value;
+    sendData["new_stageId"] = stageJson[document.getElementById("new-stage").selectedIndex -1].StageId;
     sendData["new_weeklyOff"] = document.getElementById("new-weeklyOff").options[document.getElementById("new-weeklyOff").selectedIndex].value;
     sendData["new_isAdmin"] = document.getElementById("new-isAdmin").options[document.getElementById("new-isAdmin").selectedIndex].value;
     sendData["new_language"] = document.getElementById("new-language").options[document.getElementById("new-language").selectedIndex].value;
@@ -101,6 +103,7 @@ function initialize(){
     //loadList();
     getAllData();
     getAllShiftData();
+    getAllStageData();
     getAllStationData();
     loadListHeader();
     cookieValue = getCookie('csrftoken');
@@ -227,6 +230,21 @@ function getAllShiftData() {
     };
 }
 
+function getAllStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stageJson = JSON.parse(this.responseText);
+            console.log("Shift Data:" + stageJson[0].StageId);
+            loadStageDropdown();
+        }
+    };
+}
+
 function loadList(listData) {
     if(listData!=null){
 
@@ -310,6 +328,16 @@ function loadShiftDropdown(){
         childOption.innerText = shiftJson[i].ShiftName;
         childOption.classList.add("select_option")
         empModalShiftDropdown.appendChild(childOption);
+    }
+}
+
+function loadStageDropdown(){
+    for(let i=0; i<stageJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stageJson[i].ShiftId;
+        childOption.innerText = stageJson[i].StageName;
+        childOption.classList.add("select_option")
+        empModalStageDropdown.appendChild(childOption);
     }
 }
 

@@ -285,9 +285,9 @@ function bundleDataForSend(){
 
     testData["Title"] = titleInput.value;
     testData["StationId"] = stationJson[stationInput.selectedIndex -1].StationId;
-    testData["StationName"] = stationInput.options[stationInput.selectedIndex].value;
+    //testData["StationName"] = stationInput.options[stationInput.selectedIndex].value;
     testData["StageId"] = stageJson[stageInput.selectedIndex -1].StageId;
-    testData["StageName"] = stageInput.options[stageInput.selectedIndex].value;
+    //testData["StageName"] = stageInput.options[stageInput.selectedIndex].value;
     testData["Questions"] = questionNoInput.value;
     testData["Time"] = timeInput.value;
     testData["Marks"] = marksInput.value;
