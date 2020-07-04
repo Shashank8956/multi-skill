@@ -188,7 +188,7 @@
     visibility: visible;
 }
 
-#addEmpBtn{
+#defineEmpSkillBtn{
     width: 107px;
     height: 31px;
     border: none;
@@ -199,7 +199,7 @@
     font-weight: bold;
 }
 
-#addEmpBtn:hover{
+#defineEmpSkillBtn:hover{
     background-color: #696190;
 }
 

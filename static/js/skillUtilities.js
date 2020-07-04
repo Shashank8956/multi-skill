@@ -19,7 +19,7 @@ function selectRow(selectedCheckBox){
     var row = selectedCheckBox.target.parentNode.parentNode;
     if(selectedCheckBox.target.checked){
         row.style.background = "#cccccc";
-        deleteTestBtn.disabled = false;
+        deleteEmpButton.disabled = false;
         checkedCount += 1;
     }else{
         if(row.rowIndex % 2 != 0){
@@ -31,7 +31,7 @@ function selectRow(selectedCheckBox){
         }
         checkedCount -= 1;
         if(checkedCount == 0)
-            deleteTestBtn.disabled = true;
+            deleteEmpButton.disabled = true;
     }
 }
 
@@ -57,29 +57,30 @@ function sortColumn(e){
     if (column.getAttribute("data-order") == "desc"){
         column.setAttribute("data-order", "asc");
         columnText += "\u25B4";
-        sortedList = testJson.sort((a,b) => a[columnName] > b[columnName] ? 1 : -1);
+        sortedList = skillJson.sort((a,b) => a[columnName] > b[columnName] ? 1 : -1);
     }else{
         column.setAttribute("data-order", "desc");
         columnText += "\u25BE";
-        sortedList = testJson.sort((a,b) => a[columnName] < b[columnName] ? 1 : -1);
+        sortedList = skillJson.sort((a,b) => a[columnName] < b[columnName] ? 1 : -1);
     }
     column.innerText = columnText;
     loadEntireList(sortedList);
 }
 
-function searchTable(value){var filterData = [];
 
-    for(var i=0; i< testJson.length; i++){
+function searchTable(value){
+    var filterData = [];
+
+    for(var i=0; i< skillJson.length; i++){
         value = value.toLowerCase();
-        var title = testJson[i].Title.toLowerCase();
-        var stationName = testJson[i].StationName;
-        var stageName = testJson[i].StageName;
-        var time= testJson[i].Time;
-        var marks = testJson[i].Marks;
-        var questions = testJson[i].Questions;
+        var name = skillJson[i].EmpName.toLowerCase();
+        var token = skillJson[i].EmpToken;
+        var doj = skillJson[i].DOJ;
+        var mobile = skillJson[i].mobile;
+        var StationName = skillJson[i].StationName;
 
-        if(title.includes(value) || stageName.includes(value) || time == value || stationName.includes(value) || marks == value ||  questions == value){
-            filterData.push(testJson[i]);
+        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
+            filterData.push(skillJson[i]);
         }
     }
 

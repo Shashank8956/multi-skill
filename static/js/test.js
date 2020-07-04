@@ -15,6 +15,7 @@ const questionNo = document.getElementById("new-questionNo");
 const timeInput = document.getElementById("new-time");
 const marksInput = document.getElementById("new-marks");
 
+const deleteTestBtn = document.getElementById("deleteTestBtn");
 const cancelTestBtn = document.getElementById("cancelTestBtn");
 const submitTestBtn = document.getElementById("submitTestBtn");
 
@@ -96,7 +97,6 @@ function loadTestDetail(){
     //var b = "Shashank Singh"
     //url = 'http://127.0.0.1:8000/adminview/testDetail?name=' + encodeURIComponent(b);
     //document.location.href = url;
-    console.log("Added to session storage: " + titleInput.value);
     sessionStorage.setItem('title', titleInput.value);
     sessionStorage.setItem('station', stationInput.value);
     sessionStorage.setItem('stage', stageInput.value);
@@ -116,7 +116,6 @@ function getTestData(){
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             testJson = JSON.parse(this.responseText);
-            console.log(testJson);
             loadEntireList(testJson);
         }
     };
@@ -132,7 +131,6 @@ function getStationData() {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             stationJson = JSON.parse(this.responseText);
-            console.log("Station Data:" + stationJson[0].StationId);
             loadStationDropdown();
         }
     };
@@ -147,7 +145,6 @@ function getStageData() {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             stageJson = JSON.parse(this.responseText);
-            console.log("Staget Data:" + stageJson[0].StageId);
             loadStageDropdown();
         }
     };
@@ -189,8 +186,36 @@ function loadStageDropdown(){
     }
 }
 
-function loadEntireList(){
-    console.log(testJson);    
+function loadEntireList(listData){
+    testListBody.innerHTML = ""; 
+    if(listData!=null){
+            for(let i=0; i<listData.length; i++){
+                let newRow = document.createElement("tr");
+                let tableData = []
+                for(let i=0; i<7; i++){
+                    tableData.push(document.createElement("td"));
+                }
+
+                let newCheckBox = document.createElement("input");
+                newCheckBox.type = "checkbox";
+                newCheckBox.id = listData[i].EmpToken;
+                newCheckBox.addEventListener("click", selectRow);
+                tableData[0].appendChild(newCheckBox);
+
+                tableData[1].innerText = listData[i].Title;
+                tableData[2].innerText = listData[i].StationName;
+                tableData[3].innerText = listData[i].StageName;             //Replace it by Skill Level
+                tableData[4].innerText = listData[i].Questions;
+                tableData[5].innerText = listData[i].Marks;
+                tableData[6].innerText = listData[i].Time;
+
+                for(let i=0; i<7; i++){
+                    newRow.appendChild(tableData[i]);
+                }
+                
+                testListBody.appendChild(newRow);
+            }
+        }  
 }
 
 function loadListHeader(){

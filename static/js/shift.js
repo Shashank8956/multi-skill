@@ -155,8 +155,6 @@ function loadStageDropdown(){
     }
 }
 
-
-
 function loadEntireList(listData){
     shiftListBody.innerHTML = ""; 
     if(listData!=null){

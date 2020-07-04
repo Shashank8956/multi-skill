@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/training.css' %}">
-    <title>Skill Management</title>
+    <title>Training Management</title>
 </head>
 <body>
     <div class= "full-page">
@@ -70,11 +70,18 @@
 
 <!--Main Section-->
             <div class="main-section">
-                <div class="topbar">
-                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="menuBtn" alt="Hamburger Icon"/>
-                  <input id="searchBar" type="text" placeholder="Search employee">
-                  <div id="userIcon"></div>
+              <div class="topbar">
+                <div class="dropdown">
+                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
+                  <div class="dropdown-content">
+                    <button id="id-stationMenu" class="menuBtn">Add Station</button>
+                    <button id="id-stageMenu" class="menuBtn">Add Stage</button>
+                    <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
+                  </div>
                 </div>
+                <input id="searchBar" type="text" placeholder="Search employee">
+                <div id="userIcon"></div>
+              </div>
     <!--Filter section-->
                 <div class="filter-section">
                   <div id="filter-title"><h3>Training Plan</h3></div>
@@ -117,7 +124,7 @@
                         <div style="float: right;  margin-top: 10px;"> 
                           <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
                           <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
-                          <button type="button" id="addEmpBtn" class="create-button">Set Training Plan</button>                
+                          <button type="button" id="setTrainingBtn" class="create-button">Set Training Plan</button>                
                         </div>
                     </div>
                 </div>
@@ -168,15 +175,15 @@
             </div>
 
             <div id="station-modal-id" class="emp-modal">
-              <div class="modal-box">
-                <form action="./add_newStation" method="POST">
+              <div id="station-modal-box-id" class="modal-box">
+                <form action="./stationData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
                       <h5>Add Station</h5>
                     </div>
                   </header>
-                  <div class="modal-body">
+                  <div id="station-modal-body-id" class="modal-body">
                     <div>
                       <label class="modal-labels">Station Name</label><br>
                       <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
@@ -184,12 +191,12 @@
 
                     <div>
                       <label class="modal-labels">Required Manpower</label><br>
-                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="number" placeholder="Required Manpower">
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStationBtn" type="cancel">Cancel</button>
-                      <button id="submitStationBtn" class ="emp-textbox" type="submit">Save</button>
+                      <button id="cancelStationBtn" class="modalCancelBtn">Cancel</button>
+                      <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
@@ -197,15 +204,15 @@
             </div>
 
             <div id="stage-modal-id" class="emp-modal">
-              <div class="modal-box">
-                <form action="./add_newStation" method="POST">
+              <div id="stage-modal-box-id" class="modal-box">
+                <form action="./stageData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
                       <h5>Add Stage</h5>
                     </div>
                   </header>
-                  <div class="modal-body">
+                  <div id="stage-modal-body-id" class="modal-body">
                     <div>
                       <label class="modal-labels">Stage Name</label><br>
                       <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
@@ -217,30 +224,55 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStageBtn" type="cancel">Cancel</button>
-                      <button id="submitStageBtn" class ="emp-textbox" type="submit">Save</button>
+                      <button id="cancelStageBtn" class="modalCancelBtn">Cancel</button>
+                      <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
+
+            <div id="shift-modal-id" class="emp-modal">
+              <div id="shift-modal-box-id" class="modal-box">
+                <form action="./shiftData" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Add Shift</h5>
+                    </div>
+                  </header>
+                  <div id="shift-modal-body-id" class="modal-body">
+                    <div>
+                      <label class="modal-labels">Stage Name</label><br>
+                      <input id="new-shift-name" class="emp-textbox modal_inputs" name="new_shiftName"  type="text" placeholder="Stage Name">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift Start Time</label><br>
+                      <input id="new-start-time" class="emp-textbox modal_inputs" name="new_startTime" type="time" placeholder="Skill Level">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift End Time</label><br>
+                      <input id="new-end-time" class="emp-textbox modal_inputs" name="new_endTime" type="time" placeholder="Skill Level">
+                    </div>
+
+                    <div class="modal-buttons">
+                      <button id="cancelShiftBtn" class="modalCancelBtn">Cancel</button>
+                      <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
     <!--########### Modal Section - END ###########-->
 
     <!--Table section-->
         <div class="table-section">
-            <table id="id_EmpList" class="table-content">
-                <tr>    
-                    <th><input type="checkbox"></th>
-                    <th>Token No</th>
-                    <th>Name</th>
-                    <th>Doj</th>
-                    <th>No. of Stages</th>
-                    <th>Training Stage</th>
-                    <th>Shift Officer</th>
-                    <th>Trainer Token No</th>
-                    <th>Trainer Name</th>
-                    <th>Training Date</th>
-                </tr>
+            <table id="id_trainingList" class="table-content">
+                <thead id="id_trainingList_head"></thead>
+                <tbody id="id_trainingList_body"></tbody>
             </table>
         </div>
                   
@@ -250,5 +282,6 @@
     </div>
 
     <script src="{% static '/js/training.js' %}"></script>
+    <script src="{% static '/js/trainingUtilities.js' %}"></script>
 </body>
 </html>
