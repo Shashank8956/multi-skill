@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import View
 from .models import *
 import traceback
@@ -19,15 +19,15 @@ class StationView(View):
                     'RequiredManpower': data.required_manpower,
                 }
                 data_array.append(output_json)
-                print("Shift Data:",data)
+                print("Shift Data:", data)
 
-            response = json.dumps(data_array)
+            response = data_array
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not find station data'})
+            response = {'Error': 'Could not find station data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
 
     def post(self, request):
         try:
@@ -41,13 +41,26 @@ class StationView(View):
                 required_manpower=required_manpower
             )
             station.save()
-            response = json.dumps({'Success': 'Station data saved successfully'})
+            response = {'Success': 'Station data saved successfully'}
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Cannot save station data'})
+            response = {'Error': 'Cannot save station data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
+
+    def delete(self, request):
+        try:
+            station_id = request.GET.get("StationId")
+            station = Station.objects.get(id=station_id)
+            station.delete()
+
+            response = {'Success': f'Station data for station id {station_id} successfully'}
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Cannot delete station data'}
+
+        return JsonResponse(response)
 
 
 class StageView(View):
@@ -64,12 +77,12 @@ class StageView(View):
                 }
                 data_array.append(output_json)
 
-            response = json.dumps(data_array)
+            response = data_array
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not find Stage data'})
+            response = {'Error': 'Could not find Stage data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
 
     def post(self, request):
         try:
@@ -85,9 +98,22 @@ class StageView(View):
         except Exception:
             traceback.print_exc()
 
-            response = json.dumps({'Error': 'Cannot save Stage data'})
+            response = {'Error': 'Cannot save Stage data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
+
+    def delete(self, request):
+        try:
+            stage_id = request.GET.get("StageId")
+            stage = Shift.objects.get(id=stage_id)
+            stage.delete()
+
+            response = {'Success': f'Stage data for Stage id {stage_id} successfully'}
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Cannot delete Stage data'}
+
+        return JsonResponse(response)
 
 
 class ShiftView(View):
@@ -106,12 +132,12 @@ class ShiftView(View):
                 }
                 data_array.append(output_json)
 
-            response = json.dumps(data_array)
+            response = data_array
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not find Shift data'})
+            response = {'Error': 'Could not find Shift data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
 
     def post(self, request):
         try:
@@ -125,13 +151,26 @@ class ShiftView(View):
                 end_time=end_time
             )
             shift.save()
-            response = json.dumps({'Success': 'Shift data saved successfully'})
+            response = {'Success': 'Shift data saved successfully'}
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Cannot save Shift data'})
+            response = {'Error': 'Cannot save Shift data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
+
+    def delete(self, request):
+        try:
+            shift_id = request.GET.get("ShiftId")
+            shift = Shift.objects.get(id=shift_id)
+            shift.delete()
+
+            response = {'Success': f'Shift data for shift id {shift_id} successfully'}
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Cannot delete Shift data'}
+
+        return JsonResponse(response)
 
 
 class EmployeeView(View):
@@ -156,12 +195,15 @@ class EmployeeView(View):
                     'ShiftId': employee_data.shift.id,
                     'ShiftName': str(employee_data.shift.shift_name),
                     'WeeklyOff': str(employee_data.weekly_off),
+                    'StageId': employee_data.stage.id,
+                    'StageName': employee_data.stage.stage_name,
+                    'SkillLevel': employee_data.stage.skill_level
                 }
 
-                response = json.dumps(dictionary)
+                response = dictionary
             except Exception:
                 traceback.print_exc()
-                response = json.dumps({'Error': 'Could not get data!'})
+                response = {'Error': 'Could not get Employee data!'}
         else:
             try:
                 employee_data = Employee.objects.all()
@@ -183,14 +225,17 @@ class EmployeeView(View):
                         'ShiftId': employee.shift.id,
                         'ShiftName': str(employee.shift.shift_name),
                         'WeeklyOff': str(employee.weekly_off),
+                        'StageId': employee.stage.id,
+                        'StageName': employee.stage.stage_name,
+                        'SkillLevel': employee.stage.skill_level
                     }
                     data_array.append(dictionary)
                 print(data_array)
-                response = json.dumps(data_array)
+                response = data_array
             except Exception:
                 traceback.print_exc()
-                response = json.dumps({'Error': 'Could not get employee data!'})
-        return HttpResponse(response, content_type='text/json')
+                response = {'Error': 'Could not get Employee data!'}
+        return JsonResponse(response)
 
     def post(self, request):
         try:
@@ -215,6 +260,10 @@ class EmployeeView(View):
             shift_id = payload["new_shiftId"]
             _shift_name = payload['new_shiftName']
             shift = Shift.objects.get(id=shift_id)
+            stage_id = payload["new_stageId"]
+            _stage_name = payload['new_stageName']
+            _skill_level = payload['new_skill_level']
+            stage = Stage.objects.get(id=stage_id)
             emp = Employee(
                 token=token,
                 name=name,
@@ -227,12 +276,25 @@ class EmployeeView(View):
                 is_admin=is_admin,
                 shift=shift,
                 weekly_off=weekly_off,
+                stage=stage
             )
             emp.save()
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Employee could not be added!'})
-            return HttpResponse(response, content_type='text/json')
+            response = {'Error': 'Employee could not be added!'}
+            return JsonResponse(response)
+        return HttpResponseRedirect('/adminview/employee')
+
+    def delete(self, request):
+        try:
+            emp_token = request.GET.get("EmpToken")
+            employee = Employee.objects.get(token=emp_token)
+            employee.delete()
+
+        except Exception:
+            traceback.print_exc()
+            return JsonResponse({"Error": "Could not delete Employee Data"})
+
         return HttpResponseRedirect('/adminview/employee')
 
 
@@ -243,21 +305,51 @@ class EmployeeSkillView(View):
             print(json.dumps(payload, indent=4))
 
             emp_token = payload["EmpToken"]
-            employee = EmployeeSkill.objects.get(emp_token=emp_token)
+            employee = Employee.objects.get(token=emp_token)
+            station_id = payload["StationId"]
+            station = Station.objects.get(id=station_id)
             stage_id = payload["StageId"]
             stage = Stage.objects.get(id=stage_id)
             # acquired_on = payload["AcquiredOn"]
             employee_skill = EmployeeSkill(
                 employee=employee,
-                stage=stage
+                stage=stage,
+                station=station
             )
             employee_skill.save()
+            response = {'Success': 'EmployeeSkill data saved successfully'}
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Cannot save Shift data'})
+            response = {'Error': 'Cannot save EmployeeSkill data'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
+
+    def get(self, request):
+        try:
+            employee_skill_data = EmployeeSkill.objects.all()
+            data_array = []
+            for employee_skill in employee_skill_data:
+                employee_token = employee_skill.employee.token
+                employee_name = employee_skill.employee.name
+                station_name = employee_skill.station.station_name
+                skill_level = employee_skill.stage.skill_level
+
+                data = {
+                    "EmpToken": employee_token,
+                    "EmpName": employee_name,
+                    "StationName": station_name,
+                    "SkillLevel": skill_level
+                }
+
+                data_array.append(data)
+
+            response = data_array
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Could not get Employee Skill data!'}
+
+        return JsonResponse(response)
 
 
 class TestView(View):
@@ -268,23 +360,25 @@ class TestView(View):
             test_header_data = TestHeader.objects.all()
             for test_header in test_header_data:
                 output_json = {
+                    "TestHeaderId": test_header.id,
                     "StationId": test_header.station.id,
                     "StationName": test_header.station.station_name,
                     "StageId": test_header.stage.id,
                     "StageName": test_header.stage.stage_name,
+                    "SkillLevel": test_header.stage.skill_level,
                     "Title": test_header.test_title,
-                    "Questions": test_header.no_of_questions,           #fixed typo from: no_of_quetion to: no_of_question
+                    "Questions": test_header.no_of_questions,  # fixed typo from: no_of_quetion to: no_of_question
                     "Time": test_header.test_time,
                     "Marks": test_header.max_marks
                 }
                 data_array.append(output_json)
                 print(test_header)
 
-            response = json.dumps(data_array)
+            response = data_array
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Could not find Test Header data!'})
-        return HttpResponse(response, content_type='text/json')
+            response = {'Error': 'Could not find Test Header data!'}
+        return JsonResponse(response)
 
     def post(self, request):
         try:
@@ -297,6 +391,7 @@ class TestView(View):
             station = Station.objects.get(id=station_id)
             stage_id = payload["StageId"]
             _stage_name = payload['StageName']
+            _skill_level = payload['SkillLevel']
             stage = Stage.objects.get(id=stage_id)
             no_of_questions = payload['Questions']
             test_time = payload['Time']
@@ -334,9 +429,21 @@ class TestView(View):
                 print("TEST QUESTION ID:", test_question)
         except Exception:
             traceback.print_exc()
-            return HttpResponse(json.dumps({'Error': 'Test Details could not be added!'}))
+            return JsonResponse({'Error': 'Test Details could not be added!'})
 
         return HttpResponseRedirect('/adminview/test')
+
+    def delete(self, request):
+        try:
+            test_header_id = request.GET.get("TestHeaderId")
+            test_header = TestHeader.objects.get(id=test_header_id)
+            test_header.delete()  # Check if this deletes questions in TestQuestions table (on_delete=models.CASCADE)
+
+        except Exception:
+            traceback.print_exc()
+            return JsonResponse({"Error": "Could not delete Employee Data"})
+
+        return HttpResponseRedirect('/adminview/employee')
 
 
 class TrainingView(View):
@@ -348,50 +455,45 @@ class TrainingView(View):
 
             for data in training_data:
                 output_json = {
-                    'Trainee': data.trainee,
-                    'EmpToken': data.token,
+                    'TraineeToken': data.trainee.token,
+                    'TraineeName': data.trainee.name,
                     'StageId': data.stage.id,
                     'StageName': data.stage.stage_name,
+                    'SkillLevel': data.stage.skill_level,
                     'TrainingStage': data.training_stage,
-                    'ShiftOfficerId': data.shift_officer.id,
-                    'ShiftOfficerName': data.shift_officer.name,
-                    'TrainerId': data.trainer.id,
-                    'TrainerName': data.trainer.name,
+                    'ShiftOfficerName': data.shift_officer,
+                    'TrainerName': data.trainer,
                     'Date': data.date
                 }
                 data_array.append(output_json)
 
             print(data_array)
-            response = json.dumps(data_array)
+            response = data_array
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Training data not found'})
+            response = {'Error': 'Training data not found'}
 
-        return HttpResponse(response, content_type='text/json')
+        return JsonResponse(response)
 
     def post(self, request):
         try:
             payload = json.loads(request.data)
             print(json.dumps(payload, indent=4))
 
-            trainee = payload["Trainee"]
-            token = payload["Token"]
+            trainee_token = payload["TraineeToken"]
+            trainee = Employee.objects.get(token=trainee_token)
             stage_id = payload["StageId"]
             _stage_name = payload["StageName"]
+            _skill_level = payload["SkillLevel"]
             stage = Stage.objects.get(id=stage_id)
             training_stage = payload["TrainingStage"]
-            shift_officer_id = payload["ShiftOfficerId"]
-            _shift_officer_name = payload["ShiftOfficerName"]
-            shift_officer = Employee.objects.get(id=shift_officer_id)
-            trainer_id = payload["TrainerId"]
-            _trainer_name = payload["TrainerName"]
-            trainer = Employee.objects.get(id=trainer_id)
+            shift_officer = payload["ShiftOfficerName"]
+            trainer = payload["TrainerName"]
             date = payload["Date"]
 
             training = Training(
                 trainee=trainee,
-                token=token,
                 stage=stage,
                 training_stage=training_stage,
                 shift_officer=shift_officer,
@@ -400,9 +502,9 @@ class TrainingView(View):
             )
 
             training.save()
-            response = json.dumps({'Success': 'Training data saved successfully'})
+            response = {'Success': 'Training data saved successfully'}
 
         except Exception:
             traceback.print_exc()
-            response = json.dumps({'Error': 'Cannot save data'})
-        return HttpResponse(response, content_type="text/json")
+            response = {'Error': 'Cannot save data'}
+        return JsonResponse(response)

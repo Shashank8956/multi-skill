@@ -46,6 +46,7 @@ class Employee(models.Model):
     weekly_off = models.CharField(max_length=100)
     created_on = models.DateField(auto_now_add=True)
     created_by = models.CharField(default="Some Admin", max_length=200)
+    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return "{} - {}".format(self.token, self.name)
@@ -54,6 +55,7 @@ class Employee(models.Model):
 class EmployeeSkill(models.Model):
     objects = models.Manager()
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
+    station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     acquired_on = models.DateField(auto_now_add=True, blank=True)
 
@@ -75,7 +77,7 @@ class TestHeader(models.Model):
 
 
 class TestQuestions(models.Model):
-    test = models.ForeignKey(TestHeader, on_delete=models.DO_NOTHING)
+    test = models.ForeignKey(TestHeader, on_delete=models.CASCADE)
     question_number = models.IntegerField()
     question = models.CharField(max_length=500)
     option_1 = models.CharField(max_length=100)
@@ -111,12 +113,11 @@ class ResultQuestion(models.Model):
 
 
 class Training(models.Model):
-    trainee = models.CharField(max_length=50)
-    token = models.IntegerField(default=0)
+    trainee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     training_stage = models.IntegerField(default=0)
-    shift_officer = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='%(class)s_shift_officer')
-    trainer = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='%(class)s_trainer')
+    shift_officer = models.CharField(max_length=50)
+    trainer = models.CharField(max_length=50)
     date = models.DateTimeField(blank=True)
 
     def __str__(self):
