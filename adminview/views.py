@@ -323,6 +323,10 @@ class EmployeeView(View):
 
 
 class EmployeeSkillView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(EmployeeSkillView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             employee_skill_data = EmployeeSkill.objects.all()
@@ -383,7 +387,7 @@ class EmployeeSkillView(View):
 
         return JsonResponse(response)
 
-    def update(self, request):
+    def put(self, request):
         try:
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
@@ -392,7 +396,7 @@ class EmployeeSkillView(View):
             employee = Employee.objects.get(token=emp_token)
             station_id = payload["StationId"]
             station = Station.objects.get(id=station_id)
-            employee_skill = EmployeeSkill.get(employee=employee, station=station)
+            employee_skill = EmployeeSkill.objects.get(employee=employee, station=station)
             stage_id = payload["StageId"]
             new_stage = Stage.objects.get(id=stage_id)
             employee_skill.stage = new_stage

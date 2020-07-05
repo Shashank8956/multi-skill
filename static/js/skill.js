@@ -189,7 +189,8 @@ function loadListHeader(){
                             <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#x25B4</th>
                             <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>`;
     for(let i=0; i<stationJson.length; i++){
-        tableHeader += `<th data-columnName = "` + stationJson[i].StationName + `" data-order="desc" onclick="sortColumn(event);">` + stationJson[i].StationName + ` &#x25B4</th>`;
+        if(stationJson[i].StationName != "Default Station")
+            tableHeader += `<th data-columnName = "` + stationJson[i].StationName + `" data-order="desc" onclick="sortColumn(event);">` + stationJson[i].StationName + ` &#x25B4</th>`;
     }   
         tableHeader += `</tr>`;                    
                             
@@ -198,39 +199,30 @@ function loadListHeader(){
 
 function loadEntireList(listData){
     skillListBody.innerHTML = ""; 
-    if(listData!=null){
+        if(listData!=null){
+            tableRow = "<tr>";
+
             for(let i=0; i<listData.length; i++){
-                let newRow = document.createElement("tr");
-                let tableData = []
-                for(let i=0; i<6; i++){
-                    tableData.push(document.createElement("td"));
+                empToken = listData[i].EmpToken;
+                tableRow += `<td>
+                                <input type="checkbox" id=` + listData[i].EmpToken + `></td>
+                                <td>` + listData[i].EmpToken + `</td>
+                                <td>` + listData[i].EmpName + `</td>`;
+
+                while( i < listData.length && listData[i].EmpToken == empToken){
+                    if(listData[i].StationName != "Default Station"){
+                        tableRow += `<td>` + listData[i].SkillLevel + `</td>`
+                    }
+                    i++;
                 }
-
-                let newCheckBox = document.createElement("input");
-                newCheckBox.type = "checkbox";
-                newCheckBox.id = listData[i].EmpToken;
-                newCheckBox.addEventListener("click", selectRow);
-                tableData[0].appendChild(newCheckBox);
-
-                tableData[1].innerText = listData[i].EmpToken;
-                tableData[2].innerText = listData[i].EmpName;
-                tableData[3].innerText = listData[i].DOJ;
-                tableData[4].innerText = listData[i].Mobile;
-                tableData[5].innerText = listData[i].StationName;
-
-                for(let i=0; i<6; i++){
-                    newRow.appendChild(tableData[i]);
-                }
+                i--;
                 
-                skillListBody.appendChild(newRow);
+                tableRow += "</tr>"
+                console.log(tableRow);
+                skillListBody.innerHTML = tableRow;
             }
         }
 }
-
-
-
-
-
 
 `                          <tr>
 <th><input type="checkbox"></th>    
@@ -250,3 +242,17 @@ function loadEntireList(listData){
 <th>PSA-C Piston-Con Rod Subassy</th>
 <th>QP1-A Qp1 Torquing</th>
 </tr>`
+
+/*
+                                <tr>
+                                    <td><input type="checkbox" id=111></td>
+                                    <td>111</td>
+                                    <td>Shashank Singh</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                */

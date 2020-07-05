@@ -170,7 +170,7 @@ function closeModal(e){
 function getData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeData?'+empId, true);
+    xhr.open('GET', '/adminview/employeeData?'+empId, true);
     //xhr.responseType = 'json';            Preconverts incoming data to json
     xhr.send();
     
