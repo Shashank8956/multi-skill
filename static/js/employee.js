@@ -120,6 +120,7 @@ function eventListeners(){
     cancelStageBtn.addEventListener("click", cancelModal);
     saveEmpBtn.addEventListener("click", submitData);
     clearFilterBtn.addEventListener("click", clearFilters);
+    deleteEmpButton.addEventListener("click", deleteSelected);
 }
 
 function clearFilters(){
@@ -183,10 +184,10 @@ function getData() {
 }
 
 function getAllData() {
+    employeeJson = [];
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeData', true);
-    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    xhr.open('GET', '/adminview/employeeData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -201,7 +202,7 @@ function getAllData() {
 function getAllStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -217,7 +218,7 @@ function getAllStationData() {
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/shiftData', true);
+    xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -233,7 +234,7 @@ function getAllShiftData() {
 function getAllStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -353,4 +354,17 @@ function loadListHeader(){
                         </tr>
                     </thead>`;
     empListHead.innerHTML += tableHeader;
+}
+
+function deleteSelected(){
+    var finalList = [];
+    for (var i=0; i<selectedCheckBoxList.length; i++){
+        if(selectedCheckBoxList[i].checked){
+            deleteEmployee(selectedCheckBoxList[i].id);
+            selectedCheckBoxList.pop(i);
+        }
+    }
+    checkedCount = 0;
+    deleteEmpButton.disabled = true;
+    getAllData();
 }

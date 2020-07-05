@@ -19,7 +19,7 @@ const stageModalDropdown = document.getElementById("new-stage");
 
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
-const deleteEmpButton = document.getElementById("deleteEmpBtn");
+const deleteShiftButton = document.getElementById("deleteEmpBtn");
 
 const shiftList = document.getElementById("id_shiftList");
 const shiftListHead = document.getElementById("id_shift_head");

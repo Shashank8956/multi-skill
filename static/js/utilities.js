@@ -1,4 +1,5 @@
 const searchBar = document.getElementById("searchBar");
+let selectedCheckBoxList = [];
 
 initialize()
 
@@ -21,6 +22,7 @@ function selectRow(selectedCheckBox){
         row.style.background = "#cccccc";
         deleteEmpButton.disabled = false;
         checkedCount += 1;
+        selectedCheckBoxList.push(selectedCheckBox.target);
     }else{
         if(row.rowIndex % 2 != 0){
             row.style.background = "#f2f2f2";
@@ -30,8 +32,10 @@ function selectRow(selectedCheckBox){
             row.style.background = "white";
         }
         checkedCount -= 1;
-        if(checkedCount == 0)
+        if(checkedCount == 0){
             deleteEmpButton.disabled = true;
+            selectedCheckBoxList = [];
+        }
     }
 }
 
@@ -86,79 +90,18 @@ function searchEmployeeTable(value){
     return filterData;
 }
 
-function searchTestTable(value){
-    var filterData = [];
 
-    for(var i=0; i< testJson.length; i++){
-        value = value.toLowerCase();
-        var title = testJson[i].Title.toLowerCase();
-        var stationName = testJson[i].StationName;
-        var stageName = testJson[i].StageName;
-        var time= testJson[i].Time;
-        var marks = testJson[i].Marks;
-        var questions = testJson[i].Questions;
 
-        if(title.includes(value) || stageName.includes(value) || time == value || stationName.includes(value) || marks == value ||  Questions == value){
-            filterData.push(testJson[i]);
+function deleteEmployee(employeeId){
+    var xhrDelete = new XMLHttpRequest();
+    var deleteURL = 'http://127.0.0.1:8000/adminview/employeeData?EmpToken=' + employeeId;
+    xhrDelete.open('DELETE', deleteURL, true);
+    xhrDelete.setRequestHeader('X-CSRFToken', cookieValue);
+    xhrDelete.send();
+    
+    xhrDelete.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            //alert(this.responseText);
         }
-    }
-
-    return filterData;
-}
-
-function searchShiftTable(value){
-    var filterData = [];
-
-    for(var i=0; i< employeeJson.length; i++){
-        value = value.toLowerCase();
-        var name = employeeJson[i].EmpName.toLowerCase();
-        var token = employeeJson[i].EmpToken;
-        var doj = employeeJson[i].DOJ;
-        var mobile = employeeJson[i].mobile;
-        var StationName = employeeJson[i].StationName;
-
-        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
-            filterData.push(employeeJson[i]);
-        }
-    }
-
-    return filterData;
-}
-
-function searchSkillTable(value){
-    var filterData = [];
-
-    for(var i=0; i< employeeJson.length; i++){
-        value = value.toLowerCase();
-        var name = employeeJson[i].EmpName.toLowerCase();
-        var token = employeeJson[i].EmpToken;
-        var doj = employeeJson[i].DOJ;
-        var mobile = employeeJson[i].mobile;
-        var StationName = employeeJson[i].StationName;
-
-        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
-            filterData.push(employeeJson[i]);
-        }
-    }
-
-    return filterData;
-}
-
-function searchTrainingTable(value){
-    var filterData = [];
-
-    for(var i=0; i< employeeJson.length; i++){
-        value = value.toLowerCase();
-        var name = employeeJson[i].EmpName.toLowerCase();
-        var token = employeeJson[i].EmpToken;
-        var doj = employeeJson[i].DOJ;
-        var mobile = employeeJson[i].mobile;
-        var StationName = employeeJson[i].StationName;
-
-        if(name.includes(value) || token == value || doj.includes(value) || mobile == value || StationName.includes(value)){
-            filterData.push(employeeJson[i]);
-        }
-    }
-
-    return filterData;
+    };
 }

@@ -85,6 +85,7 @@ function getSessionData(){
             break;
         }
     }
+    sessionStorage.clear();
 }
 
 function setEvents(){
@@ -253,6 +254,7 @@ function resetRightPanel(){
 
 function cancelTestEditing(){
     //Cancel test
+    window.location.replace("/adminview/test");
 }
 
 function submitTestDetails(){
@@ -274,6 +276,7 @@ function saveAndCloseTestDetails(testData){
     xhr.onreadystatechange = function() {//Call a function when the state changes.
         if(xhr.readyState == 4 && xhr.status == 200) {
             alert(this.responseText);
+            window.location.replace("/adminview/test");
         }
     }
     xhr.send(finalData);

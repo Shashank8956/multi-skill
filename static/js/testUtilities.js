@@ -1,4 +1,5 @@
 const searchBar = document.getElementById("searchBar");
+let selectedCheckBoxList = [];
 
 initialize()
 
@@ -21,6 +22,7 @@ function selectRow(selectedCheckBox){
         row.style.background = "#cccccc";
         deleteTestBtn.disabled = false;
         checkedCount += 1;
+        selectedCheckBoxList.push(selectedCheckBox.target);
     }else{
         if(row.rowIndex % 2 != 0){
             row.style.background = "#f2f2f2";
@@ -30,8 +32,10 @@ function selectRow(selectedCheckBox){
             row.style.background = "white";
         }
         checkedCount -= 1;
-        if(checkedCount == 0)
+        if(checkedCount == 0){
             deleteTestBtn.disabled = true;
+            selectedCheckBoxList = [];
+        }
     }
 }
 
@@ -84,4 +88,18 @@ function searchTable(value){var filterData = [];
     }
 
     return filterData;
+}
+
+function deleteTest(testId){
+    var xhrDelete = new XMLHttpRequest();
+    var deleteURL = 'http://127.0.0.1:8000/adminview/testData?TestHeaderId=' + testId;
+    xhrDelete.open('DELETE', deleteURL, true);
+    //xhrDelete.setRequestHeader('X-CSRFToken', cookieValue);
+    xhrDelete.send();
+    
+    xhrDelete.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            //alert(this.responseText);
+        }
+    };
 }

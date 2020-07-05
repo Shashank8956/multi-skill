@@ -303,7 +303,7 @@ class EmployeeView(View):
             traceback.print_exc()
             return JsonResponse({"Error": "Could not delete Employee Data"})
 
-        return HttpResponseRedirect('/adminview/employee')
+        return JsonResponse({"Success": "Employee deleted successfully"})
 
 
 class EmployeeSkillView(View):
@@ -450,7 +450,7 @@ class TestView(View):
             traceback.print_exc()
             return JsonResponse({"Error": "Could not delete Employee Data"})
 
-        return HttpResponseRedirect('/adminview/employee')
+        return JsonResponse({"Success": "Employee deleted successfully"})
 
 
 class TrainingView(View):

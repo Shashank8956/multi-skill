@@ -90,21 +90,13 @@
                         <div>
                             <label class="filter-labels">Select Station</label><br>
                             <select id="station-filter" class="test-select">
-                                <option  class="select_option" selected="selected">Select Station</option>
-                                <option class="select_option">Station 1</option>
-                                <option class="select_option">Station 2</option>
-                                <option class="select_option">Station 3</option>
-                                <option class="select_option">Station 4</option>
+                                <option  class="select_option" selected="selected" disabled>Select Station</option>
                             </select>
                           </div>
                           <div style="margin-left: 10px;">
                             <label class="filter-labels">Select Shift</label><br>
                             <select id="stage-filter" class="test-select">
-                                <option  class="select_option" selected="selected">Select Shift</option>
-                                <option class="select_option">Shift 1</option>
-                                <option class="select_option">Shift 2</option>
-                                <option class="select_option">Shift 3</option>
-                                <option class="select_option">Shift 4</option>
+                                <option  class="select_option" selected="selected" disabled>Select Shift</option>
                             </select><br>
                           </div>  
                           <div style="margin-left: 10px;">
@@ -131,43 +123,51 @@
     <!--########### Filter Section - END ###########-->
 
     <!--Modal section-->
-            <div id="emp-modal-id" class="emp-modal">
-              <div class="modal-box">
-                <form action="./add_newEmp" method="POST">
+            <div id="training-modal-id" class="emp-modal">
+              <div id="training-modal-box-id" class="modal-box">
+                <form action="./trainingData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
-                      <h5>Add Employee</h5>
+                      <h5>Set Training Plan</h5>
                     </div>
                   </header>
                   <div class="modal-body">
                     <div>
                       <label class="modal-labels">Token No</label><br>
-                      <input id="new-token" class="emp-textbox modal_inputs" name="new_token" type="number" placeholder="Token">
+                      <input id="trainee-token" class="emp-textbox modal_inputs" name="trainee_token" type="number" placeholder="Trainee Token">
                     </div>
                     <div>
-                      <label class="modal-labels">Name</label><br>
-                      <input id="new-name" class="emp-textbox modal_inputs" name="new_name"  type="text" placeholder="Name">
+                      <label class="modal-labels">Trainee Name</label><br>
+                      <input id="trainee-name" class="emp-textbox modal_inputs" name="trainee_name"  type="text" placeholder="Trainee Name">
                     </div>
                     <div>
-                      <label class="modal-labels">Gender</label><br>
-                      <input id="new-gender" class="emp-textbox modal_inputs" name="new_gender"  type="text" placeholder="Gender">
+                      <label class="modal-labels">No Of Stages</label><br>
+                      <input id="total-stages" class="emp-textbox modal_inputs" name="total_stages" type="number" placeholder="No Of Stages">
                     </div>
                     <div>
-                      <label class="modal-labels">Contact</label><br>
-                      <input id="new-contact" class="emp-textbox modal_inputs" name="new_contact" type="tel" placeholder="Contact">
+                      <label class="modal-labels">Training Stage</label><br>
+                      <input id="training-stage" class="emp-textbox modal_inputs" name="training_stage" type="text" placeholder="Training Stage">
                     </div>
                     <div>
-                      <label class="modal-labels">Current Station</label><br>
-                      <input id="new-station" class="emp-textbox modal_inputs" name="new_station" type="text" placeholder="Station Name">
+                      <label class="modal-labels">Shift Officer</label><br>
+                      <input id="shift-officer" class="emp-textbox modal_inputs" name="shift_officer" type="text" placeholder="Shift Officer">
                     </div>
                     <div>
-                      <label class="modal-labels">Doj</label><br>
-                      <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
+                      <label class="modal-labels">Trainer Token</label><br>
+                      <input id="trainer-token" class="emp-textbox modal_inputs" name="trainer_token" type="number" placeholder="Trainer Token">
+                    </div>
+                    <div>
+                      <label class="modal-labels">Trainer Name</label><br>
+                      <input id="trainer-name" class="emp-textbox modal_inputs" name="trainer_name" type="text" placeholder="Trainer Name">
+                    </div>
+                    <div>
+                      <label class="modal-labels">Training Date</label><br>
+                      <input id="training-date" class="emp-textbox modal_inputs" name="training_date" type="date" placeholder="Date">
                     </div>
                     <div class="modal-buttons">
-                      <button id="cancelEmpBtn" type="cancel">Cancel</button>
-                      <button id="submitEmpBtn" class ="emp-textbox" type="submit">Save</button>
+                      <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
+                      <button id="submitEmpBtn" class="modalSubmitBtn">Save</button>
                     </div>
                   </div>
                 </form>

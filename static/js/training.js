@@ -2,7 +2,7 @@ const stageMenu = document.getElementById("id-stageMenu");
 const stationMenu = document.getElementById("id-stationMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
 
-const trainingModal = document.getElementById("emp-modal-id");
+const trainingModal = document.getElementById("training-modal-id");
 const cancelEmpBtn = document.getElementById("cancelEmpBtn")
 const saveEmpBtn = document.getElementById("submitEmpBtn");
 
@@ -39,9 +39,6 @@ let cookieValue = null;
 let checkedCount = 0;
 
 
-
-
-
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -61,10 +58,7 @@ function getCookie(name) {
 initialize();
 
 function initialize(){
-    //getData();
     eventListeners();
-    //loadList();
-    //getAllData();
     getAllShiftData();
     getAllStationData();
     loadListHeader();
@@ -88,7 +82,7 @@ function clearFilters(){
 }
 
 function loadEmpModal(){
-    empModal.style.display = "inline-block";
+    trainingModal.style.display = "inline-block";
 }
 
 function loadStageModal(){
@@ -104,7 +98,7 @@ function loadShiftModal(){
 }
 
 function cancelModal(){
-    empModal.style.display = "none";
+    trainingModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";

@@ -19,7 +19,7 @@ function selectRow(selectedCheckBox){
     var row = selectedCheckBox.target.parentNode.parentNode;
     if(selectedCheckBox.target.checked){
         row.style.background = "#cccccc";
-        deleteEmpButton.disabled = false;
+        //deleteShiftButton.disabled = false;
         checkedCount += 1;
     }else{
         if(row.rowIndex % 2 != 0){
@@ -30,8 +30,9 @@ function selectRow(selectedCheckBox){
             row.style.background = "white";
         }
         checkedCount -= 1;
-        if(checkedCount == 0)
-            deleteEmpButton.disabled = true;
+        if(checkedCount == 0){
+            deleteShiftButton.disabled = true;
+        }
     }
 }
 

@@ -220,9 +220,7 @@
 }
 
 th{
-    width: 100px;
     max-width: 100px;
-    min-width: 100px;
     color: white;
     background-color: #36324A;
     padding: 5px 10px 5px 10px;

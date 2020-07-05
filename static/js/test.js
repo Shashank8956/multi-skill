@@ -50,6 +50,7 @@ function initialize(){
 }
 
 function eventListeners(){
+    deleteTestBtn.addEventListener("click", deleteSelected);
     addTestBtn.addEventListener("click", loadTestModal);
     stageMenu.addEventListener("click", loadStageModal);
     stationMenu.addEventListener("click", loadStationModal);
@@ -108,6 +109,7 @@ function loadTestDetail(){
 }
 
 function getTestData(){
+    testJson = [];
     var xhr = new XMLHttpRequest();
     
     xhr.open('GET', 'http://127.0.0.1:8000/adminview/testData', true);
@@ -116,6 +118,7 @@ function getTestData(){
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             testJson = JSON.parse(this.responseText);
+            console.log(testJson);
             loadEntireList(testJson);
         }
     };
@@ -198,7 +201,7 @@ function loadEntireList(listData){
 
                 let newCheckBox = document.createElement("input");
                 newCheckBox.type = "checkbox";
-                newCheckBox.id = listData[i].EmpToken;
+                newCheckBox.id = listData[i].TestHeaderId;
                 newCheckBox.addEventListener("click", selectRow);
                 tableData[0].appendChild(newCheckBox);
 
@@ -231,4 +234,16 @@ function loadListHeader(){
                         </tr>
                     </thead>`;
     testListHead.innerHTML += tableHeader;
+}
+
+function deleteSelected(){
+    for (var i=0; i<selectedCheckBoxList.length; i++){
+        if(selectedCheckBoxList[i].checked){
+            deleteTest(selectedCheckBoxList[i].id);
+            selectedCheckBoxList.pop(i);
+        }
+    }
+    checkedCount = 0;
+    deleteTestBtn.disabled = true;
+    getTestData();
 }
