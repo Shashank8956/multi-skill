@@ -34,7 +34,7 @@ class Shift(models.Model):
 
 class Employee(models.Model):
     objects = models.Manager()
-    token = models.IntegerField(unique=True)
+    token = models.IntegerField()
     name = models.CharField(max_length=200)
     gender = models.CharField(max_length=7)
     current_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
@@ -114,11 +114,11 @@ class ResultQuestion(models.Model):
 
 class Training(models.Model):
     trainee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
-    training_stage = models.IntegerField(default=0)
-    shift_officer = models.CharField(max_length=50)
-    trainer = models.CharField(max_length=50)
-    date = models.DateTimeField(blank=True)
+    current_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING, blank=True, null=True)
+    shift_officer = models.CharField(max_length=50, blank=True, null=True)
+    trainer = models.CharField(max_length=50, blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return str(self.trainee)

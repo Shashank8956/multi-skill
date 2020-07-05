@@ -5,6 +5,7 @@ import traceback
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from datetime import datetime
 
 
 class StationView(View):
@@ -47,6 +48,15 @@ class StationView(View):
                 required_manpower=required_manpower
             )
             station.save()
+            all_employees = Employee.objects.all()
+            stage_0 = Stage.objects.get(skill_level=0)
+            for each_employee in all_employees:
+                employee_skill = EmployeeSkill(
+                    employee=each_employee,
+                    station=station,
+                    stage=stage_0,
+                )
+                employee_skill.save()
             response = {'Success': 'Station data saved successfully'}
 
         except Exception:
@@ -190,10 +200,11 @@ class ShiftView(View):
 class EmployeeView(View):
     def get(self, request):
         if request.GET:
-            token = request.GET.get("EmpToken")
+            employee_id = request.GET.get("EmployeeId")
             try:
-                employee_data = Employee.objects.get(token=token)
+                employee_data = Employee.objects.get(id=employee_id)
                 dictionary = {
+                    'EmployeeId': employee_data.id,
                     'EmpToken': employee_data.token,
                     'EmpName': employee_data.name,
                     'Gender': employee_data.gender,
@@ -224,6 +235,7 @@ class EmployeeView(View):
                 data_array = []
                 for employee in employee_data:
                     dictionary = {
+                        'EmployeeId': employee.id,
                         'EmpToken': employee.token,
                         'EmpName': employee.name,
                         'Gender': employee.gender,
@@ -303,6 +315,12 @@ class EmployeeView(View):
             update_employee_skill.stage = current_stage
             update_employee_skill.save()
 
+            add_training = Training(
+                trainee=emp,
+                current_stage=current_stage,
+            )
+            add_training.save()
+
         except Exception:
             traceback.print_exc()
             response = {'Error': 'Employee could not be added!'}
@@ -311,8 +329,8 @@ class EmployeeView(View):
 
     def delete(self, request):
         try:
-            emp_token = request.GET.get("EmpToken")
-            employee = Employee.objects.get(token=emp_token)
+            employee_id = request.GET.get("EmployeeId")
+            employee = Employee.objects.get(id=employee_id)
             employee.delete()
 
         except Exception:
@@ -333,6 +351,7 @@ class EmployeeSkillView(View):
             data_array = []
             for employee_skill in employee_skill_data:
                 employee_skill_id = employee_skill.id
+                employee_id = employee_skill.employee.id
                 employee_token = employee_skill.employee.token
                 employee_name = employee_skill.employee.name
                 station_id = employee_skill.station.id
@@ -343,6 +362,7 @@ class EmployeeSkillView(View):
 
                 data = {
                     "EmployeeSkillId": employee_skill_id,
+                    "EmployeeId": employee_id,
                     "EmpToken": employee_token,
                     "EmpName": employee_name,
                     "StationId": station_id,
@@ -366,8 +386,8 @@ class EmployeeSkillView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
-            emp_token = payload["EmpToken"]
-            employee = Employee.objects.get(token=emp_token)
+            employee_id = payload["EmployeeId"]
+            employee = Employee.objects.get(id=employee_id)
             station_id = payload["StationId"]
             station = Station.objects.get(id=station_id)
             stage_id = payload["StageId"]
@@ -392,8 +412,8 @@ class EmployeeSkillView(View):
             payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
-            emp_token = payload["EmpToken"]
-            employee = Employee.objects.get(token=emp_token)
+            employee_id = payload["EmployeeId"]
+            employee = Employee.objects.get(id=employee_id)
             station_id = payload["StationId"]
             station = Station.objects.get(id=station_id)
             employee_skill = EmployeeSkill.objects.get(employee=employee, station=station)
@@ -402,13 +422,12 @@ class EmployeeSkillView(View):
             employee_skill.stage = new_stage
             employee_skill.save()
 
-            response = {'Success': f'EmployeeSkill data updated for Emp Token {emp_token} successfully!'}
+            response = {'Success': f'EmployeeSkill data updated for Emp Token {employee_id} successfully!'}
         except Exception:
             traceback.print_exc()
-            response = {'Error': f'Cannot update EmployeeSkill data for Emp Token {emp_token}'}
+            response = {'Error': f'Cannot update EmployeeSkill data for Emp Token {employee_id}'}
 
         return JsonResponse(response)
-
 
 
 class TestView(View):
@@ -513,12 +532,15 @@ class TrainingView(View):
 
             for data in training_data:
                 output_json = {
+                    'TrainingId': data.id,
                     'TraineeToken': data.trainee.token,
                     'TraineeName': data.trainee.name,
-                    'StageId': data.stage.id,
-                    'StageName': data.stage.stage_name,
-                    'SkillLevel': data.stage.skill_level,
+                    'CurrentStageId': data.current_stage.id,
+                    'CurrentStageName': data.current_stage.stage_name,
+                    'CurrentSkillLevel': data.current_stage.skill_level,
+                    'TrainingStageId': data.training_stage.id,
                     'TrainingStage': data.training_stage,
+                    'TrainingSkillLevel': data.training_stage.skill_level,
                     'ShiftOfficerName': data.shift_officer,
                     'TrainerName': data.trainer,
                     'Date': data.date
@@ -539,20 +561,19 @@ class TrainingView(View):
             payload = json.loads(request.data)
             print(json.dumps(payload, indent=4))
 
-            trainee_token = payload["TraineeToken"]
-            trainee = Employee.objects.get(token=trainee_token)
-            stage_id = payload["StageId"]
-            _stage_name = payload["StageName"]
-            _skill_level = payload["SkillLevel"]
-            stage = Stage.objects.get(id=stage_id)
-            training_stage = payload["TrainingStage"]
+            employee_id = payload["EmployeeId"]
+            trainee = Employee.objects.get(id=employee_id)
+            current_stage_id = payload["CurrentStageId"]
+            current_stage = Stage.objects.get(id=current_stage_id)
+            training_stage_id = payload["TrainingStageId"]
+            training_stage = Stage.objects.get(id=training_stage_id)
             shift_officer = payload["ShiftOfficerName"]
             trainer = payload["TrainerName"]
             date = payload["Date"]
 
             training = Training(
                 trainee=trainee,
-                stage=stage,
+                current_stage=current_stage,
                 training_stage=training_stage,
                 shift_officer=shift_officer,
                 trainer=trainer,
@@ -566,3 +587,32 @@ class TrainingView(View):
             traceback.print_exc()
             response = {'Error': 'Cannot save data'}
         return JsonResponse(response)
+
+    def put(self, request):
+        try:
+            payload = json.loads(request.data)
+            print(json.dumps(payload, indent=4))
+
+            training_id = payload["TrainingId"]
+            training = Training.objects.get(id=training_id)
+            training_stage_id = payload["TrainingStageId"]
+            training_stage = Stage.objects.get(id=training_stage_id)
+            shift_officer = payload["ShiftOfficer"]
+            trainer = payload["Trainer"]
+            date = datetime.datetime.strptime(payload["date"], '%Y-%m-%d')
+
+            training.training_stage = training_stage
+            training.shift_officer = shift_officer
+            training.trainer = trainer
+            training.date = date
+
+            training.save()
+
+            response = {'Success': f'Training data updated for id {training_id} successfully'}
+
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': 'Cannot update Training data'}
+
+        return JsonResponse(response)
+
