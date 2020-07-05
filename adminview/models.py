@@ -37,16 +37,16 @@ class Employee(models.Model):
     token = models.IntegerField(unique=True)
     name = models.CharField(max_length=200)
     gender = models.CharField(max_length=7)
-    station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
+    current_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     mobile = models.CharField(max_length=12)
     doj = models.DateField(auto_now_add=True)
     language_preference = models.CharField(default="English", max_length=200)
     is_admin = models.BooleanField(default=True)
-    shift = models.ForeignKey(Shift, on_delete=models.DO_NOTHING)
+    current_shift = models.ForeignKey(Shift, on_delete=models.DO_NOTHING)
     weekly_off = models.CharField(max_length=100)
     created_on = models.DateField(auto_now_add=True)
     created_by = models.CharField(default="Some Admin", max_length=200)
-    stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    current_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return "{} - {}".format(self.token, self.name)
@@ -60,7 +60,7 @@ class EmployeeSkill(models.Model):
     acquired_on = models.DateField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return str(self.result.employee.emp_name) + "'s " + str(stage.skill_level) + " level"
+        return str(self.result.employee.emp_name) + "'s " + str(self.stage.skill_level) + " level"
 
 
 class TestHeader(models.Model):

@@ -199,18 +199,18 @@ class EmployeeView(View):
                     'Gender': employee_data.gender,
                     'Mobile': employee_data.mobile,
                     'DOJ': str(employee_data.doj),
-                    'StationId': employee_data.station.id,
-                    'StationName': employee_data.station.station_name,
+                    'StationId': employee_data.current_station.id,
+                    'StationName': employee_data.current_station.station_name,
                     'LanguagePreference': employee_data.language_preference,
                     'CreatedOn': str(employee_data.created_on),
                     'CreatedBy': employee_data.created_by,
                     'IsAdmin': str(employee_data.is_admin),
-                    'ShiftId': employee_data.shift.id,
-                    'ShiftName': str(employee_data.shift.shift_name),
+                    'ShiftId': employee_data.current_shift.id,
+                    'ShiftName': str(employee_data.current_shift.shift_name),
                     'WeeklyOff': str(employee_data.weekly_off),
-                    'StageId': employee_data.stage.id,
-                    'StageName': employee_data.stage.stage_name,
-                    'SkillLevel': employee_data.stage.skill_level
+                    'StageId': employee_data.current_stage.id,
+                    'StageName': employee_data.current_stage.stage_name,
+                    'SkillLevel': employee_data.current_stage.skill_level
                 }
 
                 response = dictionary
@@ -229,18 +229,18 @@ class EmployeeView(View):
                         'Gender': employee.gender,
                         'Mobile': employee.mobile,
                         'DOJ': str(employee.doj),
-                        'StationId': employee.station.id,
-                        'StationName': employee.station.station_name,
+                        'StationId': employee.current_station.id,
+                        'StationName': employee.current_station.station_name,
                         'LanguagePreference': employee.language_preference,
                         'CreatedOn': str(employee.created_on),
                         'CreatedBy': employee.created_by,
                         'IsAdmin': str(employee.is_admin),
-                        'ShiftId': employee.shift.id,
-                        'ShiftName': str(employee.shift.shift_name),
+                        'ShiftId': employee.current_shift.id,
+                        'ShiftName': str(employee.current_shift.shift_name),
                         'WeeklyOff': str(employee.weekly_off),
-                        'StageId': employee.stage.id,
-                        'StageName': employee.stage.stage_name,
-                        'SkillLevel': employee.stage.skill_level
+                        'StageId': employee.current_stage.id,
+                        'StageName': employee.current_stage.stage_name,
+                        'SkillLevel': employee.current_stage.skill_level
                     }
                     data_array.append(dictionary)
                 print(data_array)
@@ -262,31 +262,47 @@ class EmployeeView(View):
             print(station_id)
             mobile = payload['new_contact']
             # doj = payload('new_doj')
-            station = Station.objects.get(id=station_id)
+            current_station = Station.objects.get(id=station_id)
             # station = Station.objects.get(station_name = _station_name)
             language_preference = 'English'  # payload['new_language']
             created_by = 'Some Name 1'  # payload['CreatedBy']
             is_admin = True  # payload['new_isAdmin']
             weekly_off = 'Sunday'  # payload['new_weeklyOff']
             shift_id = payload["new_shiftId"]
-            shift = Shift.objects.get(id=shift_id)
+            current_shift = Shift.objects.get(id=shift_id)
             stage_id = payload["new_stageId"]
-            stage = Stage.objects.get(id=stage_id)
+            current_stage = Stage.objects.get(id=stage_id)
             emp = Employee(
                 token=token,
                 name=name,
                 gender=gender,
                 mobile=mobile,
                 # doj = DateField(doj),
-                station=station,
+                current_station=current_station,
                 language_preference=language_preference,
                 created_by=created_by,
                 is_admin=is_admin,
-                shift=shift,
+                current_shift=current_shift,
                 weekly_off=weekly_off,
-                stage=stage
+                current_stage=current_stage
             )
             emp.save()
+
+            all_stations = Station.objects.all()
+            stage_0 = Stage.objects.get(skill_level=0)  # Edit for initial skill level
+
+            for each_station in all_stations:
+                employee_skill = EmployeeSkill(
+                    employee=emp,
+                    station=each_station,
+                    stage=stage_0,
+                )
+                employee_skill.save()
+
+            update_employee_skill = EmployeeSkill.objects.get(employee=emp, station=current_station)
+            update_employee_skill.stage = current_stage
+            update_employee_skill.save()
+
         except Exception:
             traceback.print_exc()
             response = {'Error': 'Employee could not be added!'}
@@ -312,16 +328,24 @@ class EmployeeSkillView(View):
             employee_skill_data = EmployeeSkill.objects.all()
             data_array = []
             for employee_skill in employee_skill_data:
+                employee_skill_id = employee_skill.id
                 employee_token = employee_skill.employee.token
                 employee_name = employee_skill.employee.name
+                station_id = employee_skill.station.id
                 station_name = employee_skill.station.station_name
+                stage_id = employee_skill.stage.id
                 skill_level = employee_skill.stage.skill_level
+                acquired_on = employee_skill.acquired_on
 
                 data = {
+                    "EmployeeSkillId": employee_skill_id,
                     "EmpToken": employee_token,
                     "EmpName": employee_name,
+                    "StationId": station_id,
                     "StationName": station_name,
-                    "SkillLevel": skill_level
+                    "StageId": stage_id,
+                    "SkillLevel": skill_level,
+                    "AcquiredOn": acquired_on
                 }
 
                 data_array.append(data)
@@ -358,6 +382,30 @@ class EmployeeSkillView(View):
             response = {'Error': 'Cannot save EmployeeSkill data'}
 
         return JsonResponse(response)
+
+    def update(self, request):
+        try:
+            payload = json.loads(request.body)
+            print(json.dumps(payload, indent=4))
+
+            emp_token = payload["EmpToken"]
+            employee = Employee.objects.get(token=emp_token)
+            station_id = payload["StationId"]
+            station = Station.objects.get(id=station_id)
+            employee_skill = EmployeeSkill.get(employee=employee, station=station)
+            stage_id = payload["StageId"]
+            new_stage = Stage.objects.get(id=stage_id)
+            employee_skill.stage = new_stage
+            employee_skill.save()
+
+            response = {'Success': f'EmployeeSkill data updated for Emp Token {emp_token} successfully!'}
+        except Exception:
+            traceback.print_exc()
+            response = {'Error': f'Cannot update EmployeeSkill data for Emp Token {emp_token}'}
+
+        return JsonResponse(response)
+
+
 
 class TestView(View):
     @method_decorator(csrf_exempt)
