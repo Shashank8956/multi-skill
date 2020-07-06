@@ -530,6 +530,10 @@ class TestView(View):
 
 
 class TrainingView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(TrainingView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         try:
             data_array = []
@@ -544,7 +548,7 @@ class TrainingView(View):
                     #'CurrentStageName': data.current_stage.stage_name,
                     #'CurrentSkillLevel': data.current_stage.skill_level,
                     'TrainingStageId': data.training_stage.id,
-                    'TrainingStage': data.training_stage,
+                    'TrainingStageName': data.training_stage.stage_name,
                     'TrainingSkillLevel': data.training_stage.skill_level,
                     'ShiftOfficerName': data.shift_officer,
                     'TrainerName': data.trainer,
@@ -568,8 +572,8 @@ class TrainingView(View):
 
             employee_id = payload["EmployeeId"]
             trainee = Employee.objects.get(id=employee_id)
-            current_stage_id = payload["CurrentStageId"]
-            current_stage = Stage.objects.get(id=current_stage_id)
+            #current_stage_id = payload["CurrentStageId"]
+            #current_stage = Stage.objects.get(id=current_stage_id)
             training_stage_id = payload["TrainingStageId"]
             training_stage = Stage.objects.get(id=training_stage_id)
             shift_officer = payload["ShiftOfficerName"]
@@ -595,7 +599,7 @@ class TrainingView(View):
 
     def put(self, request):
         try:
-            payload = json.loads(request.data)
+            payload = json.loads(request.body)
             print(json.dumps(payload, indent=4))
 
             training_id = payload["TrainingId"]
@@ -604,7 +608,7 @@ class TrainingView(View):
             training_stage = Stage.objects.get(id=training_stage_id)
             shift_officer = payload["ShiftOfficer"]
             trainer = payload["Trainer"]
-            date = datetime.datetime.strptime(payload["date"], '%Y-%m-%d')
+            date = datetime.strptime(payload["date"], '%Y-%m-%d')
 
             training.training_stage = training_stage
             training.shift_officer = shift_officer

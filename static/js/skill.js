@@ -199,6 +199,46 @@ function loadListHeader(){
 
 function loadEntireList(listData){
     skillListBody.innerHTML = ""; 
+    
+        if(listData!=null){
+            tableRow = "<tr>";
+            for (const [key, value] of Object.entries(listData)) {
+                tableRow += `<td>
+                                <input type="checkbox" id=` + value[0].EmpToken + `></td>
+                                <td>` + value[0].EmpToken + `</td>
+                                <td>` + value[0].EmpName + `</td>`;
+                var j = 0;
+                while( j < value.length){
+                    if(value[j].StationName != "Default Station"){
+                        if(value[j].SkillLevel == 0)
+                            tableRow += `<td>`;
+                        else if(value[j].SkillLevel == 2)
+                            tableRow += `<td style="background-color: #ff9696;">`;
+
+                        else if(value[j].SkillLevel == 4)
+                            tableRow += `<td style="background-color: #f6ff00;">`;
+                        
+                        else if(value[j].SkillLevel == 6)
+                            tableRow += `<td style="background-color: #26ff00;">`;
+                        
+                        else if(value[j].SkillLevel == 8)
+                            tableRow += `<td style="background-color: #96ffff;">`;
+
+                        tableRow +=  + value[j].SkillLevel + `</td>`
+                    }
+                    j++;
+                }
+                tableRow += "</tr>";
+            }
+            console.log(tableRow);
+            skillListBody.innerHTML += tableRow;
+        }
+}
+
+
+/*
+function loadEntireList(listData){
+    skillListBody.innerHTML = ""; 
         if(listData!=null){
             tableRow = "<tr>";
 
@@ -222,7 +262,7 @@ function loadEntireList(listData){
             }
         }
 }
-
+*/
 `                          <tr>
 <th><input type="checkbox"></th>    
 <th>Token No</th>

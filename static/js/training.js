@@ -59,6 +59,7 @@ initialize();
 
 function initialize(){
     eventListeners();
+    getAllData();
     getAllShiftData();
     getAllStationData();
     loadListHeader();
@@ -115,6 +116,22 @@ function closeModal(e){
         shiftModal.style.display = "none";
 }
 
+function getAllData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/trainingData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            trainingJson = JSON.parse(this.responseText);
+            console.log(trainingJson);
+            loadEntireList(trainingJson);
+        }
+    };
+}
+
+
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
@@ -149,32 +166,24 @@ function getAllStationData() {
 
 function loadEntireList(listData){
     trainingListBody.innerHTML = ""; 
-    if(listData!=null){
-            for(let i=0; i<listData.length; i++){
-                let newRow = document.createElement("tr");
-                let tableData = []
-                for(let i=0; i<6; i++){
-                    tableData.push(document.createElement("td"));
-                }
-
-                let newCheckBox = document.createElement("input");
-                newCheckBox.type = "checkbox";
-                newCheckBox.id = listData[i].EmpToken;
-                newCheckBox.addEventListener("click", selectRow);
-                tableData[0].appendChild(newCheckBox);
-
-                tableData[1].innerText = listData[i].EmpToken;
-                tableData[2].innerText = listData[i].EmpName;
-                tableData[3].innerText = listData[i].DOJ;
-                tableData[4].innerText = listData[i].Mobile;
-                tableData[5].innerText = listData[i].StationName;
-
-                for(let i=0; i<6; i++){
-                    newRow.appendChild(tableData[i]);
-                }
-                
-                trainingListBody.appendChild(newRow);
+    
+        if(listData!=null){
+            tableRow = "<tr>";
+            for (var i=0; i<listData.length; i++) {
+                tableRow += `<td>
+                                <input type="checkbox" id=` + listData[i].TraineeToken + `></td>
+                                <td>` + listData[i].TraineeToken + `</td>
+                                <td>` + listData[i].TraineeName + `</td>
+                                <td>` + listData[i].DOJ + `</td>
+                                <td>` + listData[i].TrainingStationName + `</td>
+                                <td>` + listData[i].TrainingSkillLevel + `</td>
+                                <td>` + listData[i].ShiftOfficerName + `</td>
+                                <td>` + listData[i].TrainerToken + `</td>
+                                <td>` + listData[i].TrainerName + `</td>
+                                <td>` + listData[i].Date + `</td>`;
+                tableRow += "</tr>";
             }
+            trainingListBody.innerHTML += tableRow;
         }
 }
 
