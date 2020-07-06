@@ -349,7 +349,7 @@ class EmployeeSkillView(View):
     def get(self, request):
         try:
             employee_skill_data = EmployeeSkill.objects.all()
-            data_array = []
+            output_dict = {}
             for employee_skill in employee_skill_data:
                 employee_skill_id = employee_skill.id
                 employee_id = employee_skill.employee.id
@@ -373,14 +373,18 @@ class EmployeeSkillView(View):
                     "AcquiredOn": acquired_on
                 }
 
-                data_array.append(data)
+                if employee_token not in output_dict.keys():
+                    output_dict[employee_token] = []
+                    output_dict[employee_token].append(data)
+                else:
+                    output_dict[employee_token].append(data)
 
-            response = data_array
+            response = output_dict
         except Exception:
             traceback.print_exc()
             response = {'Error': 'Could not get Employee Skill data!'}
 
-        return JsonResponse(response, safe=False)
+        return JsonResponse(response)
 
     def post(self, request):
         try:
