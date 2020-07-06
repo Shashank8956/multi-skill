@@ -208,14 +208,13 @@ function loadEntireList(listData){
                                 <input type="checkbox" id=` + listData[i].EmpToken + `></td>
                                 <td>` + listData[i].EmpToken + `</td>
                                 <td>` + listData[i].EmpName + `</td>`;
-
-                while( i < listData.length && listData[i].EmpToken == empToken){
-                    if(listData[i].StationName != "Default Station"){
-                        tableRow += `<td>` + listData[i].SkillLevel + `</td>`
+                var j = 0;
+                while( j < listData.length){
+                    if(listData[j].StationName != "Default Station" && listData[j].EmpToken == empToken){
+                        tableRow += `<td>` + listData[j].SkillLevel + `</td>`
                     }
-                    i++;
+                    j++;
                 }
-                i--;
                 
                 tableRow += "</tr>"
                 console.log(tableRow);
@@ -244,15 +243,24 @@ function loadEntireList(listData){
 </tr>`
 
 /*
-                                <tr>
-                                    <td><input type="checkbox" id=111></td>
-                                    <td>111</td>
-                                    <td>Shashank Singh</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>2</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                */
+    skillJson
+    templist
+    for item in skillJson:
+        empToken = item.EmpToken
+        var i = 0
+        while (i < skillJson.length)
+            if skillJson[i].EmpToken == empToken:
+                tempList = skillJson[i]
+        for stuff in tempList:
+            add stuff to table Row
+        tempList.clear()
+*/
+
+
+/*
+    {
+        "111": [{StationName, SkillLevel}, {StationName, SkillLevel}],
+        "112": {StationName, SkillLevel},
+        "113": {StationName, SkillLevel},
+    }
+*/

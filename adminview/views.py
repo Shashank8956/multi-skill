@@ -279,7 +279,7 @@ class EmployeeView(View):
             language_preference = 'English'  # payload['new_language']
             created_by = 'Some Name 1'  # payload['CreatedBy']
             is_admin = True  # payload['new_isAdmin']
-            weekly_off = 'Sunday'  # payload['new_weeklyOff']
+            weekly_off = payload['new_weeklyOff']
             shift_id = payload["new_shiftId"]
             current_shift = Shift.objects.get(id=shift_id)
             stage_id = payload["new_stageId"]
@@ -314,10 +314,11 @@ class EmployeeView(View):
             update_employee_skill = EmployeeSkill.objects.get(employee=emp, station=current_station)
             update_employee_skill.stage = current_stage
             update_employee_skill.save()
-
+            training_stage = Stage.objects.get(id=1)
             add_training = Training(
                 trainee=emp,
-                current_stage=current_stage,
+                #current_stage=current_stage,
+                training_stage = training_stage,
             )
             add_training.save()
 
@@ -535,9 +536,9 @@ class TrainingView(View):
                     'TrainingId': data.id,
                     'TraineeToken': data.trainee.token,
                     'TraineeName': data.trainee.name,
-                    'CurrentStageId': data.current_stage.id,
-                    'CurrentStageName': data.current_stage.stage_name,
-                    'CurrentSkillLevel': data.current_stage.skill_level,
+                    #'CurrentStageId': data.current_stage.id,
+                    #'CurrentStageName': data.current_stage.stage_name,
+                    #'CurrentSkillLevel': data.current_stage.skill_level,
                     'TrainingStageId': data.training_stage.id,
                     'TrainingStage': data.training_stage,
                     'TrainingSkillLevel': data.training_stage.skill_level,
@@ -573,7 +574,7 @@ class TrainingView(View):
 
             training = Training(
                 trainee=trainee,
-                current_stage=current_stage,
+                #current_stage=current_stage,
                 training_stage=training_stage,
                 shift_officer=shift_officer,
                 trainer=trainer,

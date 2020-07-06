@@ -114,8 +114,8 @@ class ResultQuestion(models.Model):
 
 class Training(models.Model):
     trainee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    current_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
-    training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING, blank=True, null=True)
+    #current_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     shift_officer = models.CharField(max_length=50, blank=True, null=True)
     trainer = models.CharField(max_length=50, blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)

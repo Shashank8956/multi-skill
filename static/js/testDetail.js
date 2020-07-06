@@ -85,7 +85,7 @@ function getSessionData(){
             break;
         }
     }
-    sessionStorage.clear();
+    //sessionStorage.clear();
 }
 
 function setEvents(){
