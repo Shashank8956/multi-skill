@@ -77,6 +77,7 @@ class TestHeader(models.Model):
 
 
 class TestQuestions(models.Model):
+    objects = models.Manager()
     test = models.ForeignKey(TestHeader, on_delete=models.CASCADE)
     question_number = models.IntegerField()
     question = models.CharField(max_length=500)
@@ -113,11 +114,12 @@ class ResultQuestion(models.Model):
 
 
 class Training(models.Model):
+    objects = models.Manager()
     trainee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    #current_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
+    training_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
-    shift_officer = models.CharField(max_length=50, blank=True, null=True)
-    trainer = models.CharField(max_length=50, blank=True, null=True)
+    shift_officer_id = models.IntegerField(default=0)
+    trainer_id = models.IntegerField(default=0)
     date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):

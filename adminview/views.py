@@ -315,10 +315,11 @@ class EmployeeView(View):
             update_employee_skill.stage = current_stage
             update_employee_skill.save()
             training_stage = Stage.objects.get(id=1)
+            training_station = Station.objects.get(id=1)
             add_training = Training(
                 trainee=emp,
-                #current_stage=current_stage,
-                training_stage = training_stage,
+                training_station=training_station,
+                training_stage=training_stage,
             )
             add_training.save()
 
@@ -540,18 +541,22 @@ class TrainingView(View):
             training_data = Training.objects.all()
 
             for data in training_data:
+                shift_officer = Employee.objects.get(id=data.shift_officer_id)
+                trainer = Employee.objects.get(id=data.trainer_id)
                 output_json = {
                     'TrainingId': data.id,
                     'TraineeToken': data.trainee.token,
                     'TraineeName': data.trainee.name,
-                    #'CurrentStageId': data.current_stage.id,
-                    #'CurrentStageName': data.current_stage.stage_name,
-                    #'CurrentSkillLevel': data.current_stage.skill_level,
+                    'TraineeDOJ': data.trainee.doj,
+                    'TrainingStationId': data.training_station.id,
+                    'TrainingStationName': data.training_station.station_name,
                     'TrainingStageId': data.training_stage.id,
-                    'TrainingStageName': data.training_stage.stage_name,
                     'TrainingSkillLevel': data.training_stage.skill_level,
-                    'ShiftOfficerName': data.shift_officer,
-                    'TrainerName': data.trainer,
+                    'ShiftOfficerId': shift_officer.id,
+                    'ShiftOfficerName': shift_officer.name,
+                    'TrainerId': trainer.id,
+                    'TrainerName': trainer.name,
+                    'TrainerToken': trainer.token,
                     'Date': data.date
                 }
                 data_array.append(output_json)
@@ -565,38 +570,6 @@ class TrainingView(View):
 
         return JsonResponse(response, safe=False)
 
-    def post(self, request):
-        try:
-            payload = json.loads(request.data)
-            print(json.dumps(payload, indent=4))
-
-            employee_id = payload["EmployeeId"]
-            trainee = Employee.objects.get(id=employee_id)
-            #current_stage_id = payload["CurrentStageId"]
-            #current_stage = Stage.objects.get(id=current_stage_id)
-            training_stage_id = payload["TrainingStageId"]
-            training_stage = Stage.objects.get(id=training_stage_id)
-            shift_officer = payload["ShiftOfficerName"]
-            trainer = payload["TrainerName"]
-            date = payload["Date"]
-
-            training = Training(
-                trainee=trainee,
-                #current_stage=current_stage,
-                training_stage=training_stage,
-                shift_officer=shift_officer,
-                trainer=trainer,
-                date=date
-            )
-
-            training.save()
-            response = {'Success': 'Training data saved successfully'}
-
-        except Exception:
-            traceback.print_exc()
-            response = {'Error': 'Cannot save data'}
-        return JsonResponse(response)
-
     def put(self, request):
         try:
             payload = json.loads(request.body)
@@ -604,16 +577,19 @@ class TrainingView(View):
 
             training_id = payload["TrainingId"]
             training = Training.objects.get(id=training_id)
-            training_stage_id = payload["TrainingStageId"]
-            training_stage = Stage.objects.get(id=training_stage_id)
-            shift_officer = payload["ShiftOfficer"]
-            trainer = payload["Trainer"]
-            date = datetime.strptime(payload["date"], '%Y-%m-%d')
+            new_training_station_id = payload["TrainingStationId"]
+            new_training_station = Station.objects.get(id=new_training_station_id)
+            new_training_stage_id = payload["TrainingStageId"]
+            new_training_stage = Stage.objects.get(id=new_training_stage_id)
+            new_shift_officer_id = payload["ShiftOfficerId"]
+            new_trainer_id = payload["TrainerId"]
+            new_date = datetime.strptime(payload["date"], '%Y-%m-%d')
 
-            training.training_stage = training_stage
-            training.shift_officer = shift_officer
-            training.trainer = trainer
-            training.date = date
+            training.training_station = new_training_station
+            training.training_stage = new_training_stage
+            training.shift_officer_id = new_shift_officer_id
+            training.trainer_id = new_trainer_id
+            training.date = new_date
 
             training.save()
 
