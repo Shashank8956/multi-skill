@@ -125,6 +125,7 @@ function getAllData() {
         if (this.readyState == 4 && this.status == 200) {
             skillJson = JSON.parse(this.responseText);
             console.log(skillJson);
+            prepareSkillData(skillJson);
             loadEntireList(skillJson);
         }
     };
@@ -197,6 +198,28 @@ function loadListHeader(){
     skillListHead.innerHTML += tableHeader;
 }
 
+function prepareSkillData(listData){
+    skillDict = [];
+
+    if(listData!=null){
+            for (const [key, value] of Object.entries(listData)) {
+                tempDict = {};
+                tempDict["EmpToken"] = value[0].EmpToken;
+                tempDict["EmpName"] = value[0].EmpName;
+
+                var j = 0;
+                while( j < value.length){
+                    if(value[j].StationName != "Default Station"){
+                        tempDict[value[j].StationName] = value[j].SkillLevel;
+                    }
+                    j++;
+                }
+                skillDict.push(tempDict);
+            }
+        }
+        console.log(skillDict);
+}
+
 function loadEntireList(listData){
     skillListBody.innerHTML = ""; 
     
@@ -211,18 +234,18 @@ function loadEntireList(listData){
                 while( j < value.length){
                     if(value[j].StationName != "Default Station"){
                         if(value[j].SkillLevel == 0)
-                            tableRow += `<td>`;
+                            tableRow += `<td style="text-align:center;">`;
                         else if(value[j].SkillLevel == 2)
-                            tableRow += `<td style="background-color: #ff9696;">`;
+                            tableRow += `<td style="background-color: #ff9696; text-align:center;">`;
 
                         else if(value[j].SkillLevel == 4)
-                            tableRow += `<td style="background-color: #f6ff00;">`;
+                            tableRow += `<td style="background-color: #f9ff61; text-align:center;">`;
                         
                         else if(value[j].SkillLevel == 6)
-                            tableRow += `<td style="background-color: #26ff00;">`;
+                            tableRow += `<td style="background-color: #90ff7d; text-align:center;">`;
                         
                         else if(value[j].SkillLevel == 8)
-                            tableRow += `<td style="background-color: #96ffff;">`;
+                            tableRow += `<td style="background-color: #96ffff; text-align:center;">`;
 
                         tableRow +=  + value[j].SkillLevel + `</td>`
                     }
