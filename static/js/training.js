@@ -19,8 +19,9 @@ const cancelShiftBtn = document.getElementById("cancelShiftBtn")
 const saveShiftBtn = document.getElementById("submitShiftBtn");
 
 const filterStationDropdown = document.getElementById("station-filter");
-const empModalStationDropdown = document.getElementById("new-station");
-const empModalShiftDropdown = document.getElementById("new-shift");
+const filterShiftDropdown = document.getElementById("shift-filter");
+const modalStationDropdown = document.getElementById("training-station");
+const modalStageDropdown = document.getElementById("training-stage");
 
 
 const setTrainingBtn = document.getElementById("setTrainingBtn");
@@ -33,8 +34,9 @@ const trainingListBody = document.getElementById("id_trainingList_body");
 
 const empIDVar = 0;
 let trainingJson = [];
-let stationJson = null;
-let shiftJson = null;
+let stationJson = [];
+let shiftJson = [];
+let stageJson = [];
 let cookieValue = null;
 let checkedCount = 0;
 
@@ -61,6 +63,7 @@ function initialize(){
     eventListeners();
     getAllData();
     getAllShiftData();
+    getAllStageData();
     getAllStationData();
     loadListHeader();
     cookieValue = getCookie('csrftoken');
@@ -131,7 +134,6 @@ function getAllData() {
     };
 }
 
-
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
@@ -143,7 +145,22 @@ function getAllShiftData() {
         if (this.readyState == 4 && this.status == 200) {
             shiftJson = JSON.parse(this.responseText);
             console.log("Shift Data:" + shiftJson[0].ShiftId);
-            //loadShiftDropdown();
+            loadShiftDropdown();
+        }
+    };
+}
+
+function getAllStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stageJson = JSON.parse(this.responseText);
+            console.log("Stage Data:" + stageJson[0].StageId);
+            loadStageDropdown();
         }
     };
 }
@@ -159,9 +176,47 @@ function getAllStationData() {
         if (this.readyState == 4 && this.status == 200) {
             stationJson = JSON.parse(this.responseText);
             console.log("Station Data:" + stationJson[0].StationId);
-            //loadStationDropdown();
+            loadStationDropdown();
         }
     };
+}
+
+function loadStationDropdown(){
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        filterStationDropdown.appendChild(childOption);
+    }
+    
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        modalStationDropdown.appendChild(childOption);
+    }
+}
+
+function loadShiftDropdown(){
+    for(let i=0; i<shiftJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = shiftJson[i].ShiftId;
+        childOption.innerText = shiftJson[i].ShiftName;
+        childOption.classList.add("select_option")
+        filterShiftDropdown.appendChild(childOption);
+    }
+}
+
+function loadStageDropdown(){
+    for(let i=0; i<stageJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stageJson[i].ShiftId;
+        childOption.innerText = stageJson[i].StageName;
+        childOption.classList.add("select_option")
+        modalStageDropdown.appendChild(childOption);
+    }
 }
 
 function loadEntireList(listData){
@@ -201,4 +256,52 @@ function loadListHeader(){
                             <th data-columnName = "Date" data-order="desc" onclick="sortColumn(event);">Training Date &#x25B4</th>
                         </tr>`;
     trainingListHead.innerHTML += tableHeader;
+}
+
+function updateTrainingData(e){
+    var formInstance = e.target;
+    var formData = new FormData( formInstance );
+    var sendData = {};
+    sendData["TrainingId"] = getTrainingId( formData.get("trainee_token") );
+    sendData["TrainingStationId"] = stationJson[modalStationDropdown.selectedIndex -1].StationId;
+    sendData["TrainingStageId"] = stageJson[modalStageDropdown.selectedIndex -1].StageId;
+    sendData["ShiftOfficerId"] = getEmployeeId( formData.get("trainee_name") );
+    sendData["TrainerId"] = getEmployeeId( formData.get("trainer_name") );
+    sendData["date"] = "2025-12-31";//formData.get("training_date");
+    
+    alert(sendData);
+    sendFormData(sendData);
+}
+
+function sendFormData(testData){
+    var xhr = new XMLHttpRequest();
+    var finalData = JSON.stringify(testData);
+    console.log(finalData);
+
+    xhr.open('PUT', 'http://127.0.0.1:8000/adminview/trainingManagement', true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', cookieValue);
+
+    xhr.onreadystatechange = function() {//Call a function when the state changes.
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            alert(this.responseText);
+        }
+    }
+    xhr.send(finalData);
+}
+
+function getTrainingId(empToken){
+    for(var i=0; i<trainingJson.length; i++){
+        if(trainingJson[i].TraineeToken == empToken)
+            return trainingJson[i].TrainingId;
+    }
+    return null;
+}
+
+function getEmployeeId(empName){
+    for(var i=0; i<trainingJson.length; i++){
+        if(trainingJson[i].TraineeName.toLowerCase() == empToken.toLowerCase())
+            return trainingJson[i].EmployeeId;
+    }
+    return null;
 }

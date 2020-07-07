@@ -545,6 +545,7 @@ class TrainingView(View):
                 trainer = Employee.objects.get(id=data.trainer_id)
                 output_json = {
                     'TrainingId': data.id,
+                    'EmployeeId': data.trainee.id,
                     'TraineeToken': data.trainee.token,
                     'TraineeName': data.trainee.name,
                     'TraineeDOJ': data.trainee.doj,
@@ -561,7 +562,7 @@ class TrainingView(View):
                 }
                 data_array.append(output_json)
 
-            print(data_array)
+            #print(data_array)
             response = data_array
 
         except Exception:

@@ -95,7 +95,7 @@
                           </div>
                           <div style="margin-left: 10px;">
                             <label class="filter-labels">Select Shift</label><br>
-                            <select id="stage-filter" class="test-select">
+                            <select id="shift-filter" class="test-select">
                                 <option  class="select_option" selected="selected" disabled>Select Shift</option>
                             </select><br>
                           </div>  
@@ -125,7 +125,7 @@
     <!--Modal section-->
             <div id="training-modal-id" class="emp-modal">
               <div id="training-modal-box-id" class="modal-box">
-                <form action="./trainingData" method="POST">
+                <form id="training-form-id" method="PUT" onsubmit="return updateTrainingPlan(event)">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -142,12 +142,16 @@
                       <input id="trainee-name" class="emp-textbox modal_inputs" name="trainee_name"  type="text" placeholder="Trainee Name">
                     </div>
                     <div>
-                      <label class="modal-labels">No Of Stages</label><br>
-                      <input id="total-stages" class="emp-textbox modal_inputs" name="total_stages" type="number" placeholder="No Of Stages">
+                      <label class="modal-labels">Training Station</label><br>
+                      <select id="training-station" class="test-select" name="training_station">
+                        <option  class="select_option" selected="selected">Select Station</option>
+                      </select>
                     </div>
                     <div>
                       <label class="modal-labels">Training Stage</label><br>
-                      <input id="training-stage" class="emp-textbox modal_inputs" name="training_stage" type="text" placeholder="Training Stage">
+                      <select id="training-stage" class="test-select" name="training_stage">
+                        <option  class="select_option" selected="selected">Select Stage</option>
+                      </select>
                     </div>
                     <div>
                       <label class="modal-labels">Shift Officer</label><br>
@@ -161,13 +165,13 @@
                       <label class="modal-labels">Trainer Name</label><br>
                       <input id="trainer-name" class="emp-textbox modal_inputs" name="trainer_name" type="text" placeholder="Trainer Name">
                     </div>
-                    <div>
+                    <!--<div>
                       <label class="modal-labels">Training Date</label><br>
                       <input id="training-date" class="emp-textbox modal_inputs" name="training_date" type="date" placeholder="Date">
-                    </div>
+                    </div>-->
                     <div class="modal-buttons">
                       <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
-                      <button id="submitEmpBtn" class="modalSubmitBtn">Save</button>
+                      <button id="submitEmpBtn" class="modalSubmitBtn" onclick="updateTrainingPlan">Save</button>
                     </div>
                   </div>
                 </form>
