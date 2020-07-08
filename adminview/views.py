@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic.base import View
 from .models import *
 import traceback
@@ -28,13 +28,10 @@ class StationView(View):
                 data_array.append(output_json)
                 print("Shift Data:", data)
 
-            response = data_array
-
+            return JsonResponse(data_array, safe=False)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Could not find station data'}
-
-        return JsonResponse(response, safe=False)
+            return JsonResponse({'Error': 'Could not find station data'}, status=500)
 
     def post(self, request):
         try:
@@ -57,13 +54,10 @@ class StationView(View):
                     stage=stage_0,
                 )
                 employee_skill.save()
-            response = {'Success': 'Station data saved successfully'}
-
+            return JsonResponse({'Success': f'Station data saved successfully for StationId={station.id}'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot save station data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot save station data'}, status=500)
 
     def delete(self, request):
         try:
@@ -71,12 +65,10 @@ class StationView(View):
             station = Station.objects.get(id=station_id)
             station.delete()
 
-            response = {'Success': f'Station data for station id {station_id} successfully'}
+            return JsonResponse({'Success': f'Station data for station id {station_id} successfully'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot delete station data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot delete station data'}, status=500)
 
 
 class StageView(View):
@@ -97,12 +89,10 @@ class StageView(View):
                 }
                 data_array.append(output_json)
 
-            response = data_array
+            return JsonResponse(data_array, safe=False)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Could not find Stage data'}
-
-        return JsonResponse(response, safe=False)
+            return JsonResponse({'Error': 'Could not find Stage data'}, status=500)
 
     def post(self, request):
         try:
@@ -114,13 +104,10 @@ class StageView(View):
                 skill_level=skill_level
             )
             stage.save()
-            response = {'Success': 'Stage data saved successfully'}
+            return JsonResponse({'Success': f'Stage data saved successfully on StageId ={stage.id}'})
         except Exception:
             traceback.print_exc()
-
-            response = {'Error': 'Cannot save Stage data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot save Stage data'}, status=500)
 
     def delete(self, request):
         try:
@@ -128,12 +115,10 @@ class StageView(View):
             stage = Stage.objects.get(id=stage_id)
             stage.delete()
 
-            response = {'Success': f'Stage data for Stage id {stage_id} successfully'}
+            return JsonResponse({'Success': f'Stage data for Stage id {stage_id} successfully'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot delete Stage data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot delete Stage data'}, status=500)
 
 
 class ShiftView(View):
@@ -156,12 +141,10 @@ class ShiftView(View):
                 }
                 data_array.append(output_json)
 
-            response = data_array
+            return JsonResponse(data_array, safe=False)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Could not find Shift data'}
-
-        return JsonResponse(response, safe=False)
+            return JsonResponse({'Error': 'Could not find Shift data'}, status=500)
 
     def post(self, request):
         try:
@@ -175,13 +158,10 @@ class ShiftView(View):
                 end_time=end_time
             )
             shift.save()
-            response = {'Success': 'Shift data saved successfully'}
-
+            return JsonResponse({'Success': f'Shift data saved successfully for ShiftId:{shift.id}'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot save Shift data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot save Shift data'}, status=500)
 
     def delete(self, request):
         try:
@@ -189,15 +169,17 @@ class ShiftView(View):
             shift = Shift.objects.get(id=shift_id)
             shift.delete()
 
-            response = {'Success': f'Shift data for shift id {shift_id} successfully'}
+            return JsonResponse({'Success': f'Shift data for shift id {shift_id} successfully'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot delete Shift data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot delete Shift data'}, status=500)
 
 
 class EmployeeView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(EmployeeView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request):
         if request.GET:
             employee_id = request.GET.get("EmployeeId")
@@ -224,10 +206,10 @@ class EmployeeView(View):
                     'SkillLevel': employee_data.current_stage.skill_level
                 }
 
-                response = dictionary
+                return JsonResponse(dictionary, safe=False)
             except Exception:
                 traceback.print_exc()
-                response = {'Error': 'Could not get Employee data!'}
+                return JsonResponse({'Error': 'Could not get Employee data!'}, status=500)
         else:
             try:
                 employee_data = Employee.objects.all()
@@ -256,11 +238,10 @@ class EmployeeView(View):
                     }
                     data_array.append(dictionary)
                 print(data_array)
-                response = data_array
+                return JsonResponse(data_array, safe=False)
             except Exception:
                 traceback.print_exc()
-                response = {'Error': 'Could not get Employee data!'}
-        return JsonResponse(response, safe=False)
+                return JsonResponse({'Error': 'Could not get Employee data!'}, status=500)
 
     def post(self, request):
         try:
@@ -276,9 +257,9 @@ class EmployeeView(View):
             # doj = payload('new_doj')
             current_station = Station.objects.get(id=station_id)
             # station = Station.objects.get(station_name = _station_name)
-            language_preference = 'English'  # payload['new_language']
+            language_preference = payload['new_language']
             created_by = 'Some Name 1'  # payload['CreatedBy']
-            is_admin = True  # payload['new_isAdmin']
+            is_admin = payload['new_isAdmin']
             weekly_off = payload['new_weeklyOff']
             shift_id = payload["new_shiftId"]
             current_shift = Shift.objects.get(id=shift_id)
@@ -322,12 +303,10 @@ class EmployeeView(View):
                 training_stage=training_stage,
             )
             add_training.save()
-
+            return HttpResponseRedirect('/adminview/employee')
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Employee could not be added!'}
-            return JsonResponse(response)
-        return HttpResponseRedirect('/adminview/employee')
+            return JsonResponse({'Error': 'Employee could not be added!'}, status=500)
 
     def delete(self, request):
         try:
@@ -335,11 +314,11 @@ class EmployeeView(View):
             employee = Employee.objects.get(id=employee_id)
             employee.delete()
 
+            return JsonResponse({"Success": f"Employee deleted successfully for EmployeeId:{employee.id}"})
+
         except Exception:
             traceback.print_exc()
-            return JsonResponse({"Error": "Could not delete Employee Data"})
-
-        return JsonResponse({"Success": "Employee deleted successfully"})
+            return JsonResponse({"Error": "Could not delete Employee Data"}, status=500)
 
 
 class EmployeeSkillView(View):
@@ -380,38 +359,10 @@ class EmployeeSkillView(View):
                 else:
                     output_dict[employee_token].append(data)
 
-            response = output_dict
+            return JsonResponse(output_dict)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Could not get Employee Skill data!'}
-
-        return JsonResponse(response)
-
-    def post(self, request):
-        try:
-            payload = json.loads(request.body)
-            print(json.dumps(payload, indent=4))
-
-            employee_id = payload["EmployeeId"]
-            employee = Employee.objects.get(id=employee_id)
-            station_id = payload["StationId"]
-            station = Station.objects.get(id=station_id)
-            stage_id = payload["StageId"]
-            stage = Stage.objects.get(id=stage_id)
-            # acquired_on = payload["AcquiredOn"]
-            employee_skill = EmployeeSkill(
-                employee=employee,
-                stage=stage,
-                station=station
-            )
-            employee_skill.save()
-            response = {'Success': 'EmployeeSkill data saved successfully'}
-
-        except Exception:
-            traceback.print_exc()
-            response = {'Error': 'Cannot save EmployeeSkill data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Could not get Employee Skill data!'}, status=500)
 
     def put(self, request):
         try:
@@ -428,12 +379,10 @@ class EmployeeSkillView(View):
             employee_skill.stage = new_stage
             employee_skill.save()
 
-            response = {'Success': f'EmployeeSkill data updated for Emp Token {employee_id} successfully!'}
+            return JsonResponse({'Success': f'EmployeeSkill data updated for Emp Token {employee_id} successfully!'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': f'Cannot update EmployeeSkill data for Emp Token {employee_id}'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': f'Cannot update EmployeeSkill data for Emp Token {employee_id}'}, status=500)
 
 
 class TestView(View):
@@ -461,11 +410,10 @@ class TestView(View):
                 data_array.append(output_json)
                 print(test_header)
 
-            response = data_array
+            return JsonResponse(data_array, safe=False)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Could not find Test Header data!'}
-        return JsonResponse(response, safe=False)
+            return JsonResponse({'Error': 'Could not find Test Header data!'}, status=500)
 
     def post(self, request):
         try:
@@ -513,7 +461,7 @@ class TestView(View):
                 print("TEST QUESTION ID:", test_question)
         except Exception:
             traceback.print_exc()
-            return JsonResponse({'Error': 'Test Details could not be added!'})
+            return JsonResponse({'Error': 'Test Details could not be added!'}, status=500)
 
         return HttpResponseRedirect('/adminview/test')
 
@@ -522,12 +470,12 @@ class TestView(View):
             test_header_id = request.GET.get("TestHeaderId")
             test_header = TestHeader.objects.get(id=test_header_id)
             test_header.delete()  # Check if this deletes questions in TestQuestions table (on_delete=models.CASCADE)
+            return JsonResponse(
+                {"Success": f"Test Header Data deleted successfully for Test Header Id:{test_header.id}"})
 
         except Exception:
             traceback.print_exc()
-            return JsonResponse({"Error": "Could not delete Employee Data"})
-
-        return JsonResponse({"Success": "Employee deleted successfully"})
+            return JsonResponse({"Error": "Could not delete Test Header Data"}, status=500)
 
 
 class TrainingView(View):
@@ -562,14 +510,11 @@ class TrainingView(View):
                 }
                 data_array.append(output_json)
 
-            #print(data_array)
-            response = data_array
-
+            # print(data_array)
+            return JsonResponse(data_array, safe=False)
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Training data not found'}
-
-        return JsonResponse(response, safe=False)
+            return JsonResponse({'Error': 'Training data not found'}, status=500)
 
     def put(self, request):
         try:
@@ -594,11 +539,8 @@ class TrainingView(View):
 
             training.save()
 
-            response = {'Success': f'Training data updated for id {training_id} successfully'}
-
+            return JsonResponse({'Success': f'Training data updated for id {training_id} successfully'})
         except Exception:
             traceback.print_exc()
-            response = {'Error': 'Cannot update Training data'}
-
-        return JsonResponse(response)
+            return JsonResponse({'Error': 'Cannot update Training data'}, status=500)
 

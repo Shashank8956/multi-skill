@@ -54,8 +54,8 @@ class Employee(models.Model):
 
 class EmployeeSkill(models.Model):
     objects = models.Manager()
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
     stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     acquired_on = models.DateField(auto_now_add=True, blank=True)
 
@@ -109,17 +109,17 @@ class ResultQuestion(models.Model):
     response = models.CharField(max_length=1)
 
     def __str__(self):
-        return str(self.result.employee.emp_name) + "'s " + str(self.result.test.station.station_name)
+        return str(self.result.employee.name) + "'s " + str(self.result.test.station.station_name)
         + "'s Question" + str(self.question.question_number)
 
 
 class Training(models.Model):
     objects = models.Manager()
-    trainee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
+    trainee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     training_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
-    shift_officer_id = models.IntegerField(default=0)
-    trainer_id = models.IntegerField(default=0)
+    shift_officer_id = models.IntegerField(default=1)
+    trainer_id = models.IntegerField(default=1)
     date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
