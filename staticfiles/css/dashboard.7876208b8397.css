@@ -1,0 +1,356 @@
+/*********** body/html start ***********/
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.full-page{
+    display:flex;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+input::-webkit-input-placeholder {
+    font-size: 13px;
+    font-weight: bold;
+    padding-left: 5px;
+    line-height: 3;
+    color: rgb(114, 114, 114);
+} 
+/*######### body/html end #########*/
+
+/*********** sidenav start ***********/
+.sidenav{
+    display: inline-flex;
+    position: relative;
+    align-items: stretch;
+    width: 180px;
+    min-width: 180px;
+    background-color: #36324A;
+}
+
+.sidenav-list{
+    list-style-type:none;
+    padding-top: 15px;
+    padding-left: 0px;
+    width: 100%;
+}
+/*######### sidenav end #########*/
+
+/*********** list-item start ***********/
+.list-item{
+    padding: 10px 5px 10px 20px;
+    width: 100%;
+}
+
+.list-item:hover{
+    background-color: #02ceee;
+}
+
+.list-item img {
+    float: left;
+    width: 20px;
+    height: 20px;
+  }
+  
+.list-item h6 {
+    position: relative;
+    top: 3px;
+    left: 10px;
+    margin: 0px;
+    font-size: 14px;
+    font: bold;
+  }
+  
+.list-item a{
+    color: #ffffff;
+    text-decoration: none;
+}
+/*######### list-item end #########*/
+
+/*********** topbar start ***********/
+.topbar{
+    display: flex;
+    height:6.5%;
+    background-color: white;
+    justify-content: space-between;
+}
+
+#id-top-menu{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    align-self: center;
+    justify-self: center;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 13px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: flex;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .menuBtn{
+    width: 100%;
+    height: 25px;
+    border: none;
+    text-align: left;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content button {
+    color: black;
+    font-size: small;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  #userIcon{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    height: 35px;
+    width: 35px;
+    background-color: gray;
+    border-radius: 30px;
+}
+
+th:hover{
+  cursor: pointer;
+}
+
+/*######### topbar end #########*/
+
+
+
+/*********** main-section start ***********/
+.main-section{
+    width: calc(100% - 180px);    /*100% of the screen - width of left side nav*/
+    align-items: stretch;
+    background-color: rgb(223, 223, 223);
+    flex-grow: 1;
+}
+
+/*######### main-section end #########*/
+
+/************ modal-section start **************/
+.modal_shadow{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  height: 250px;
+  width: 600px;
+  border-radius: 4px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2),
+              0px 7px 20px 0px rgba(0, 0, 0, 0.17);
+
+  animation-name: openModal;
+  animation-duration: 500ms;
+}
+
+.modal-header{
+  padding: 10px 10px 0px 10px;
+  background-color: #36324A;
+  border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.modalHeaderTitle{
+  color: white;
+}
+
+.modal-body{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 5px 10px 5px 10px;
+}
+
+.modal-buttons{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.modal-labels{
+  margin: 10px 0 0 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 12px;
+}
+
+.modal_inputs{
+  height: 30px;
+  font-size: 14px;
+  padding-left: 5px;
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(224, 224, 224);
+}
+
+#new-token{
+  width: 120px;
+}
+
+#new-name{
+  width: 350px;
+}
+
+#new-gender{
+  width: 120px;
+}
+
+#new-contact{
+  width: 170px;
+}
+
+#new-doj{
+  width: 170px;
+}
+
+#new-role{
+  width: 135px;
+}
+
+#new-shift{
+  width: 135px;
+}
+
+#new-language{
+  width: 135px;
+}
+
+#new-weeklyOff{
+  width: 135px;
+}
+
+#emp-station-modal{
+  width: 250px;
+}
+
+#emp-modal-box-id{
+  height: 305px;
+  width: 700px;
+}
+
+#stage-modal-box-id{
+  height: 180px;
+  width: 400px;
+}
+
+#station-modal-box-id{
+  height: 180px;
+  width: 400px;
+}
+
+#shift-modal-box-id{
+  height: 185px;
+  width: 420px;
+}
+
+#stage-modal-body-id{
+  height: 50px;
+}
+
+#station-modal-body-id{
+  height: 50px;
+}
+
+#shift-modal-body-id{
+  height: 50px;
+}
+
+#shift-modal-body-id{
+  height: 50px;
+}
+
+#new-start-time{
+  width: 100px;
+}
+
+#new-end-time{
+  width: 100px;
+}
+
+.modalCancelBtn{
+  border: 0;
+  box-shadow: none;
+  background-color: gray;
+  color: white;
+  border-radius: 3px;
+  margin-right: 10px;
+  width: 120px;
+}
+
+.modalCancelBtn:hover{
+  background-color: rgb(92, 92, 92);
+}
+
+.modalSubmitBtn{
+  width: 120px;
+  height: 32px;
+  border: 0;
+  box-shadow: none;
+  background-color: #7e76a3;
+  color: white;
+  border-radius: 3px;
+}
+
+.modalSubmitBtn:hover{
+  background-color: #696190;
+}
+
+/*############ modal-section end ##############*/
+
+/************ Animations start **************/
+@keyframes openModal{
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/*############ Animations end ##############*/
