@@ -254,7 +254,7 @@ class EmployeeView(View):
             station_id = payload['new_stationId']
             print(station_id)
             mobile = payload['new_contact']
-            # doj = payload('new_doj')
+            doj = datetime.strptime(payload["new_doj"], '%Y-%m-%d').date()
             current_station = Station.objects.get(id=station_id)
             # station = Station.objects.get(station_name = _station_name)
             language_preference = payload['new_language']
@@ -270,7 +270,7 @@ class EmployeeView(View):
                 name=name,
                 gender=gender,
                 mobile=mobile,
-                # doj = DateField(doj),
+                doj = doj,
                 current_station=current_station,
                 language_preference=language_preference,
                 created_by=created_by,
@@ -459,11 +459,10 @@ class TestView(View):
                 )
                 test_question.save()
                 print("TEST QUESTION ID:", test_question)
+            return JsonResponse({'Success': 'Test details saved successfully!!'})
         except Exception:
             traceback.print_exc()
             return JsonResponse({'Error': 'Test Details could not be added!'}, status=500)
-
-        return HttpResponseRedirect('/adminview/test')
 
     def delete(self, request):
         try:
@@ -529,7 +528,7 @@ class TrainingView(View):
             new_training_stage = Stage.objects.get(id=new_training_stage_id)
             new_shift_officer_id = payload["ShiftOfficerId"]
             new_trainer_id = payload["TrainerId"]
-            new_date = datetime.strptime(payload["date"], '%Y-%m-%d')
+            new_date = datetime.strptime(payload["date"], '%Y-%m-%d').date()
 
             training.training_station = new_training_station
             training.training_stage = new_training_stage

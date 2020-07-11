@@ -94,7 +94,7 @@ function searchEmployeeTable(value){
 
 function deleteEmployee(employeeId){
     var xhrDelete = new XMLHttpRequest();
-    var deleteURL = 'http://127.0.0.1:8000/adminview/employeeData?EmpToken=' + employeeId;
+    var deleteURL = '/adminview/employeeData?EmployeeId=' + employeeId;
     xhrDelete.open('DELETE', deleteURL, true);
     xhrDelete.setRequestHeader('X-CSRFToken', cookieValue);
     xhrDelete.send();

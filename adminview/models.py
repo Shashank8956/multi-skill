@@ -39,7 +39,7 @@ class Employee(models.Model):
     gender = models.CharField(max_length=7)
     current_station = models.ForeignKey(Station, on_delete=models.DO_NOTHING)
     mobile = models.CharField(max_length=12)
-    doj = models.DateField(auto_now_add=True)
+    doj = models.DateField()
     language_preference = models.CharField(default="English", max_length=200)
     is_admin = models.BooleanField(default=True)
     current_shift = models.ForeignKey(Shift, on_delete=models.DO_NOTHING)
@@ -120,7 +120,7 @@ class Training(models.Model):
     training_stage = models.ForeignKey(Stage, on_delete=models.DO_NOTHING)
     shift_officer_id = models.IntegerField(default=1)
     trainer_id = models.IntegerField(default=1)
-    date = models.DateTimeField(blank=True, null=True)
-
+    date = models.DateField(blank=True, null=True)
+    
     def __str__(self):
         return str(self.trainee)

@@ -267,7 +267,7 @@ function updateTrainingData(){
     sendData["TrainingStageId"] = stageJson[modalStageDropdown.selectedIndex -1].StageId;
     sendData["ShiftOfficerId"] = getEmployeeId( document.getElementById("trainee-name").value );
     sendData["TrainerId"] = getEmployeeId( document.getElementById("trainer-name").value );
-    sendData["date"] = document.getElementById("training-date");
+    sendData["date"] = document.getElementById("training-date").value;
     console.log(sendData);
     sendFormData(sendData);
 }
@@ -284,6 +284,7 @@ function sendFormData(testData){
     xhr.onreadystatechange = function() {//Call a function when the state changes.
         if(xhr.readyState == 4 && xhr.status == 200) {
             alert(this.responseText);
+            window.location.reload();
         }
     }
     xhr.send(finalData);
