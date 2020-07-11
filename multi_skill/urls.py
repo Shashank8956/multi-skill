@@ -19,8 +19,8 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),i
-    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico'))
+    path('admin/', admin.site.urls),
+    path('favicon.ico/', RedirectView.as_view(url='/static/images/favicon.ico')),
     path('', TemplateView.as_view(template_name='login.html'), name='loginStart'),
     path('adminview/', include('adminview.urls')),
 ]
