@@ -1,1 +1,1 @@
-web: gunicorn multiskill.wsgi --log-file -
+web: gunicorn multi_skill.wsgi --log-file -
