@@ -188,7 +188,8 @@
     visibility: visible;
 }
 
-#addEmpBtn{
+#defineEmpSkillBtn{
+    display: none;
     width: 107px;
     height: 31px;
     border: none;

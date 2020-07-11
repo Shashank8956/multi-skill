@@ -2,9 +2,9 @@ const stageMenu = document.getElementById("id-stageMenu");
 const stationMenu = document.getElementById("id-stationMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
 
-const trainingModal = document.getElementById("emp-modal-id");
-const cancelEmpBtn = document.getElementById("cancelEmpBtn")
-const saveEmpBtn = document.getElementById("submitEmpBtn");
+const skillModal = document.getElementById("skill-modal-id");
+const cancelSkillBtn = document.getElementById("cancelSkillBtn")
+const saveSkillBtn = document.getElementById("submitSkillBtn");
 
 const stationModal = document.getElementById("station-modal-id");
 const cancelStationBtn = document.getElementById("cancelStationBtn")
@@ -19,8 +19,9 @@ const cancelShiftBtn = document.getElementById("cancelShiftBtn")
 const saveShiftBtn = document.getElementById("submitShiftBtn");
 
 const filterStationDropdown = document.getElementById("station-filter");
-const empModalStationDropdown = document.getElementById("new-station");
 const filterShiftDropdown = document.getElementById("shift-filter");
+const skillModalStationDropdown = document.getElementById("skill-station");
+const skillModalStageDropdown = document.getElementById("skill-stage");
 
 
 const empSkillBtn = document.getElementById("defineEmpSkillBtn");
@@ -59,6 +60,7 @@ initialize();
 function initialize(){
     eventListeners();
     getAllData();
+    getAllStageData();
     getAllShiftData();
     getAllStationData();
     cookieValue = getCookie('csrftoken');
@@ -68,11 +70,13 @@ function eventListeners(){
     stageMenu.addEventListener("click", loadStageModal);
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
-    empSkillBtn.addEventListener("click", loadEmpModal);
+    empSkillBtn.addEventListener("click", loadSkillModal);
+    saveSkillBtn.addEventListener("click", updateSkill);
     window.addEventListener("click", closeModal);
-    cancelEmpBtn.addEventListener("click", cancelModal);
+    cancelSkillBtn.addEventListener("click", cancelModal);
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);
     clearFilterBtn.addEventListener("click", clearFilters);
 }
 
@@ -80,8 +84,8 @@ function clearFilters(){
     console.log("Clear filters does nothing!!");
 }
 
-function loadEmpModal(){
-    empModal.style.display = "inline-block";
+function loadSkillModal(){
+    skillModal.style.display = "inline-block";
 }
 
 function loadStageModal(){
@@ -97,15 +101,15 @@ function loadShiftModal(){
 }
 
 function cancelModal(){
-    empModal.style.display = "none";
+    skillModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
 }
 
 function closeModal(e){
-    if(e.target == empSkillBtn)
-        empSkillBtn.style.display = "none";
+    if(e.target == skillModal)
+        skillModal.style.display = "none";
     else if(e.target == stationModal)
         stationModal.style.display = "none";
     else if(e.target == stageModal)
@@ -117,16 +121,16 @@ function closeModal(e){
 function getAllData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeSkillData', true);
+    xhr.open('GET', '/adminview/employeeSkillData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            skillJson = JSON.parse(this.responseText);
-            console.log(skillJson);
-            prepareSkillData(skillJson);
-            loadEntireList(skillJson);
+            tempJson = JSON.parse(this.responseText);
+            
+            prepareSkillData(tempJson);
+            loadEntireList(tempJson);
         }
     };
 }
@@ -134,7 +138,7 @@ function getAllData() {
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/shiftData', true);
+    xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -147,10 +151,25 @@ function getAllShiftData() {
     };
 }
 
+function getAllStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', '/adminview/stageData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stageJson = JSON.parse(this.responseText);
+            console.log("Shift Data:" + stageJson[0].StageId);
+            loadStageDropdown();
+        }
+    };
+}
+
 function getAllStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -173,6 +192,16 @@ function loadShiftDropdown(){
     }
 }
 
+function loadStageDropdown(){
+    for(let i=0; i<stageJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stageJson[i].ShiftId;
+        childOption.innerText = stageJson[i].StageName;
+        childOption.classList.add("select_option")
+        skillModalStageDropdown.appendChild(childOption);
+    }
+}
+
 function loadStationDropdown(){
     for(let i=0; i<stationJson.length; i++){
         childOption = document.createElement("option");
@@ -180,6 +209,14 @@ function loadStationDropdown(){
         childOption.innerText = stationJson[i].StationName;
         childOption.classList.add("select_option")
         filterStationDropdown.appendChild(childOption);
+    }
+
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        skillModalStationDropdown.appendChild(childOption);
     }
 }
 
@@ -191,7 +228,7 @@ function loadListHeader(){
                             <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>`;
     for(let i=0; i<stationJson.length; i++){
         if(stationJson[i].StationName != "Default Station")
-            tableHeader += `<th data-columnName = "` + stationJson[i].StationName + `" data-order="desc" onclick="sortColumn(event);">` + stationJson[i].StationName + ` &#x25B4</th>`;
+            tableHeader += `<th data-columnName = "` + stationJson[i].StationName + `" data-order="desc" style="text-align:center;" onclick="sortColumn(event);">` + stationJson[i].StationName + ` &#x25B4</th>`;
     }   
         tableHeader += `</tr>`;                    
                             
@@ -204,6 +241,7 @@ function prepareSkillData(listData){
     if(listData!=null){
             for (const [key, value] of Object.entries(listData)) {
                 tempDict = {};
+                tempDict["EmpId"] = value[0].EmployeeId;
                 tempDict["EmpToken"] = value[0].EmpToken;
                 tempDict["EmpName"] = value[0].EmpName;
 
@@ -217,7 +255,7 @@ function prepareSkillData(listData){
                 skillDict.push(tempDict);
             }
         }
-        console.log(skillDict);
+        skillJson = skillDict;
 }
 
 function loadEntireList(listData){
@@ -253,11 +291,52 @@ function loadEntireList(listData){
                 }
                 tableRow += "</tr>";
             }
-            console.log(tableRow);
             skillListBody.innerHTML += tableRow;
         }
 }
 
+function updateSkill(){
+    sendData = {};
+    sendData["EmployeeId"] = getEmployeeIdByToken( document.getElementById("skill-token").value );
+    sendData["StationId"] = stationJson[skillModalStationDropdown.selectedIndex -1].StationId;
+    sendData["StageId"] = stageJson[skillModalStageDropdown.selectedIndex -1].StageId;
+    sendFormData(sendData);
+}
+
+function sendFormData(testData){
+    var xhr = new XMLHttpRequest();
+    var finalData = JSON.stringify(testData);
+    console.log(finalData);
+
+    xhr.open('PUT', '/adminview/employeeSkillData', true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', cookieValue);
+
+    xhr.onreadystatechange = function() {//Call a function when the state changes.
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            alert(this.responseText);
+            window.location.reload();
+        }
+    }
+    xhr.send(finalData);
+}
+
+function getEmployeeIdByName(empName){
+    for(var i=0; i<skillJson.length; i++){
+        if(skillJson[i].EmpName.toLowerCase() == empName.toLowerCase())
+            return skillJson[i].EmpId;
+    }
+    return null;
+}
+
+function getEmployeeIdByToken(empToken){
+    for(var i=0; i<skillJson.length; i++){
+        console.log(skillJson[i].EmpToken);
+        if(skillJson[i].EmpToken == empToken)
+            return skillJson[i].EmpId;
+    }
+    return null;
+}
 
 /*
 function loadEntireList(listData){

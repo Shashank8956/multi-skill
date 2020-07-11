@@ -17,7 +17,7 @@ const stationModalDropdown = document.getElementById("new-station");
 const stageFilterDropdown = document.getElementById("stage-filter");
 const stageModalDropdown = document.getElementById("new-stage");
 
-const addEmpBtn = document.getElementById("addEmpBtn");
+const updateSkillBtn = document.getElementById("defineEmpSkillBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const deleteShiftButton = document.getElementById("deleteEmpBtn");
 
@@ -42,12 +42,13 @@ function eventListeners(){
     stageMenu.addEventListener("click", loadStageModal);
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
+    //updateSkillBtn.addEventListener("click", loadSkillModal);
 
     //submitStationBtn.addEventListener("click", loadStationModal);
-    cancelStationBtn.addEventListener("click", closeModal);
-
+    cancelStationBtn.addEventListener("click", cancelModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);
     //submitStageBtn.addEventListener("click", loadStageModal);
-    cancelStageBtn.addEventListener("click", closeModal);
+    cancelStageBtn.addEventListener("click", cancelModal);
     window.addEventListener("click", closeModal);
 }
 
@@ -61,6 +62,13 @@ function loadStationModal(){
 
 function loadShiftModal(){
     shiftModal.style.display = "inline-block";
+}
+
+function cancelModal(){
+    shiftModal.style.display = "none";
+    stationModal.style.display = "none";
+    stageModal.style.display = "none";
+    shiftModal.style.display = "none";
 }
 
 function closeModal(e){

@@ -19,11 +19,14 @@ const deleteTestBtn = document.getElementById("deleteTestBtn");
 const cancelTestBtn = document.getElementById("cancelTestBtn");
 const submitTestBtn = document.getElementById("submitTestBtn");
 
-const cancelStageBtn = document.getElementById("cancelStationBtn");
-const submitStageBtn = document.getElementById("submitStationBtn");
+const cancelStationBtn = document.getElementById("cancelStationBtn");
+const submitStationBtn = document.getElementById("submitStationBtn");
 
-const cancelStationBtn = document.getElementById("cancelStageBtn");
-const submitStationBtn = document.getElementById("submitStageBtn");
+const cancelStageBtn = document.getElementById("cancelStageBtn");
+const submitStageBtn = document.getElementById("submitStageBtn");
+
+const cancelShiftBtn = document.getElementById("cancelShiftBtn");
+const submitShiftBtn = document.getElementById("submitShiftBtn");
 
 const stationFilterDropdown = document.getElementById("station-filter"); 
 const stationModalDropdown = document.getElementById("new-station");
@@ -55,15 +58,15 @@ function eventListeners(){
     stageMenu.addEventListener("click", loadStageModal);
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
-
     submitTestBtn.addEventListener("click", loadTestDetail);
-    cancelTestBtn.addEventListener("click", closeModal);
+    cancelTestBtn.addEventListener("click", cancelModal);
 
     //submitStationBtn.addEventListener("click", loadStationModal);
-    cancelStationBtn.addEventListener("click", closeModal);
+    cancelStationBtn.addEventListener("click", cancelModal);
 
     //submitStageBtn.addEventListener("click", loadStageModal);
-    cancelStageBtn.addEventListener("click", closeModal);
+    cancelStageBtn.addEventListener("click", cancelModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);
     window.addEventListener("click", closeModal);
 }
 
@@ -81,6 +84,13 @@ function loadStationModal(){
 
 function loadShiftModal(){
     shiftModal.style.display = "inline-block";
+}
+
+function cancelModal(){
+    testModal.style.display = "none";
+    stationModal.style.display = "none";
+    stageModal.style.display = "none";
+    shiftModal.style.display = "none";
 }
 
 function closeModal(e){
@@ -112,7 +122,7 @@ function getTestData(){
     testJson = [];
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/testData', true);
+    xhr.open('GET', '/adminview/testData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -127,7 +137,7 @@ function getTestData(){
 function getStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -142,7 +152,7 @@ function getStationData() {
 function getStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {

@@ -55,7 +55,13 @@ function PrintFormData(e){
     //sendData["new_shiftName"] = "temp shift name";//document.getElementById("new-shift").selectedIndex.value;
     sendData["new_stageId"] = stageJson[document.getElementById("new-stage").selectedIndex -1].StageId;
     sendData["new_weeklyOff"] = document.getElementById("new-weeklyOff").options[document.getElementById("new-weeklyOff").selectedIndex].value;
-    sendData["new_isAdmin"] = document.getElementById("new-isAdmin").options[document.getElementById("new-isAdmin").selectedIndex].value;
+    let isAdmin = document.getElementById("new-isAdmin").options[document.getElementById("new-isAdmin").selectedIndex].value;
+    
+    if(isAdmin == "Admin")
+        sendData["new_isAdmin"] = true;
+    else
+        sendData["new_isAdmin"] = false;
+
     sendData["new_language"] = document.getElementById("new-language").options[document.getElementById("new-language").selectedIndex].value;
     console.log(sendData);
     sendFormData(sendData);
@@ -118,6 +124,7 @@ function eventListeners(){
     cancelEmpBtn.addEventListener("click", cancelModal);
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);
     saveEmpBtn.addEventListener("click", submitData);
     clearFilterBtn.addEventListener("click", clearFilters);
     deleteEmpButton.addEventListener("click", deleteSelected);

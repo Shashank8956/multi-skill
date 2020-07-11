@@ -3,8 +3,8 @@ const stationMenu = document.getElementById("id-stationMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
 
 const trainingModal = document.getElementById("training-modal-id");
-const cancelEmpBtn = document.getElementById("cancelEmpBtn")
-const saveEmpBtn = document.getElementById("submitEmpBtn");
+const cancelTrainingBtn = document.getElementById("cancelTrainingBtn")
+const saveTrainingBtn = document.getElementById("submitTrainingBtn");
 
 const stationModal = document.getElementById("station-modal-id");
 const cancelStationBtn = document.getElementById("cancelStationBtn")
@@ -75,9 +75,11 @@ function eventListeners(){
     shiftMenu.addEventListener("click", loadShiftModal);
     setTrainingBtn.addEventListener("click", loadEmpModal);
     window.addEventListener("click", closeModal);
-    cancelEmpBtn.addEventListener("click", cancelModal);
+    cancelTrainingBtn.addEventListener("click", cancelModal);
+    submitTrainingBtn.addEventListener("click", updateTrainingData);
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);
     clearFilterBtn.addEventListener("click", clearFilters);
 }
 
@@ -229,7 +231,7 @@ function loadEntireList(listData){
                                 <input type="checkbox" id=` + listData[i].TraineeToken + `></td>
                                 <td>` + listData[i].TraineeToken + `</td>
                                 <td>` + listData[i].TraineeName + `</td>
-                                <td>` + listData[i].DOJ + `</td>
+                                <td>` + listData[i].TraineeDOJ + `</td>
                                 <td>` + listData[i].TrainingStationName + `</td>
                                 <td>` + listData[i].TrainingSkillLevel + `</td>
                                 <td>` + listData[i].ShiftOfficerName + `</td>
@@ -258,18 +260,15 @@ function loadListHeader(){
     trainingListHead.innerHTML += tableHeader;
 }
 
-function updateTrainingData(e){
-    var formInstance = e.target;
-    var formData = new FormData( formInstance );
-    var sendData = {};
-    sendData["TrainingId"] = getTrainingId( formData.get("trainee_token") );
+function updateTrainingData(){
+    sendData = {};
+    sendData["TrainingId"] = getTrainingId( document.getElementById("trainee-token").value );
     sendData["TrainingStationId"] = stationJson[modalStationDropdown.selectedIndex -1].StationId;
     sendData["TrainingStageId"] = stageJson[modalStageDropdown.selectedIndex -1].StageId;
-    sendData["ShiftOfficerId"] = getEmployeeId( formData.get("trainee_name") );
-    sendData["TrainerId"] = getEmployeeId( formData.get("trainer_name") );
-    sendData["date"] = "2025-12-31";//formData.get("training_date");
-    
-    alert(sendData);
+    sendData["ShiftOfficerId"] = getEmployeeId( document.getElementById("trainee-name").value );
+    sendData["TrainerId"] = getEmployeeId( document.getElementById("trainer-name").value );
+    sendData["date"] = document.getElementById("training-date");
+    console.log(sendData);
     sendFormData(sendData);
 }
 
@@ -278,7 +277,7 @@ function sendFormData(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('PUT', 'http://127.0.0.1:8000/adminview/trainingManagement', true);
+    xhr.open('PUT', 'http://127.0.0.1:8000/adminview/trainingData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
 
@@ -300,8 +299,26 @@ function getTrainingId(empToken){
 
 function getEmployeeId(empName){
     for(var i=0; i<trainingJson.length; i++){
-        if(trainingJson[i].TraineeName.toLowerCase() == empToken.toLowerCase())
+        if(trainingJson[i].TraineeName.toLowerCase() == empName.toLowerCase())
             return trainingJson[i].EmployeeId;
     }
     return null;
 }
+
+
+
+
+/*
+var formInstance = e.target; //document.getElementById("training-form-id");
+    formInstance.preventDefault();
+    var formData = new FormData( formInstance );
+    var sendData = {};
+    sendData["TrainingId"] = getTrainingId( formData.get("trainee_token") );
+    sendData["TrainingStationId"] = stationJson[modalStationDropdown.selectedIndex -1].StationId;
+    sendData["TrainingStageId"] = stageJson[modalStageDropdown.selectedIndex -1].StageId;
+    sendData["ShiftOfficerId"] = getEmployeeId( formData.get("trainee_name") );
+    sendData["TrainerId"] = getEmployeeId( formData.get("trainer_name") );
+    sendData["date"] = "2025-12-31";//formData.get("training_date");
+    
+    alert(sendData);
+*/

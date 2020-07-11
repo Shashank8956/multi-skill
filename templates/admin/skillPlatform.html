@@ -116,55 +116,54 @@
                         <div style="float: right;  margin-top: 10px;"> 
                           <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
                           <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
-                          <button type="button" id="defineEmpSkillBtn" class="create-button">+ Employee</button>                
+                          <button type="button" id="defineEmpSkillBtn" class="create-button">Update Skill</button>                
                         </div>
                     </div>
                 </div>
     <!--########### Filter Section - END ###########-->
 
     <!--Modal section-->
-    <div id="emp-modal-id" class="emp-modal">
-      <div class="modal-box">
-        <form action="./add_newEmp" method="POST">
-          {% csrf_token %}
+    <div id="skill-modal-id" class="emp-modal">
+      <div id="skill-modal-box-id" class="modal-box">
           <header class="modal-header">
             <div class="modalHeaderTitle">
-              <h5>Add Employee</h5>
+              <h5>Update Skill</h5>
             </div>
           </header>
-          <div class="modal-body">
+          <div id="station-modal-body-id" class="modal-body">
             <div>
               <label class="modal-labels">Token No</label><br>
-              <input id="new-token" class="emp-textbox modal_inputs" name="new_token" type="number" placeholder="Token">
+              <input id="skill-token" class="emp-textbox modal_inputs" name="skill_token" type="number" placeholder="Token No">
             </div>
+
             <div>
-              <label class="modal-labels">Name</label><br>
-              <input id="new-name" class="emp-textbox modal_inputs" name="new_name"  type="text" placeholder="Name">
+              <label class="modal-labels">Employee Name</label><br>
+              <input id="skill-employee" class="emp-textbox modal_inputs" name="skill_employee" type="text" placeholder="Employee Name">
             </div>
+
             <div>
-              <label class="modal-labels">Gender</label><br>
-              <input id="new-gender" class="emp-textbox modal_inputs" name="new_gender"  type="text" placeholder="Gender">
+              <label class="modal-labels">Select Station</label><br>
+              <select id="skill-station" class="test-select" name="skill_station">
+                <option  class="select_option" selected="selected">Select Station</option>
+              </select>
             </div>
+
             <div>
-              <label class="modal-labels">Contact</label><br>
-              <input id="new-contact" class="emp-textbox modal_inputs" name="new_contact" type="tel" placeholder="Contact">
+              <label class="modal-labels">Select Stage</label><br>
+              <select id="skill-stage" class="test-select" name="skill_stage">
+                <option  class="select_option" selected="selected">Select Stage</option>
+              </select>
             </div>
-            <div>
-              <label class="modal-labels">Current Station</label><br>
-              <input id="new-station" class="emp-textbox modal_inputs" name="new_station" type="text" placeholder="Station Name">
-            </div>
-            <div>
-              <label class="modal-labels">Doj</label><br>
-              <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
-            </div>
+
             <div class="modal-buttons">
-              <button id="cancelEmpBtn" type="cancel">Cancel</button>
-              <button id="submitEmpBtn" class ="emp-textbox" type="submit">Save</button>
+              <button id="cancelSkillBtn"  type="button" class="modalCancelBtn">Cancel</button>
+              <button id="submitSkillBtn" class="modalSubmitBtn">Save</button>
             </div>
           </div>
-        </form>
       </div>
     </div>
+
+
 
     <div id="station-modal-id" class="emp-modal">
       <div id="station-modal-box-id" class="modal-box">
@@ -187,7 +186,7 @@
             </div>
 
             <div class="modal-buttons">
-              <button id="cancelStationBtn" class="modalCancelBtn">Cancel</button>
+              <button id="cancelStationBtn" class="modalCancelBtn" type="button">Cancel</button>
               <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
             </div>
           </div>
@@ -216,7 +215,7 @@
             </div>
 
             <div class="modal-buttons">
-              <button id="cancelStageBtn" class="modalCancelBtn">Cancel</button>
+              <button id="cancelStageBtn"  type="button" class="modalCancelBtn">Cancel</button>
               <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
             </div>
           </div>
@@ -250,7 +249,7 @@
             </div>
 
             <div class="modal-buttons">
-              <button id="cancelShiftBtn" class="modalCancelBtn">Cancel</button>
+              <button id="cancelShiftBtn"  type="button" class="modalCancelBtn">Cancel</button>
               <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
             </div>
           </div>
