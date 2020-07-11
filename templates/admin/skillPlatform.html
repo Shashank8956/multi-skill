@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height= device-height, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skill.css' %}">
+    <title>Skill Management</title>
+</head>
+<body>
+    <div class= "full-page">
+<!--Left side nav-->
+            <div class="sidenav">
+    <!--Side nav list items-->
+                <ul class= "sidenav-list">
+                    <li>
+                        <div class="list-item">
+                            <a href="./dashboard">
+                                <img src= "{% static 'images/white/icon_white_dashboard.svg' %}"/>
+                                <h6>Dashboard</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="./employee">
+                                <span><img src="{% static 'images/white/icon_white_employee.svg' %}"/></span>
+                                <h6>Employees</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="./test">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Manage Tests</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="./skillPlatform">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Skill Management</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="./shiftManagement">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Shift Management</h6>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-item">
+                            <a href="./trainingManagement">
+                                <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                                <h6>Training Plan</h6>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+    <!--########### Side nav list items - END ###########-->
+<!--########### Left Side bar - END ###########-->
+
+<!--Main Section-->
+            <div class="main-section">
+              <div class="topbar">
+                <div class="dropdown">
+                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
+                  <div class="dropdown-content">
+                    <button id="id-stationMenu" class="menuBtn">Add Station</button>
+                    <button id="id-stageMenu" class="menuBtn">Add Stage</button>
+                    <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
+                  </div>
+                </div>
+                <input id="searchBar" type="text" placeholder="Search employee">
+                <div id="userIcon"></div>
+              </div>
+    <!--Filter section-->
+                <div class="filter-section">
+                  <div id="filter-title"><h3>Manpower Multi Skill Format</h3></div>
+                  <div id="filter-contents">
+                    <div style="display: flex;">
+                        <div>
+                            <label class="filter-labels">Select Station</label><br>
+                            <select id="station-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Station</option>
+                            </select>
+                          </div>
+                          <div style="margin-left: 10px;">
+                            <label class="filter-labels">Select Shift</label><br>
+                            <select id="shift-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Shift</option>
+                            </select><br>
+                          </div>  
+                          <div style="margin-left: 10px;">
+                            <label class="filter-labels">Weekly Off</label><br>
+                            <select id="weeklyOff-filter" class="test-select">
+                                <option  class="select_option" selected="selected">Select Day</option>
+                                <option class="select_option">Monday</option>
+                                <option class="select_option">Tuesday</option>
+                                <option class="select_option">Wednesday</option>
+                                <option class="select_option">Thursday</option>
+                                <option class="select_option">Friday</option>
+                                <option class="select_option">Saturday</option>
+                                <option class="select_option">Sunday</option> 
+                            </select><br>
+                          </div>
+                      </div>
+                        <div style="float: right;  margin-top: 10px;"> 
+                          <button type="button" id="deleteEmpBtn" class="delete-button" disabled>Delete</button>
+                          <button type="button" id="clearFilterBtn" class="delete-button">Clear Filters</button>
+                          <button type="button" id="defineEmpSkillBtn" class="create-button">Update Skill</button>                
+                        </div>
+                    </div>
+                </div>
+    <!--########### Filter Section - END ###########-->
+
+    <!--Modal section-->
+    <div id="skill-modal-id" class="emp-modal">
+      <div id="skill-modal-box-id" class="modal-box">
+          <header class="modal-header">
+            <div class="modalHeaderTitle">
+              <h5>Update Skill</h5>
+            </div>
+          </header>
+          <div id="station-modal-body-id" class="modal-body">
+            <div>
+              <label class="modal-labels">Token No</label><br>
+              <input id="skill-token" class="emp-textbox modal_inputs" name="skill_token" type="number" placeholder="Token No">
+            </div>
+
+            <div>
+              <label class="modal-labels">Employee Name</label><br>
+              <input id="skill-employee" class="emp-textbox modal_inputs" name="skill_employee" type="text" placeholder="Employee Name">
+            </div>
+
+            <div>
+              <label class="modal-labels">Select Station</label><br>
+              <select id="skill-station" class="test-select" name="skill_station">
+                <option  class="select_option" selected="selected">Select Station</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="modal-labels">Select Stage</label><br>
+              <select id="skill-stage" class="test-select" name="skill_stage">
+                <option  class="select_option" selected="selected">Select Stage</option>
+              </select>
+            </div>
+
+            <div class="modal-buttons">
+              <button id="cancelSkillBtn"  type="button" class="modalCancelBtn">Cancel</button>
+              <button id="submitSkillBtn" class="modalSubmitBtn">Save</button>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+
+    <div id="station-modal-id" class="emp-modal">
+      <div id="station-modal-box-id" class="modal-box">
+        <form action="./stationData" method="POST">
+          {% csrf_token %}
+          <header class="modal-header">
+            <div class="modalHeaderTitle">
+              <h5>Add Station</h5>
+            </div>
+          </header>
+          <div id="station-modal-body-id" class="modal-body">
+            <div>
+              <label class="modal-labels">Station Name</label><br>
+              <input id="new-station-name" class="emp-textbox modal_inputs" name="new_stationName"  type="text" placeholder="Station name">
+            </div>
+
+            <div>
+              <label class="modal-labels">Required Manpower</label><br>
+              <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="number" placeholder="Required Manpower">
+            </div>
+
+            <div class="modal-buttons">
+              <button id="cancelStationBtn" class="modalCancelBtn" type="button">Cancel</button>
+              <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="stage-modal-id" class="emp-modal">
+      <div id="stage-modal-box-id" class="modal-box">
+        <form action="./stageData" method="POST">
+          {% csrf_token %}
+          <header class="modal-header">
+            <div class="modalHeaderTitle">
+              <h5>Add Stage</h5>
+            </div>
+          </header>
+          <div id="stage-modal-body-id" class="modal-body">
+            <div>
+              <label class="modal-labels">Stage Name</label><br>
+              <input id="new-stage-name" class="emp-textbox modal_inputs" name="new_stageName"  type="text" placeholder="Stage Name">
+            </div>
+
+            <div>
+              <label class="modal-labels">Skill Level</label><br>
+              <input id="new-skill-level" class="emp-textbox modal_inputs" name="new_skillLevel" type="number" placeholder="Skill Level">
+            </div>
+
+            <div class="modal-buttons">
+              <button id="cancelStageBtn"  type="button" class="modalCancelBtn">Cancel</button>
+              <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="shift-modal-id" class="emp-modal">
+      <div id="shift-modal-box-id" class="modal-box">
+        <form action="./shiftData" method="POST">
+          {% csrf_token %}
+          <header class="modal-header">
+            <div class="modalHeaderTitle">
+              <h5>Add Shift</h5>
+            </div>
+          </header>
+          <div id="shift-modal-body-id" class="modal-body">
+            <div>
+              <label class="modal-labels">Stage Name</label><br>
+              <input id="new-shift-name" class="emp-textbox modal_inputs" name="new_shiftName"  type="text" placeholder="Stage Name">
+            </div>
+
+            <div>
+              <label class="modal-labels">Shift Start Time</label><br>
+              <input id="new-start-time" class="emp-textbox modal_inputs" name="new_startTime" type="time" placeholder="Skill Level">
+            </div>
+
+            <div>
+              <label class="modal-labels">Shift End Time</label><br>
+              <input id="new-end-time" class="emp-textbox modal_inputs" name="new_endTime" type="time" placeholder="Skill Level">
+            </div>
+
+            <div class="modal-buttons">
+              <button id="cancelShiftBtn"  type="button" class="modalCancelBtn">Cancel</button>
+              <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--########### Modal Section - END ###########-->
+
+    <!--Table section-->
+                <div class="table-section">
+                    <table id="id_skillList" class="table-content">
+                        <thead id="id_skill_head"></thead>
+                        <tbody id="id_skill_body"></tbody>
+                    </table>
+                </div>
+                  
+    <!--########### Table Section - END ###########-->
+            </div>
+<!--########### Main Section - END ###########-->
+    </div>
+
+    <script src="{% static '/js/skill.js' %}"></script>
+    <script src="{% static '/js/skillUtilities.js' %}"></script>
+    
+</body>
+</html>

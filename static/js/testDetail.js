@@ -23,6 +23,9 @@ let resetButton = document.getElementById("resetBtn");
 let cancelButton = document.getElementById("cancelTestBtn");
 let submitButton = document.getElementById("createTestBtn");
 
+const stationDropdown = document.getElementById("new-station");
+const stageDropdown = document.getElementById("new-stage");
+
 //Array declarations
 let questionNoArray = [];
 let questionTextArray = [];
@@ -31,6 +34,8 @@ let questionOp2Array = [];
 let questionOp3Array = [];
 let questionOp4Array = [];
 let correctOpArray = [];
+let stationJson = [];
+let stageJson = [];
 let questionCounter = 0;
 let cookieValue = '';
 
@@ -38,6 +43,8 @@ initializePage();
 
 function initializePage(){
     setEvents();
+    getStageData();
+    getStationData();
     hideRightPanel();
     getSessionData();
 }
@@ -65,19 +72,20 @@ function getSessionData(){
     timeInput.value = sessionStorage.getItem('time');
     marksInput.value = sessionStorage.getItem('marks');
 
-    for (var opt, i = 0; opt = stationInput[i]; i++) {
-        if (opt.value == sessionStorage.getItem('station')) {
-            stationInput.selectedIndex = i;
+    for (var i = 0; i<stationDropdown.length; i++) {
+        if (stationDropdown[i].value == sessionStorage.getItem('station')) {
+            console.log("yes");
+            stationDropdown.selectedIndex = i;
             break;
         }
     }
-
-    for (var opt, i = 0; opt = stageInput[i]; i++) {
-        if (opt.value == sessionStorage.getItem('stage')) {
-            stageInput.selectedIndex = i;
+    for (var i = 0; i<stageDropdown.length; i++) {
+        if (stageDropdown[i].value == sessionStorage.getItem('stage')) {
+            stageDropdown.selectedIndex = i;
             break;
         }
     }
+    //sessionStorage.clear();
 }
 
 function setEvents(){
@@ -116,6 +124,7 @@ function showRightPanel(){
 }
 
 function addQuestionToList(){
+    getSessionData();
     //Data update in the arrays
     questionCounter++;
     questionNoArray.push(questionCounter);
@@ -245,6 +254,7 @@ function resetRightPanel(){
 
 function cancelTestEditing(){
     //Cancel test
+    window.location.replace("/adminview/test");
 }
 
 function submitTestDetails(){
@@ -258,7 +268,7 @@ function saveAndCloseTestDetails(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('POST', 'http://127.0.0.1:8000/adminview/addTest', true);
+    xhr.open('POST', 'http://127.0.0.1:8000/adminview/testData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
     console.log(cookieValue);
@@ -266,6 +276,7 @@ function saveAndCloseTestDetails(testData){
     xhr.onreadystatechange = function() {//Call a function when the state changes.
         if(xhr.readyState == 4 && xhr.status == 200) {
             alert(this.responseText);
+            window.location.replace("/adminview/test");
         }
     }
     xhr.send(finalData);
@@ -275,28 +286,79 @@ function bundleDataForSend(){
     testData = {};
     questionDetails = [];
 
-    testData["title"] = titleInput.value;
-    testData["station"] = stationInput.options[stationInput.selectedIndex].value;
-    testData["stage"] = stageInput.options[stageInput.selectedIndex].value;
-    testData["questions"] = questionNoInput.value;
-    testData["time"] = timeInput.value;
-    testData["marks"] = marksInput.value;
+    testData["Title"] = titleInput.value;
+    testData["StationId"] = stationJson[stationInput.selectedIndex -1].StationId;
+    //testData["StationName"] = stationInput.options[stationInput.selectedIndex].value;
+    testData["StageId"] = stageJson[stageInput.selectedIndex -1].StageId;
+    //testData["StageName"] = stageInput.options[stageInput.selectedIndex].value;
+    testData["Questions"] = questionNoInput.value;
+    testData["Time"] = timeInput.value;
+    testData["Marks"] = marksInput.value;
 
 
     for(let i = 0; i< questionTextArray.length; i++){
         tempJson = {};
-        tempJson["Question Number"] = questionNoArray[i];
+        tempJson["QuestionNumber"] = questionNoArray[i];
         tempJson["Question"] = questionTextArray[i];
         tempJson["Op1"] = questionOp1Array[i];
         tempJson["Op2"] = questionOp2Array[i];
         tempJson["Op3"] = questionOp3Array[i];
         tempJson["Op4"] = questionOp4Array[i];
-        tempJson["Correct"] = null;//correctOpArray[i];
+        tempJson["Correct"] = "Op1";//correctOpArray[i];
         
         questionDetails.push(tempJson);
     }
 
-    testData["Question Details"] = questionDetails;
+    testData["QuestionDetails"] = questionDetails;
     console.log(testData);
     return testData;
+}
+
+function getStationData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stationJson = JSON.parse(this.responseText);
+            loadStationDropdown();
+        }
+    };
+}
+
+function getStageData() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            stageJson = JSON.parse(this.responseText);
+            loadStageDropdown();
+        }
+    };
+}
+
+function loadStationDropdown(){
+    for(let i=0; i<stationJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stationJson[i].StationId;
+        childOption.innerText = stationJson[i].StationName;
+        childOption.classList.add("select_option")
+        stationDropdown.appendChild(childOption);
+    }
+}
+
+function loadStageDropdown(){
+    for(let i=0; i<stageJson.length; i++){
+        childOption = document.createElement("option");
+        childOption.id = stageJson[i].StageId;
+        childOption.innerText = stageJson[i].StageName;
+        childOption.classList.add("select_option")
+        stageDropdown.appendChild(childOption);
+    }
 }

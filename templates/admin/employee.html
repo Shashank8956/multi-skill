@@ -39,6 +39,30 @@
                             </a>
                         </div>
                     </li>
+                    <li>
+                      <div class="list-item">
+                          <a href="./skillPlatform">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Skill Management</h6>
+                          </a>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="list-item">
+                          <a href="./shiftManagement">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Shift Management</h6>
+                          </a>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="list-item">
+                          <a href="./trainingManagement">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Training Plan</h6>
+                          </a>
+                      </div>
+                  </li>
                 </ul>
             </div>
     <!--########### Side nav list items - END ###########-->
@@ -52,7 +76,7 @@
                     <div class="dropdown-content">
                       <button id="id-stationMenu" class="menuBtn">Add Station</button>
                       <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                      <button id="" class="menuBtn">Add something new</button>
+                      <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
                     </div>
                   </div>
                   <input id="searchBar" type="text" placeholder="Search employee">
@@ -69,7 +93,9 @@
                       </div>
                       <div style="margin-left: 10px;">
                         <label class="filter-labels">Station Name</label><br>
-                        <input id="station-filter" class="emp-textbox" type="text" placeholder="Station"><br>
+                        <select id="station-filter" class="test-select">
+                          <option  class="select_option" selected="selected" disabled>Select Station</option>
+                      </select><br>
                       </div> 
                     </div>
                       <div style="float: right;"> 
@@ -84,7 +110,7 @@
     <!--Modal section-->
             <div id="emp-modal-id" class="emp-modal">
               <div id="emp-modal-box-id" class="modal-box">
-                <form action="./add_newEmp" method="POST">
+                <form id="employee-form-id"  name="employee-form-name" onsubmit="return PrintFormData(event)"> 
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -110,15 +136,59 @@
                     </div>
                     <div>
                       <label class="modal-labels">Current Station</label><br>
-                      <input id="new-station" class="emp-textbox modal_inputs" name="new_station" type="text" placeholder="Station Name">
+                      <select id="new-station" class="test-select" name="new_station">
+                        <option  class="select_option" selected="selected" disabled>Select Station</option>
+                      </select>    
+                    </div>
+                    <div>
+                      <label class="modal-labels">Current Stage</label><br>
+                      <select id="new-stage" class="test-select" name="new_stage">
+                        <option  class="select_option" selected="selected" disabled>Select Stage</option>
+                      </select>    
                     </div>
                     <div>
                       <label class="modal-labels">Doj</label><br>
                       <input id="new-doj" class="emp-textbox modal_inputs" name="new_doj" type="date" placeholder="Doj">
                     </div>
+                    <div>
+                      <label class="modal-labels">Shift</label><br>
+                      <select id="new-shift" class="test-select" name="new_shift">
+                        <option  class="select_option" selected="selected" disabled>Select Shift</option>  
+                      </select>
+                    </div>
+                    <div>
+                      <label class="modal-labels">Weekly Off</label><br>
+                      <select id="new-weeklyOff" class="test-select" name="new_weeklyOff">
+                        <option  class="select_option" selected="selected" disabled>Select day</option>
+                        <option  class="select_option">Sunday</option>
+                        <option  class="select_option">Monday</option>
+                        <option  class="select_option">Tuesday</option>
+                        <option  class="select_option">Wednesday</option>
+                        <option  class="select_option">Thursday</option>
+                        <option  class="select_option">Friday</option>
+                        <option  class="select_option">Satruday</option>
+                      </select>    
+                    </div>
+                    <div>
+                      <label class="modal-labels">Role</label><br>
+                      <select id="new-isAdmin" class="test-select" name="new_isAdmin">
+                        <option  class="select_option" selected="selected"d disabled>Select Role</option>
+                        <option  class="select_option">Admin</option>
+                        <option  class="select_option">User</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="modal-labels">Language Preference</label><br>
+                      <select id="new-language" class="test-select" name="new_language">
+                        <option  class="select_option" selected="selected" disabled>Select Language</option>
+                        <option  class="select_option">English</option>
+                        <option  class="select_option">Hindi</option>
+                        <option  class="select_option">Marathi</option>
+                      </select>  
+                    </div>
                     <div class="modal-buttons">
-                      <button id="cancelEmpBtn" class="modalCancelBtn">Cancel</button>
-                      <button id="submitEmpBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="cancelEmpBtn" type="button" class="modalCancelBtn">Cancel</button>
+                      <button id="submitEmpBtn" class="modalSubmitBtn" onclick="PrintFormData">Save</button>
                     </div>
                   </div>
                 </form>
@@ -127,7 +197,7 @@
 
             <div id="station-modal-id" class="emp-modal">
               <div id="station-modal-box-id" class="modal-box">
-                <form action="./add_newStation" method="POST">
+                <form action="./stationData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -142,11 +212,11 @@
 
                     <div>
                       <label class="modal-labels">Required Manpower</label><br>
-                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="tel" placeholder="Required Manpower">
+                      <input id="new-station-requiredManpower" class="emp-textbox modal_inputs" name="new_requiredManpower" type="number" placeholder="Required Manpower">
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStationBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="cancelStationBtn"  type="button" class="modalCancelBtn">Cancel</button>
                       <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
@@ -156,7 +226,7 @@
 
             <div id="stage-modal-id" class="emp-modal">
               <div id="stage-modal-box-id" class="modal-box">
-                <form action="./add_newStation" method="POST">
+                <form action="./stageData" method="POST">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -175,8 +245,42 @@
                     </div>
 
                     <div class="modal-buttons">
-                      <button id="cancelStageBtn" class="modalCancelBtn" type="cancel">Cancel</button>
+                      <button id="cancelStageBtn"  type="button" class="modalCancelBtn">Cancel</button>
                       <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="shift-modal-id" class="emp-modal">
+              <div id="shift-modal-box-id" class="modal-box">
+                <form action="./shiftData" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Add Shift</h5>
+                    </div>
+                  </header>
+                  <div id="shift-modal-body-id" class="modal-body">
+                    <div>
+                      <label class="modal-labels">Stage Name</label><br>
+                      <input id="new-shift-name" class="emp-textbox modal_inputs" name="new_shiftName"  type="text" placeholder="Stage Name">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift Start Time</label><br>
+                      <input id="new-start-time" class="emp-textbox modal_inputs" name="new_startTime" type="time" placeholder="Skill Level">
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift End Time</label><br>
+                      <input id="new-end-time" class="emp-textbox modal_inputs" name="new_endTime" type="time" placeholder="Skill Level">
+                    </div>
+
+                    <div class="modal-buttons">
+                      <button id="cancelShiftBtn"  type="button" class="modalCancelBtn">Cancel</button>
+                      <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
                     </div>
                   </div>
                 </form>
@@ -187,101 +291,17 @@
     <!--Table section-->
                 <div class="table-section">
                     <table id="id_EmpList" class="table-content">
-                        <tr>    
-                            <th><input type="checkbox"></th>
-                            <th>Token No</th>
-                            <th>Name</th>
-                            <th>Doj</th>
-                            <th>Contact</th>
-                            <th>Station</th>
-                        </tr>
-                        <!--<tr>
-                            <td><input type="checkbox"></td>
-                            <td>001001</td>
-                            <td>Maria Anders</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 1</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>265489</td>
-                            <td>Christina Berglund</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 2</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>265944</td>
-                            <td>Francisco Chang</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 3</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>956484</td>
-                            <td>Roland Mendel</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 4</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>356748</td>
-                            <td>Helen Bennett</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 5</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>945623</td>
-                            <td>Philip Cramer</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 6</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>695842</td>
-                            <td>Yoshi Tannamuri</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 7</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>961321</td>
-                            <td>Giovanni Rovelli</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 8</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>623415</td>
-                            <td>Simon Crowther</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 9</td>
-                          </tr>
-                          <tr>
-                            <td><input type="checkbox"></td>
-                            <td>958426</td>
-                            <td>Marie Bertrand</td>
-                            <td>25/01/2020</td>
-                            <td>9876543210</td>
-                            <td>Some Station 10</td>
-                          </tr>-->
+                      <thead id="id_EmpList_head">
+                      </thead>
+                      <tbody id="id_EmpList_body">
+                      </tbody>
                     </table>
-                </div>
     <!--########### Table Section - END ###########-->
-            </div>
+                </div>
 <!--########### Main Section - END ###########-->
     </div>
 
     <script src="{% static 'js/employee.js' %}"></script>
+    <script src="{% static 'js/utilities.js' %}"></script>
 </body>
 </html>

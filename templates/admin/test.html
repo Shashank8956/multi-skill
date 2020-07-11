@@ -39,6 +39,30 @@
                             </a>
                         </div>
                     </li>
+                    <li>
+                      <div class="list-item">
+                          <a href="./skillPlatform">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Skill Management</h6>
+                          </a>
+                      </div>
+                  </li>
+                    <li>
+                      <div class="list-item">
+                          <a href="./shiftManagement">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Shift Management</h6>
+                          </a>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="list-item">
+                          <a href="./trainingManagement">
+                              <span><img src="{% static 'images/white/icon_white_test.svg' %}"/></span>
+                              <h6>Training Plan</h6>
+                          </a>
+                      </div>
+                  </li>
                 </ul>
             </div>
     <!--########### Side nav list items - END ###########-->
@@ -51,7 +75,7 @@
                         <div class="dropdown-content">
                             <button id="id-stationMenu" class="menuBtn">Add Station</button>
                             <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                            <button id="" class="menuBtn">Add something new</button>
+                            <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
                         </div>
                       </div>
                   <input id="searchBar" type="text" placeholder="Search employee">
@@ -65,21 +89,13 @@
                       <div>
                         <label class="filter-labels">Station</label><br>
                         <select id="station-filter" class="test-select">
-                            <option  class="select_option" selected="selected">Select Station</option>
-                            <option class="select_option">Station 1</option>
-                            <option class="select_option">Station 2</option>
-                            <option class="select_option">Station 3</option>
-                            <option class="select_option">Station 4</option>
+                            <option  class="select_option" selected="selected" disabled>Select Station</option>
                         </select>
                       </div>
                       <div style="margin-left: 10px;">
                         <label class="filter-labels">Stage</label><br>
                         <select id="stage-filter" class="test-select">
-                            <option  class="select_option" selected="selected">Select Stage</option>
-                            <option class="select_option">Stage 1</option>
-                            <option class="select_option">Stage 2</option>
-                            <option class="select_option">Stage 3</option>
-                            <option class="select_option">Stage 4</option>
+                            <option  class="select_option" selected="selected" disabled>Select Stage</option>
                         </select><br>
                       </div> 
                     </div>
@@ -111,22 +127,14 @@
                   <div style="flex-grow: 1; margin-right: 20px;">
                     <label class="modal-labels">Station</label><br>
                     <select id="new-station" class="test-select">
-                        <option  class="select_option" selected="selected">Select Stage</option>
-                        <option class="select_option">Stage 1</option>
-                        <option class="select_option">Stage 2</option>
-                        <option class="select_option">Stage 3</option>
-                        <option class="select_option">Stage 4</option>
+                        <option  class="select_option" selected="selected" disabled>Select Station</option>
                     </select>
                   </div>
 
                   <div style="flex-grow: 1;">
                     <label class="modal-labels">Stage</label><br>
                     <select id="new-stage" class="test-select">
-                        <option  class="select_option" selected="selected">Select Stage</option>
-                        <option class="select_option">Stage 1</option>
-                        <option class="select_option">Stage 2</option>
-                        <option class="select_option">Stage 3</option>
-                        <option class="select_option">Stage 4</option>
+                        <option  class="select_option" selected="selected" disabled>Select Stage</option>
                     </select>
                   </div>
 
@@ -147,7 +155,7 @@
                     </div>
                   </div>
                   <div class="modal-buttons">
-                    <button id="cancelTestBtn" class="modalCancelBtn">Cancel</button>
+                    <button id="cancelTestBtn" class="modalCancelBtn" type="button">Cancel</button>
                     <button id="submitTestBtn" class="modalSubmitBtn" type="submit">Save</button>
                   </div>
                 </div>
@@ -157,7 +165,7 @@
 
     <div id="station-modal-id" class="modal_shadow">
         <div id="station-modal-box-id" class="modal-box">
-          <form action="./add_newStation" method="POST">
+          <form action="./stationData" method="POST">
             {% csrf_token %}
             <header class="modal-header">
               <div class="modalHeaderTitle">
@@ -176,7 +184,7 @@
               </div>
 
               <div class="modal-buttons">
-                <button id="cancelStationBtn" class="modalCancelBtn">Cancel</button>
+                <button id="cancelStationBtn" class="modalCancelBtn" type="button">Cancel</button>
                 <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
               </div>
             </div>
@@ -186,7 +194,7 @@
 
     <div id="stage-modal-id" class="modal_shadow">
         <div id="stage-modal-box-id" class="modal-box">
-          <form action="./add_newStation" method="POST">
+          <form action="./stageData" method="POST">
             {% csrf_token %}
             <header class="modal-header">
               <div class="modalHeaderTitle">
@@ -205,116 +213,56 @@
               </div>
 
               <div class="modal-buttons">
-                <button id="cancelStageBtn" class="modalCancelBtn">Cancel</button>
+                <button id="cancelStageBtn" class="modalCancelBtn" type="button">Cancel</button>
                 <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
               </div>
             </div>
           </form>
         </div>
     </div>
+
+    <div id="shift-modal-id" class="modal_shadow">
+      <div id="shift-modal-box-id" class="modal-box">
+        <form action="./shiftData" method="POST">
+          {% csrf_token %}
+          <header class="modal-header">
+            <div class="modalHeaderTitle">
+              <h5>Add Shift</h5>
+            </div>
+          </header>
+          <div id="shift-modal-body-id" class="modal-body">
+            <div>
+              <label class="modal-labels">Stage Name</label><br>
+              <input id="new-shift-name" class="emp-textbox modal_inputs" name="new_shiftName"  type="text" placeholder="Stage Name">
+            </div>
+
+            <div>
+              <label class="modal-labels">Shift Start Time</label><br>
+              <input id="new-start-time" class="emp-textbox modal_inputs" name="new_startTime" type="time" placeholder="Skill Level">
+            </div>
+
+            <div>
+              <label class="modal-labels">Shift End Time</label><br>
+              <input id="new-end-time" class="emp-textbox modal_inputs" name="new_endTime" type="time" placeholder="Skill Level">
+            </div>
+
+            <div class="modal-buttons">
+              <button id="cancelShiftBtn" class="modalCancelBtn" type="button">Cancel</button>
+              <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <!--########### Modal Section - END ###########-->
 
     <!--Table section-->
-                <div class="table-section">
+                <div id="id_testList" class="table-section">
                     <table class="table-content">
-                        <tr>    
-                            <th><input type="checkbox"></th>
-                            <th>Title</th>
-                            <th>Station</th>
-                            <th>Stage</th>
-                            <th>Total Questions</th>
-                            <th>Passing Percentage</th>
-                            <th>Time</th>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>8</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 2</td>
-                            <td>Station name 2</td>
-                            <td>6</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 3</td>
-                            <td>Station name 3</td>
-                            <td>4</td>
-                            <td>20</td>
-                            <td>40</td>
-                            <td>15 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 4</td>
-                            <td>Station name 4</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>Some test title 1</td>
-                            <td>Station name 1</td>
-                            <td>2</td>
-                            <td>25</td>
-                            <td>40</td>
-                            <td>30 mins</td>
-                        </tr>
+                      <thead id="id_testList_head">
+                      </thead>
+                      <tbody id="id_testList_body">
+                      </tbody>
                     </table>
                 </div>
     <!--########### Table Section - END ###########-->
@@ -324,5 +272,6 @@
     </div>
 
     <script src="{% static 'js/test.js' %}"></script>
+    <script src="{% static 'js/testUtilities.js' %}"></script>
 </body>
 </html>
