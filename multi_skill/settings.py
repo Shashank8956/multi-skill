@@ -77,12 +77,24 @@ WSGI_APPLICATION = 'multi_skill.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ddo4tje654u09a',
+        'USER': 'wzjlgmtegtmkia',
+        'PASSWORD': '8419b5c329d3f170595bcb5f032d7ec55a59bcb85f4269d0bc040fbbd32b278a',
+        'HOST': 'ec2-50-17-21-170.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
 
 # Password validation
