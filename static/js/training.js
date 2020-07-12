@@ -124,7 +124,7 @@ function closeModal(e){
 function getAllData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/trainingData', true);
+    xhr.open('GET', '/adminview/trainingData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -139,7 +139,7 @@ function getAllData() {
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/shiftData', true);
+    xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -155,7 +155,7 @@ function getAllShiftData() {
 function getAllStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -170,7 +170,7 @@ function getAllStageData() {
 function getAllStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -277,7 +277,7 @@ function sendFormData(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('PUT', 'http://127.0.0.1:8000/adminview/trainingData', true);
+    xhr.open('PUT', '/adminview/trainingData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
 

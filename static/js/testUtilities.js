@@ -92,7 +92,7 @@ function searchTable(value){var filterData = [];
 
 function deleteTest(testId){
     var xhrDelete = new XMLHttpRequest();
-    var deleteURL = 'http://127.0.0.1:8000/adminview/testData?TestHeaderId=' + testId;
+    var deleteURL = '/adminview/testData?TestHeaderId=' + testId;
     xhrDelete.open('DELETE', deleteURL, true);
     //xhrDelete.setRequestHeader('X-CSRFToken', cookieValue);
     xhrDelete.send();
