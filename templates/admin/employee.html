@@ -70,18 +70,18 @@
 
 <!--Main Section-->
             <div class="main-section">
-                <div class="topbar">
-                  <div class="dropdown">
-                    <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
-                    <div class="dropdown-content">
-                      <button id="id-stationMenu" class="menuBtn">Add Station</button>
-                      <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                      <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
-                    </div>
+              <div class="topbar">
+                <div class="dropdown">
+                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon" />
+                  <div class="dropdown-content">
+                    <button id="id-stationMenu" class="menuBtn">Add Station</button>
+                    <button id="id-stageMenu" class="menuBtn">Add Stage</button>
+                    <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
                   </div>
-                  <input id="searchBar" type="text" placeholder="Search employee">
-                  <div id="userIcon"></div>
                 </div>
+                <input id="searchBar" type="text" placeholder="Search employee">
+                <div id="userIcon"></div>
+              </div>
     <!--Filter section-->
                 <div class="filter-section">
                   <div id="filter-title"><h3>Employees</h3></div>
@@ -110,7 +110,7 @@
     <!--Modal section-->
             <div id="emp-modal-id" class="emp-modal">
               <div id="emp-modal-box-id" class="modal-box">
-                <form id="employee-form-id"  name="employee-form-name" onsubmit="return PrintFormData(event)"> 
+                <form id="employee-form-id"  name="employee-form-name" onsubmit = "return PrintFormData(event)">
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -188,7 +188,7 @@
                     </div>
                     <div class="modal-buttons">
                       <button id="cancelEmpBtn" type="button" class="modalCancelBtn">Cancel</button>
-                      <button id="submitEmpBtn" class="modalSubmitBtn" onclick="PrintFormData">Save</button>
+                      <button id="saveEmpBtn" class="modalSubmitBtn" onclick="PrintFormData">Save</button>
                     </div>
                   </div>
                 </form>
