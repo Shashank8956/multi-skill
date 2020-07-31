@@ -70,18 +70,18 @@
 
 <!--Main Section-->
             <div class="main-section">
-              <div class="topbar">
-                <div class="dropdown">
-                  <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon" />
-                  <div class="dropdown-content">
-                    <button id="id-stationMenu" class="menuBtn">Add Station</button>
-                    <button id="id-stageMenu" class="menuBtn">Add Stage</button>
-                    <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
+                <div class="topbar">
+                  <div class="dropdown">
+                    <img src="{% static 'images/black/icon_black_menu.svg' %}" id="id-top-menu" class="dropBtn" alt="Hamburger Icon"/>
+                    <div class="dropdown-content">
+                      <button id="id-stationMenu" class="menuBtn">Add Station</button>
+                      <button id="id-stageMenu" class="menuBtn">Add Stage</button>
+                      <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
+                    </div>
                   </div>
+                  <input id="searchBar" type="text" placeholder="Search employee">
+                  <div id="userIcon"></div>
                 </div>
-                <input id="searchBar" type="text" placeholder="Search employee">
-                <div id="userIcon"></div>
-              </div>
     <!--Filter section-->
                 <div class="filter-section">
                   <div id="filter-title"><h3>Employees</h3></div>
@@ -110,7 +110,7 @@
     <!--Modal section-->
             <div id="emp-modal-id" class="emp-modal">
               <div id="emp-modal-box-id" class="modal-box">
-                <form id="employee-form-id"  name="employee-form-name" onsubmit = "return PrintFormData(event)">
+                <form id="employee-form-id"  name="employee-form-name" onsubmit="return PrintFormData(event)"> 
                   {% csrf_token %}
                   <header class="modal-header">
                     <div class="modalHeaderTitle">
@@ -188,7 +188,7 @@
                     </div>
                     <div class="modal-buttons">
                       <button id="cancelEmpBtn" type="button" class="modalCancelBtn">Cancel</button>
-                      <button id="saveEmpBtn" class="modalSubmitBtn" onclick="PrintFormData">Save</button>
+                      <button id="submitEmpBtn" type="submit" class="modalSubmitBtn">Save</button>
                     </div>
                   </div>
                 </form>
@@ -217,7 +217,7 @@
 
                     <div class="modal-buttons">
                       <button id="cancelStationBtn"  type="button" class="modalCancelBtn">Cancel</button>
-                      <button id="submitStationBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="submitStationBtn" type="submit" class="modalSubmitBtn">Save</button>
                     </div>
                   </div>
                 </form>
@@ -246,7 +246,7 @@
 
                     <div class="modal-buttons">
                       <button id="cancelStageBtn"  type="button" class="modalCancelBtn">Cancel</button>
-                      <button id="submitStageBtn" class="modalSubmitBtn" type="submit">Save</button>
+                      <button id="submitStageBtn" type="submit" class="modalSubmitBtn">Save</button>
                     </div>
                   </div>
                 </form>
@@ -302,6 +302,6 @@
     </div>
 
     <script src="{% static 'js/employee.js' %}"></script>
-    <script src="{% static 'js/utilities.js' %}"></script>
+    <script src="{% static 'js/employeeUtilities.js' %}"></script>
 </body>
 </html>
