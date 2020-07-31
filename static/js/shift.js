@@ -1,201 +1,244 @@
-const stageMenu = document.getElementById("id-stageMenu");
-const stationMenu = document.getElementById("id-stationMenu");
-const shiftMenu = document.getElementById("id-shiftMenu");
+let employeeJson = [];
+let stationJson = [];
+let shiftJson = [];
+let checkedCount = 0;
 
+
+///////////////////////////// get elements /////////////////////////////
+/*
 const stationModal = document.getElementById("station-modal-id");
 const stageModal = document.getElementById("stage-modal-id");
 const shiftModal = document.getElementById("shift-modal-id");
 
-const cancelStageBtn = document.getElementById("cancelStationBtn");
-const submitStageBtn = document.getElementById("submitStationBtn");
+const cancelStageBtn = document.getElementById("cancelStageBtn");
+const submitStageBtn = document.getElementById("submitStageBtn");
 
-const cancelStationBtn = document.getElementById("cancelStageBtn");
-const submitStationBtn = document.getElementById("submitStageBtn");
+const cancelStationBtn = document.getElementById("cancelStationBtn");
+const submitStationBtn = document.getElementById("submitStationBtn");
 
-const stationFilterDropdown = document.getElementById("station-filter"); 
 const stationModalDropdown = document.getElementById("new-station");
-const stageFilterDropdown = document.getElementById("stage-filter");
 const stageModalDropdown = document.getElementById("new-stage");
 
-const updateSkillBtn = document.getElementById("defineEmpSkillBtn");
+//const updateSkillBtn = document.getElementById("defineEmpSkillBtn");  //?????????
+//const deleteShiftButton = document.getElementById("deleteEmpBtn");  //?????????
+*/
+
+const stageMenu = document.getElementById("id-stageMenu"); //rename these
+const stationMenu = document.getElementById("id-stationMenu");
+const shiftMenu = document.getElementById("id-shiftMenu");
+
+const stationFilter = document.getElementById("station-filter"); 
+const shiftFilter = document.getElementById("shift-filter");
+const offDayFilter = document.getElementById("offday-filter");
+
 const clearFilterBtn = document.getElementById("clearFilterBtn");
-const deleteShiftButton = document.getElementById("deleteEmpBtn");
 
-const shiftList = document.getElementById("id_shiftList");
-const shiftListHead = document.getElementById("id_shift_head");
-const shiftListBody = document.getElementById("id_shift_body");
+//const list = document.getElementById("list");
+const listHead = document.getElementById("list_head");
+const listBody = document.getElementById("list_body");
 
-let employeeJson = [];
-let stationJson = [];
-let stageJson = [];
-let checkedCount = 0;
 
-initialize()
+///////////////////////////////////////// initialize /////////////////
+function initialize()
+{
+    getEmployeeData();
+    getStationData();
 
-function initialize(){
-    getAllData();
     loadListHeader();
     eventListeners();
 }
 
-function eventListeners(){
-    stageMenu.addEventListener("click", loadStageModal);
-    stationMenu.addEventListener("click", loadStationModal);
-    shiftMenu.addEventListener("click", loadShiftModal);
+initialize();
+
+
+///////////////////////////// ????????? /////////////////////////////
+function eventListeners()
+{
     //updateSkillBtn.addEventListener("click", loadSkillModal);
 
     //submitStationBtn.addEventListener("click", loadStationModal);
-    cancelStationBtn.addEventListener("click", cancelModal);
-    cancelShiftBtn.addEventListener("click", cancelModal);
-    //submitStageBtn.addEventListener("click", loadStageModal);
-    cancelStageBtn.addEventListener("click", cancelModal);
-    window.addEventListener("click", closeModal);
+    //cancelStationBtn.addEventListener("click", cancelModal);
+    //cancelShiftBtn.addEventListener("click", cancelModal);
+    //window.addEventListener("click", closeModal);
+
+    stationMenu.addEventListener("click", loadStationModal);
+    shiftMenu.addEventListener("click", loadShiftModal);    
 }
 
-function loadStageModal(){
-    stageModal.style.display = "inline-block";
-}
-
-function loadStationModal(){
+function loadStationModal()
+{
     stationModal.style.display = "inline-block";
 }
 
-function loadShiftModal(){
+function loadShiftModal()
+{
     shiftModal.style.display = "inline-block";
 }
 
-function cancelModal(){
+
+/*function cancelModal()
+{
     shiftModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
-}
+}*/
 
-function closeModal(e){
-    if(e.target == stationModal)
-        stationModal.style.display = "none";
-    else if(e.target == stageModal)
-        stageModal.style.display = "none";
-    else if(e.target == shiftModal)
-        shiftModal.style.display = "none";
-}
+/*function closeModal(e)
+{
+    if(e.target == stationModal)    stationModal.style.display = "none";
+    else if(e.target == stageModal)    stageModal.style.display = "none";
+    else if(e.target == shiftModal)    shiftModal.style.display = "none";
+}*/
 
-function getAllData() {
+
+///////////////////////////// json functions /////////////////////////////
+function getEmployeeData() 
+{
     var xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/employeeData', true);
-    //xhr.responseType = 'json';            //Preconverts incoming data to json
+    //xhr.responseType = 'json';       //Preconverts incoming data to json
     xhr.send();
     
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+    xhr.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {
             employeeJson = JSON.parse(this.responseText);
             console.log(employeeJson);
-            loadEntireList(employeeJson);
+            
+            loadList(employeeJson);
         }
     };
 }
 
-function getStationData() {
+function getStationData() 
+{
     var xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stationData', true);
-    //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+    xhr.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {
             stationJson = JSON.parse(this.responseText);
             console.log("Station Data:" + stationJson[0].StationId);
+            
             loadStationDropdown();
         }
     };
 }
 
-function getStageData() {
+function getShiftData() 
+{
     var xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            stageJson = JSON.parse(this.responseText);
-            console.log("Staget Data:" + stageJson[0].StageId);
-            loadStageDropdown();
+    xhr.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            shiftJson = JSON.parse(this.responseText);
+            console.log("Shift Data:" + shiftJson[0].ShiftId);
+            
+            loadShiftDropdown();
         }
     };
 }
 
-function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        stationFilterDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        stationModalDropdown.appendChild(childOption);
+///////////////////////////// load data into elements //////////////////////
+function loadStationDropdown()
+{
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationName = stationJson[i].StationName;
+        if(stationName === "Default Station") continue;
+
+        let filterChild = document.createElement("option");
+        filterChild.id = stationJson[i].StationId;
+        filterChild.innerText = stationJson[i].StationName;
+        filterChild.classList.add("select_option");
+
+        stationFilter.appendChild(filterChild);
     }
 }
 
-function loadStageDropdown(){
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].StageId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        stageFilterDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].StageId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        stageModalDropdown.appendChild(childOption);
+function loadShiftDropdown()
+{
+    for(let i = 0; i < shiftJson.length; i++)
+    {
+        let shiftName = shiftJson[i].ShiftName;
+        if(shiftName === "Default Shift") continue;
+
+        let filterChild = document.createElement("option");
+        filterChild.id = shiftJson[i].ShiftId;
+        filterChild.innerText = shiftName;
+        filterChild.classList.add("select_option");
+
+        shiftFilter.appendChild(filterChild);
     }
 }
 
-function loadEntireList(listData){
-    shiftListBody.innerHTML = ""; 
-    if(listData!=null){
-            for(let i=0; i<listData.length; i++){
+function loadList(listData)
+{
+    listBody.innerHTML = ""; 
+
+    if(listData != null)
+    {
+            for(let i = 0; i < listData.length; i++)
+            {
+                
+                let employeeName = listData[i].EmpName;
+                if(employeeName === "default") continue;
+                
                 let newRow = document.createElement("tr");
-                let tableData = []
-                for(let i=0; i<7; i++){
+                let tableData = [];
+
+                for(let i = 0; i < 7; i++)
+                {
                     tableData.push(document.createElement("td"));
                 }
 
                 let newCheckBox = document.createElement("input");
+
                 newCheckBox.type = "checkbox";
                 newCheckBox.id = listData[i].EmpToken;
                 newCheckBox.addEventListener("click", selectRow);
+                
                 tableData[0].appendChild(newCheckBox);
 
                 tableData[1].innerText = listData[i].EmpToken;
-                tableData[2].innerText = listData[i].EmpName;
-                tableData[3].innerText = listData[i].ShiftName;
-                tableData[4].innerText = listData[i].StationName;
-                tableData[5].innerText = listData[i].StageName;
+                tableData[2].innerText = employeeName;
+                
+                tableData[3].innerText = listData[i].ShiftName !== "Default Shift" ? 
+                                            listData[i].ShiftName : "";
+                
+                tableData[4].innerText = listData[i].StationName !== "Default Station" ? 
+                                            listData[i].StationName : "";
+
+                tableData[5].innerText = listData[i].StageName !== "Default Stage" ? 
+                                            listData[i].StageName : "";
+                
                 tableData[6].innerText = listData[i].WeeklyOff;
 
-                for(let i=0; i<7; i++){
+                
+                for(let i = 0; i < 7; i++)
+                {
                     newRow.appendChild(tableData[i]);
                 }
                 
-                shiftListBody.appendChild(newRow);
+                listBody.appendChild(newRow);
             }
         }   
 }
 
-function loadListHeader(){
+function loadListHeader()
+{
     let tableHeader = `
                         <tr>    
                             <th><input type="checkbox"></th>
@@ -206,5 +249,6 @@ function loadListHeader(){
                             <th data-columnName = "SkillLevel" data-order="desc" onclick="sortColumn(event);">Skill &#x25B4</th>
                             <th data-columnName = "WeeklyOff" data-order="desc" onclick="sortColumn(event);">Weekly Off &#x25B4</th>
                         </tr>`;
-    shiftListHead.innerHTML += tableHeader;
+                        
+    listHead.innerHTML += tableHeader;
 }
