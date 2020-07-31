@@ -124,7 +124,7 @@ function closeModal(e){
 function getAllData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/trainingData', true);
+    xhr.open('GET', '/adminview/trainingData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -139,7 +139,7 @@ function getAllData() {
 function getAllShiftData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/shiftData', true);
+    xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -155,7 +155,7 @@ function getAllShiftData() {
 function getAllStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -170,7 +170,7 @@ function getAllStageData() {
 function getAllStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -183,41 +183,54 @@ function getAllStationData() {
     };
 }
 
-function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        filterStationDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        modalStationDropdown.appendChild(childOption);
-    }
-}
-
-function loadShiftDropdown(){
-    for(let i=0; i<shiftJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = shiftJson[i].ShiftId;
-        childOption.innerText = shiftJson[i].ShiftName;
-        childOption.classList.add("select_option")
-        filterShiftDropdown.appendChild(childOption);
+function loadStationDropdown()
+{
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationName = stationJson[i].StationName;
+        if(stationName === "Default Station") continue;
+        
+        let filterChild = document.createElement("option");
+        filterChild.id = stationJson[i].StationId;
+        filterChild.innerText = stationJson[i].StationName;
+        filterChild.classList.add("select_option");
+        
+        let modalChild = filterChild.cloneNode(true);
+        
+        filterStationDropdown.appendChild(filterChild);
+        modalStationDropdown.appendChild(modalChild);
     }
 }
 
-function loadStageDropdown(){
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].ShiftId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        modalStageDropdown.appendChild(childOption);
+function loadShiftDropdown()
+{
+    for(let i = 0; i < shiftJson.length; i++)
+    {
+        let shiftName = shiftJson[i].ShiftName;
+        if(shiftName === "Default Shift") continue;
+        
+        let filterChild = document.createElement("option");
+        filterChild.id = shiftJson[i].ShiftId;
+        filterChild.innerText = shiftName;
+        filterChild.classList.add("select_option");
+
+        filterShiftDropdown.appendChild(filterChild);
+    }
+}
+
+function loadStageDropdown()
+{
+    for(let i=0; i<stageJson.length; i++)
+    {
+        let stageName = stageJson[i].StageName;
+        if(stageName === "Default Stage") continue;
+
+        modalChild = document.createElement("option");
+        modalChild.id = stageJson[i].ShiftId;
+        modalChild.innerText = stageJson[i].StageName;
+        modalChild.classList.add("select_option");
+        
+        modalStageDropdown.appendChild(modalChild);
     }
 }
 
@@ -277,7 +290,7 @@ function sendFormData(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('PUT', 'http://127.0.0.1:8000/adminview/trainingData', true);
+    xhr.open('PUT', '/adminview/trainingData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
 

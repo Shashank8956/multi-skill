@@ -83,7 +83,7 @@ function closeModal(e){
 function getAllData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/employeeData', true);
+    xhr.open('GET', '/adminview/employeeData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -99,7 +99,7 @@ function getAllData() {
 function getStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -115,7 +115,7 @@ function getStationData() {
 function getStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {
@@ -128,7 +128,8 @@ function getStageData() {
 }
 
 function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
+    for(let i=0; i<stationJson.length; i++)
+    {
         childOption = document.createElement("option");
         childOption.id = stationJson[i].StationId;
         childOption.innerText = stationJson[i].StationName;
@@ -145,7 +146,8 @@ function loadStationDropdown(){
     }
 }
 
-function loadStageDropdown(){
+function loadStageDropdown()
+{
     for(let i=0; i<stageJson.length; i++){
         childOption = document.createElement("option");
         childOption.id = stageJson[i].StageId;

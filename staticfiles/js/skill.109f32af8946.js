@@ -182,41 +182,55 @@ function getAllStationData() {
     };
 }
 
-function loadShiftDropdown(){
-    for(let i=0; i<shiftJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = shiftJson[i].ShiftId;
-        childOption.innerText = shiftJson[i].ShiftName;
-        childOption.classList.add("select_option")
-        filterShiftDropdown.appendChild(childOption);
+function loadShiftDropdown()
+{
+    for(let i = 0; i < shiftJson.length; i++)
+    {
+        let shiftName = shiftJson[i].ShiftName;
+        if(shiftName === "Default Shift") continue;
+        
+        let filterChild = document.createElement("option");
+        filterChild.id = shiftJson[i].ShiftId;
+        filterChild.innerText = shiftName;
+        filterChild.classList.add("select_option");
+
+        filterShiftDropdown.appendChild(filterChild);
     }
 }
 
-function loadStageDropdown(){
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].ShiftId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        skillModalStageDropdown.appendChild(childOption);
+function loadStageDropdown()
+{
+    for(let i = 0; i < stageJson.length; i++)
+    {
+        let stageName = stageJson[i].StageName;
+        if(stageName === "Default Stage") continue;        
+
+        let modalChild = document.createElement("option");
+        modalChild.id = stageJson[i].ShiftId;
+        modalChild.innerText = stageJson[i].StageName;
+        modalChild.classList.add("select_option");
+
+        skillModalStageDropdown.appendChild(modalChild);
     }
 }
 
-function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        filterStationDropdown.appendChild(childOption);
-    }
+function loadStationDropdown()
+{
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationName = stationJson[i].StationName;
+        if(stationName === "Default Station") continue;
 
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        skillModalStationDropdown.appendChild(childOption);
+        let filterChild = document.createElement("option");
+
+        filterChild.id = stationJson[i].StationId;
+        filterChild.innerText = stationJson[i].StationName;
+        filterChild.classList.add("select_option")
+        
+        let modalChild = filterChild.cloneNode(true);
+
+        filterStationDropdown.appendChild(filterChild);
+        skillModalStationDropdown.appendChild(modalChild);
     }
 }
 

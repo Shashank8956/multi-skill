@@ -268,7 +268,7 @@ function saveAndCloseTestDetails(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('POST', 'http://127.0.0.1:8000/adminview/testData', true);
+    xhr.open('POST', '/adminview/testData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
     console.log(cookieValue);
@@ -317,7 +317,7 @@ function bundleDataForSend(){
 function getStationData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stationData', true);
+    xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
     xhr.send();
     
@@ -332,7 +332,7 @@ function getStationData() {
 function getStageData() {
     var xhr = new XMLHttpRequest();
     
-    xhr.open('GET', 'http://127.0.0.1:8000/adminview/stageData', true);
+    xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
     
     xhr.onreadystatechange = function() {

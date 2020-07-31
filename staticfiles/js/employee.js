@@ -72,7 +72,7 @@ function sendFormData(testData){
     var finalData = JSON.stringify(testData);
     console.log(finalData);
 
-    xhr.open('POST', 'http://127.0.0.1:8000/adminview/employeeData', true);
+    xhr.open('POST', '/adminview/employeeData', true);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', cookieValue);
     //console.log(cookieValue);
@@ -311,39 +311,50 @@ function loadEntireList(listData){
         }
 }
 
-function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        filterStationDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        empModalStationDropdown.appendChild(childOption);
+function loadStationDropdown()
+{
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationName = stationJson[i].StationName;
+        if(stationName === "Default Station") continue;
+
+        let filterChild = document.createElement("option");
+        filterChild.id = stationJson[i].StationId;
+        filterChild.innerText = stationName;
+        filterChild.classList.add("select_option");
+
+        let modalChild = filterChild.cloneNode(true);
+
+        filterStationDropdown.appendChild(filterChild);
+        empModalStationDropdown.appendChild(modalChild);
     }
 }
 
-function loadShiftDropdown(){
-    for(let i=0; i<shiftJson.length; i++){
+function loadShiftDropdown()
+{
+    for(let i = 0; i < shiftJson.length; i++)
+    {
+        let shiftName = shiftJson[i].ShiftName;
+        if(shiftName === "Default Shift") continue;
+
         childOption = document.createElement("option");
         childOption.id = shiftJson[i].ShiftId;
-        childOption.innerText = shiftJson[i].ShiftName;
+        childOption.innerText = shiftName;
         childOption.classList.add("select_option")
         empModalShiftDropdown.appendChild(childOption);
     }
 }
 
-function loadStageDropdown(){
-    for(let i=0; i<stageJson.length; i++){
+function loadStageDropdown()
+{
+    for(let i = 0; i < stageJson.length; i++)
+    {
+        let stageName = stageJson[i].StageName;
+        if(stageName === "Default Stage") continue;
+
         childOption = document.createElement("option");
         childOption.id = stageJson[i].ShiftId;
-        childOption.innerText = stageJson[i].StageName;
+        childOption.innerText = stageName;
         childOption.classList.add("select_option")
         empModalStageDropdown.appendChild(childOption);
     }

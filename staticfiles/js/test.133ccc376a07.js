@@ -163,39 +163,42 @@ function getStageData() {
     };
 }
 
-function loadStationDropdown(){
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        stationFilterDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stationJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stationJson[i].StationId;
-        childOption.innerText = stationJson[i].StationName;
-        childOption.classList.add("select_option")
-        stationModalDropdown.appendChild(childOption);
+function loadStationDropdown()
+{
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationName = stationJson[i].StationName;
+        if(stationName === "Default Station") continue;
+
+        let filterChild = document.createElement("option");
+        filterChild.id = stationJson[i].StationId;
+        filterChild.innerText = stationName;
+        filterChild.classList.add("select_option");
+
+        let modalChild = filterChild.cloneNode(true);
+
+        stationFilterDropdown.appendChild(filterChild);
+        stationModalDropdown.appendChild(modalChild);
+        
     }
 }
 
-function loadStageDropdown(){
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].StageId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        stageFilterDropdown.appendChild(childOption);
-    }
-    
-    for(let i=0; i<stageJson.length; i++){
-        childOption = document.createElement("option");
-        childOption.id = stageJson[i].StageId;
-        childOption.innerText = stageJson[i].StageName;
-        childOption.classList.add("select_option")
-        stageModalDropdown.appendChild(childOption);
+function loadStageDropdown()
+{
+    for(let i = 0; i < stageJson.length; i++)
+    {
+        let stageName = stageJson[i].StageName;
+        if(stageName === "Default Stage") continue;
+        
+        let filterChild = document.createElement("option");
+        filterChild.id = stageJson[i].StageId;
+        filterChild.innerText = stageJson[i].StageName;
+        filterChild.classList.add("select_option");
+        
+        let modalChild = filterChild.cloneNode(true);
+        
+        stageFilterDropdown.appendChild(filterChild);
+        stageModalDropdown.appendChild(modalChild);
     }
 }
 
