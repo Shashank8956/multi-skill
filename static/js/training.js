@@ -42,11 +42,11 @@ let checkedCount = 0;
 
 
 function getCookie(name) {
-    var cookieValue = null;
+    let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -122,7 +122,7 @@ function closeModal(e){
 }
 
 function getAllData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/trainingData', true);
     xhr.send();
@@ -137,7 +137,7 @@ function getAllData() {
 }
 
 function getAllShiftData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
@@ -153,7 +153,7 @@ function getAllShiftData() {
 }
 
 function getAllStageData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
@@ -168,7 +168,7 @@ function getAllStageData() {
 }
 
 function getAllStationData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
@@ -239,7 +239,7 @@ function loadEntireList(listData){
     
         if(listData!=null){
             tableRow = "<tr>";
-            for (var i=0; i<listData.length; i++) {
+            for (let i=0; i<listData.length; i++) {
                 tableRow += `<td>
                                 <input type="checkbox" id=` + listData[i].TraineeToken + `></td>
                                 <td>` + listData[i].TraineeToken + `</td>
@@ -286,8 +286,8 @@ function updateTrainingData(){
 }
 
 function sendFormData(testData){
-    var xhr = new XMLHttpRequest();
-    var finalData = JSON.stringify(testData);
+    let xhr = new XMLHttpRequest();
+    let finalData = JSON.stringify(testData);
     console.log(finalData);
 
     xhr.open('PUT', '/adminview/trainingData', true);
@@ -304,7 +304,7 @@ function sendFormData(testData){
 }
 
 function getTrainingId(empToken){
-    for(var i=0; i<trainingJson.length; i++){
+    for(let i=0; i<trainingJson.length; i++){
         if(trainingJson[i].TraineeToken == empToken)
             return trainingJson[i].TrainingId;
     }
@@ -312,7 +312,7 @@ function getTrainingId(empToken){
 }
 
 function getEmployeeId(empName){
-    for(var i=0; i<trainingJson.length; i++){
+    for(let i=0; i<trainingJson.length; i++){
         if(trainingJson[i].TraineeName.toLowerCase() == empName.toLowerCase())
             return trainingJson[i].EmployeeId;
     }
@@ -323,10 +323,10 @@ function getEmployeeId(empName){
 
 
 /*
-var formInstance = e.target; //document.getElementById("training-form-id");
+let formInstance = e.target; //document.getElementById("training-form-id");
     formInstance.preventDefault();
-    var formData = new FormData( formInstance );
-    var sendData = {};
+    let formData = new FormData( formInstance );
+    let sendData = {};
     sendData["TrainingId"] = getTrainingId( formData.get("trainee_token") );
     sendData["TrainingStationId"] = stationJson[modalStationDropdown.selectedIndex -1].StationId;
     sendData["TrainingStageId"] = stageJson[modalStageDropdown.selectedIndex -1].StageId;

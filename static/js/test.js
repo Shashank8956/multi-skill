@@ -123,7 +123,7 @@ function closeModal(e)
 
 function deleteSelected()
 {
-    for (var i=0; i<selectedCheckBoxList.length; i++){
+    for (let i=0; i<selectedCheckBoxList.length; i++){
         if(selectedCheckBoxList[i].checked){
             deleteTest(selectedCheckBoxList[i].id);
             selectedCheckBoxList.pop(i);
@@ -136,7 +136,7 @@ function deleteSelected()
 
 function loadTestDetail() //rename
 {
-    //var b = "Shashank Singh"
+    //let b = "Shashank Singh"
     //url = 'http://127.0.0.1:8000/adminview/testDetail?name=' + encodeURIComponent(b);
     //document.location.href = url;
     sessionStorage.setItem('title', titleInput.value);
@@ -154,7 +154,7 @@ function loadTestDetail() //rename
 function getTestData()
 {
     testJson = [];
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/testData', true);
     xhr.send();
@@ -170,7 +170,7 @@ function getTestData()
 
 function getStationData()
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stationData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
@@ -186,7 +186,7 @@ function getStationData()
 
 function getStageData()
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
