@@ -6,26 +6,29 @@ let checkedCount = 0;
 
 ///////////////////////////// get elements /////////////////////////////
 /*
-const stationModal = document.getElementById("station-modal-id");
-const stageModal = document.getElementById("stage-modal-id");
-const shiftModal = document.getElementById("shift-modal-id");
-
-const cancelStageBtn = document.getElementById("cancelStageBtn");
-const submitStageBtn = document.getElementById("submitStageBtn");
-
-const cancelStationBtn = document.getElementById("cancelStationBtn");
-const submitStationBtn = document.getElementById("submitStationBtn");
-
-const stationModalDropdown = document.getElementById("new-station");
-const stageModalDropdown = document.getElementById("new-stage");
-
 //const updateSkillBtn = document.getElementById("defineEmpSkillBtn");  //?????????
 //const deleteShiftButton = document.getElementById("deleteEmpBtn");  //?????????
 */
 
-const stageMenu = document.getElementById("id-stageMenu"); //rename these
+//rename these
 const stationMenu = document.getElementById("id-stationMenu");
+const stageMenu = document.getElementById("id-stageMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
+
+const stationModal = document.getElementById("station-modal-id");
+const cancelStationBtn = document.getElementById("cancelStationBtn");
+const submitStationBtn = document.getElementById("submitStationBtn");
+
+const stageModal = document.getElementById("stage-modal-id");
+const cancelStageBtn = document.getElementById("cancelStageBtn");
+const submitStageBtn = document.getElementById("submitStageBtn");
+
+const shiftModal = document.getElementById("shift-modal-id");
+const cancelShiftBtn = document.getElementById("cancelShiftBtn")
+const saveShiftBtn = document.getElementById("submitShiftBtn");
+
+const stationModalDropdown = document.getElementById("new-station");
+const stageModalDropdown = document.getElementById("new-stage");
 
 const stationFilter = document.getElementById("station-filter"); 
 const shiftFilter = document.getElementById("shift-filter");
@@ -54,20 +57,30 @@ initialize();
 ///////////////////////////// ????????? /////////////////////////////
 function eventListeners()
 {
-    //updateSkillBtn.addEventListener("click", loadSkillModal);
+    /*submitStationBtn.addEventListener("click", loadStationModal);
+    cancelStationBtn.addEventListener("click", cancelModal);
 
-    //submitStationBtn.addEventListener("click", loadStationModal);
-    //cancelStationBtn.addEventListener("click", cancelModal);
-    //cancelShiftBtn.addEventListener("click", cancelModal);
-    //window.addEventListener("click", closeModal);
-
+    updateSkillBtn.addEventListener("click", loadSkillModal);
+    cancelShiftBtn.addEventListener("click", cancelModal);*/
+    
     stationMenu.addEventListener("click", loadStationModal);
-    shiftMenu.addEventListener("click", loadShiftModal);    
+    stageMenu.addEventListener("click", loadStageModal);
+    shiftMenu.addEventListener("click", loadShiftModal); 
+    
+    window.addEventListener("click", closeModal);
 }
 
+
+///////////////////////////// helper functions /////////////////////////////
 function loadStationModal()
 {
+    console.log(stationModal);
     stationModal.style.display = "inline-block";
+}
+
+function loadStageModal()
+{
+    stageModal.style.display = "inline-block";
 }
 
 function loadShiftModal()
@@ -76,26 +89,26 @@ function loadShiftModal()
 }
 
 
-/*function cancelModal()
+function cancelModal()
 {
     shiftModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
-}*/
+}
 
-/*function closeModal(e)
+function closeModal(e)
 {
     if(e.target == stationModal)    stationModal.style.display = "none";
     else if(e.target == stageModal)    stageModal.style.display = "none";
     else if(e.target == shiftModal)    shiftModal.style.display = "none";
-}*/
+}
 
 
 ///////////////////////////// json functions /////////////////////////////
 function getEmployeeData() 
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/employeeData', true);
     //xhr.responseType = 'json';       //Preconverts incoming data to json
@@ -115,7 +128,7 @@ function getEmployeeData()
 
 function getStationData() 
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stationData', true);
     xhr.send();
@@ -134,7 +147,7 @@ function getStationData()
 
 function getShiftData() 
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
@@ -161,7 +174,7 @@ function loadStationDropdown()
 
         let filterChild = document.createElement("option");
         filterChild.id = stationJson[i].StationId;
-        filterChild.innerText = stationJson[i].StationName;
+        filterChild.innerText = stationName;
         filterChild.classList.add("select_option");
 
         stationFilter.appendChild(filterChild);
@@ -191,8 +204,7 @@ function loadList(listData)
     if(listData != null)
     {
             for(let i = 0; i < listData.length; i++)
-            {
-                
+            {                
                 let employeeName = listData[i].EmpName;
                 if(employeeName === "default") continue;
                 
