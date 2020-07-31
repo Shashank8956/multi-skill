@@ -121,15 +121,15 @@ function clearFilters()
 
 function getCookie(name)
 {
-    var cookieValue = null;
+    let cookieValue = null;
 
     if (document.cookie && document.cookie !== '') 
     {
-        var cookies = document.cookie.split(';');
+        let cookies = document.cookie.split(';');
         
-        for (var i = 0; i < cookies.length; i++) 
+        for (let i = 0; i < cookies.length; i++) 
         {
-            var cookie = cookies[i].trim();
+            let cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
             
             if (cookie.substring(0, name.length + 1) === (name + '=')) 
@@ -155,7 +155,7 @@ function prepareSkillData(listData)
             tempDict["EmpToken"] = value[0].EmpToken;
             tempDict["EmpName"] = value[0].EmpName;
 
-            var j = 0;
+            let j = 0;
             while (j < value.length) 
             {
                 if (value[j].StationName != "Default Station") 
@@ -183,7 +183,7 @@ function updateSkill()
 
 function getEmployeeIdByName(empName)
 {
-    for(var i=0; i<skillJson.length; i++)
+    for(let i=0; i<skillJson.length; i++)
     {
         if(skillJson[i].EmpName.toLowerCase() == empName.toLowerCase())
             return skillJson[i].EmpId;
@@ -193,7 +193,7 @@ function getEmployeeIdByName(empName)
 
 function getEmployeeIdByToken(empToken)
 {
-    for(var i = 0; i < skillJson.length; i++)
+    for(let i = 0; i < skillJson.length; i++)
     {
         console.log(skillJson[i].EmpToken);
 
@@ -207,7 +207,7 @@ function getEmployeeIdByToken(empToken)
 ///////////////////////////// json functions /////////////////////////////
 function getAllData()
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/employeeSkillData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
@@ -228,7 +228,7 @@ function getAllData()
 
 function getAllShiftData() 
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/shiftData', true);
     //xhr.responseType = 'json';            //Preconverts incoming data to json
@@ -249,7 +249,7 @@ function getAllShiftData()
 
 function getAllStageData()
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stageData', true);
     xhr.send();
@@ -269,7 +269,7 @@ function getAllStageData()
 
 function getAllStationData()
 {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     
     xhr.open('GET', '/adminview/stationData', true);
     xhr.send();
@@ -291,8 +291,8 @@ function getAllStationData()
 
 function sendFormData(testData)
 {
-    var xhr = new XMLHttpRequest();
-    var finalData = JSON.stringify(testData);
+    let xhr = new XMLHttpRequest();
+    let finalData = JSON.stringify(testData);
 
     console.log(finalData);
 
@@ -375,53 +375,51 @@ function loadEntireList(listData)
         
         for (const [key, value] of Object.entries(listData)) 
         {
+            let employeeName = value[0].EmpName;
+
+            if(employeeName === "default")    continue;
+            
+            
             tableRow += `<td>
                         <input type="checkbox" id=` + value[0].EmpToken + `></td>
                         <td>` + value[0].EmpToken + `</td>
-                        <td>` + value[0].EmpName + `</td>`;
-
-            var j = 0;
+                        <td>` + employeeName + `</td>`;
             
-            while (j < value.length) 
+            
+            for (let j = 0; j < value.length ; j++) 
             {
                 if (value[j].StationName != "Default Station") 
                 {
-                    if (value[j].SkillLevel == 0)
-                    {   tableRow += `<td> </td>`;
-                        continue;
-                    }
-
-                    else if (value[j].SkillLevel == 2)
-                        tableRow += `<td style="background-color: #ff9696; text-align:center;">`;
-
-                    else if (value[j].SkillLevel == 4)
-                        tableRow += `<td style="background-color: #f9ff61; text-align:center;">`;
-
-                    else if (value[j].SkillLevel == 6)
-                        tableRow += `<td style="background-color: #90ff7d; text-align:center;">`;
-
-                    else if (value[j].SkillLevel == 8)
-                        tableRow += `<td style="background-color: #96ffff; text-align:center;">`;
-
-                    tableRow += value[j].SkillLevel + `</td>`
-
-                    /*switch(value[j].SkillLevel)
+                    switch(value[j].SkillLevel)
                     {
                         case 0:
-                            tableRow += `<td>`;
-                            break;
+                            tableRow += `<td></td>`;
+                            continue;
                         
                         case 2:
+                            tableRow += `<td style="background-color: #ff9696; text-align:center;">`+
+                                    value[j].SkillLevel + `</td>`;
+                            continue;
 
-                        case 4: 
+                        case 4:
+                            tableRow += `<td style="background-color: #f9ff61; text-align:center;">`+
+                                    value[j].SkillLevel + `</td>`;
+                            continue; 
 
                         case 6:
+                            tableRow += `<td style="background-color: #90ff7d; text-align:center;">`+
+                                    value[j].SkillLevel + `</td>`;
+                            continue;
 
                         case 8:
+                            tableRow += `<td style="background-color: #96ffff; text-align:center;">`+
+                                    value[j].SkillLevel + `</td>`;
+                            continue;
+
+                        default:
+                            continue;
                     }
-                    tableRow += value[j].SkillLevel + `</td>`;*/
                 }
-                j++;
             }
             tableRow += "</tr>";
         }
@@ -457,7 +455,7 @@ function loadEntireList(listData){
                                 <input type="checkbox" id=` + listData[i].EmpToken + `></td>
                                 <td>` + listData[i].EmpToken + `</td>
                                 <td>` + listData[i].EmpName + `</td>`;
-                var j = 0;
+                let j = 0;
                 while( j < listData.length){
                     if(listData[j].StationName != "Default Station" && listData[j].EmpToken == empToken){
                         tableRow += `<td>` + listData[j].SkillLevel + `</td>`
@@ -496,7 +494,7 @@ function loadEntireList(listData){
     templist
     for item in skillJson:
         empToken = item.EmpToken
-        var i = 0
+        let i = 0
         while (i < skillJson.length)
             if skillJson[i].EmpToken == empToken:
                 tempList = skillJson[i]
