@@ -13,6 +13,9 @@ const stageMenu = document.getElementById("id-stageMenu");
 const stationMenu = document.getElementById("id-stationMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
 
+const informationMenu = document.getElementById("id-informationMenu");
+
+
 const empModal = document.getElementById("emp-modal-id");
 const cancelEmpBtn = document.getElementById("cancelEmpBtn");
 const saveEmpBtn = document.getElementById("submitEmpBtn");
@@ -28,6 +31,9 @@ const saveStageBtn = document.getElementById("submitStageBtn");
 const shiftModal = document.getElementById("shift-modal-id");
 const cancelShiftBtn = document.getElementById("cancelShiftBtn");
 const saveShiftBtn = document.getElementById("submitShiftBtn");
+
+const informationModal = document.getElementById("information-modal-id");
+const cancelInformationBtn = document.getElementById("cancelInformationBtn");
 
 const filterStationDropdown = document.getElementById("station-filter");
 const empModalStationDropdown = document.getElementById("new-station");
@@ -67,6 +73,8 @@ function eventListeners()
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
 
+    informationMenu.addEventListener("click", loadInformationModal);
+
     addEmpBtn.addEventListener("click", loadEmpModal);
     
     window.addEventListener("click", closeModal);
@@ -75,6 +83,8 @@ function eventListeners()
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
     cancelShiftBtn.addEventListener("click", cancelModal);
+
+    cancelInformationBtn.addEventListener("click", cancelModal);
     
     clearFilterBtn.addEventListener("click", clearFilters);
     deleteEmpButton.addEventListener("click", deleteSelected);
@@ -164,12 +174,18 @@ function loadShiftModal()
     shiftModal.style.display = "inline-block";
 }
 
+function loadInformationModal()
+{
+    informationModal.style.display = "inline-block";
+}
+
 function cancelModal()
 {
     empModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
+    informationModal.style.display = "none";
 }
 
 function clearFilters()
@@ -211,8 +227,12 @@ function closeModal(e)
         case shiftModal:
             shiftModal.style.display = "none";
             break;
-
-        default:
+        
+        case informationModal:
+            informationModal.style.display = "none";
+            break;
+         
+         default:
             break;
     }
 }

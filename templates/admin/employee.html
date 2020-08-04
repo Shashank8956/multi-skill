@@ -77,6 +77,7 @@
                       <button id="id-stationMenu" class="menuBtn">Add Station</button>
                       <button id="id-stageMenu" class="menuBtn">Add Stage</button>
                       <button id="id-shiftMenu" class="menuBtn">Add Shift</button>
+                      <button id="id-informationMenu" class="menuBtn">Information</button>
                     </div>
                   </div>
                   <input id="searchBar" type="text" placeholder="Search employee">
@@ -281,6 +282,81 @@
                     <div class="modal-buttons">
                       <button id="cancelShiftBtn"  type="button" class="modalCancelBtn">Cancel</button>
                       <button id="submitShiftBtn" class="modalSubmitBtn" type="submit">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="information-modal-id" class="emp-modal">
+              <div id="information-modal-box-id" class="modal-box">
+                <form action="./informationData" method="POST">
+                  {% csrf_token %}
+                  <header class="modal-header">
+                    <div class="modalHeaderTitle">
+                      <h5>Information</h5>
+                    </div>
+                  </header>
+                  <div id="station-modal-body-id" class="modal-body">
+                    <div>
+                      <label class="modal-labels">Name:</label>
+                      <h6>ABC</h6>
+                    </div><br>
+
+                    <div>
+                      <label class="modal-labels">Employee ID:</label>
+                    </div>
+
+                   <!-- <div>
+                      <label class="modal-labels">Employee Token:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Date Of Birth:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Gender:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Language Preference:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Mobile:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift ID:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Shift Name:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Skill Level:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Stage ID:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Stage Name:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Station ID:</label>
+                    </div>
+
+                    <div>
+                      <label class="modal-labels">Station Name:</label>
+                    </div>-->
+
+                    <div class="modal-buttons">
+                      <button id="cancelInformationBtn"  type="button" class="modalCancelBtn">Cancel</button>
                     </div>
                   </div>
                 </form>
