@@ -9,40 +9,60 @@ let checkedCount = 0;
 
 
 ///////////////////////////// get elements /////////////////////////////
-const stageMenu = document.getElementById("id-stageMenu");
 const stationMenu = document.getElementById("id-stationMenu");
+const stationModal = document.getElementById("station-modal-id");
+const cancelStationBtn = document.getElementById("cancelStationBtn");
+const saveStationBtn = document.getElementById("submitStationBtn");
+
+const stageMenu = document.getElementById("id-stageMenu");
+const stageModal = document.getElementById("stage-modal-id");
+const cancelStageBtn = document.getElementById("cancelStageBtn");
+const saveStageBtn = document.getElementById("submitStageBtn");
+
 const shiftMenu = document.getElementById("id-shiftMenu");
+const shiftModal = document.getElementById("shift-modal-id");
+const cancelShiftBtn = document.getElementById("cancelShiftBtn");
+const saveShiftBtn = document.getElementById("submitShiftBtn");
 
 const informationMenu = document.getElementById("id-informationMenu");
+const informationModal = document.getElementById("information-modal-id");
+const cancelInformationBtn = document.getElementById("cancelInformationBtn");
 
+const informationModalName = document.getElementById("information-data-name");
+const informationModalID = document.getElementById("information-data-id");
+const informationModalToken = document.getElementById("information-data-token");
+
+const informationModalDOJ = document.getElementById("information-data-doj");
+const informationModalGender = document.getElementById("information-data-gender");
+const informationModalLanguage = document.getElementById("information-data-language");
+const informationModalMobile = document.getElementById("information-data-mobile");
+
+const informationModalShiftID = document.getElementById("information-data-shiftID");
+const informationModalShiftName = document.getElementById("information-data-shiftName");
+
+const informationModalSkillLevel = document.getElementById("information-data-skillLevel");
+
+const informationModalStageID = document.getElementById("information-data-stageID");
+const informationModalStageName = document.getElementById("information-data-stageName");
+
+const informationModalStationID = document.getElementById("information-data-stationID");
+const informationModalStationName = document.getElementById("information-data-stationName");
 
 const empModal = document.getElementById("emp-modal-id");
 const cancelEmpBtn = document.getElementById("cancelEmpBtn");
 const saveEmpBtn = document.getElementById("submitEmpBtn");
 
-const stationModal = document.getElementById("station-modal-id");
-const cancelStationBtn = document.getElementById("cancelStationBtn");
-const saveStationBtn = document.getElementById("submitStationBtn");
-
-const stageModal = document.getElementById("stage-modal-id");
-const cancelStageBtn = document.getElementById("cancelStageBtn");
-const saveStageBtn = document.getElementById("submitStageBtn");
-
-const shiftModal = document.getElementById("shift-modal-id");
-const cancelShiftBtn = document.getElementById("cancelShiftBtn");
-const saveShiftBtn = document.getElementById("submitShiftBtn");
-
-const informationModal = document.getElementById("information-modal-id");
-const cancelInformationBtn = document.getElementById("cancelInformationBtn");
-
 const filterStationDropdown = document.getElementById("station-filter");
+const clearFilterBtn = document.getElementById("clearFilterBtn");
+
 const empModalStationDropdown = document.getElementById("new-station");
 const empModalShiftDropdown = document.getElementById("new-shift");
 const empModalStageDropdown = document.getElementById("new-stage");
 
 const addEmpBtn = document.getElementById("addEmpBtn");
-const clearFilterBtn = document.getElementById("clearFilterBtn");
+
 const deleteEmpButton = document.getElementById("deleteEmpBtn");
+
 const empList = document.getElementById("id_EmpList");
 const empListHead = document.getElementById("id_EmpList_head");
 const empListBody = document.getElementById("id_EmpList_body");
@@ -73,7 +93,7 @@ function eventListeners()
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
 
-    informationMenu.addEventListener("click", loadInformationModal);
+    //informationMenu.addEventListener("click", loadInformationModal);
 
     addEmpBtn.addEventListener("click", loadEmpModal);
     
@@ -174,10 +194,10 @@ function loadShiftModal()
     shiftModal.style.display = "inline-block";
 }
 
-function loadInformationModal()
+/*function loadInformationModal()
 {
     informationModal.style.display = "inline-block";
-}
+}*/
 
 function cancelModal()
 {
@@ -193,12 +213,12 @@ function clearFilters()
     console.log("Clear filters does nothing!!");
 }
 
-function submitData()
+/*function submitData()
 {
-    /* Do some shit to send data */
+    // Do some shit to send data
     //modal.style.display = "none";
     loadList();
-}
+}*/
 
 function closeModal(e)
 {
@@ -261,6 +281,28 @@ function displayEmpData(event)
     let rowIdx = parseInt(event.currentTarget.id); //returns string
 
     console.log(employeeJson[rowIdx]);
+
+    informationModal.style.display = "inline-block";
+
+    informationModalName.innerText = employeeJson[rowIdx].EmpName;
+    informationModalID.innerText = employeeJson[rowIdx].EmployeeId;
+    informationModalToken.innerText = employeeJson[rowIdx].EmpToken;
+
+    informationModalDOJ.innerText = employeeJson[rowIdx].DOJ;
+    informationModalGender.innerText = employeeJson[rowIdx].Gender;
+    informationModalLanguage.innerText = employeeJson[rowIdx].LanguagePreference;
+    informationModalMobile.innerText = employeeJson[rowIdx].Mobile;
+    
+    informationModalShiftID.innerText = employeeJson[rowIdx].ShiftId;
+    informationModalShiftName.innerText = employeeJson[rowIdx].ShiftName;
+    
+    informationModalSkillLevel.innerText = employeeJson[rowIdx].SkillLevel;
+    
+    informationModalStageID.innerText = employeeJson[rowIdx].StageId;
+    informationModalStageName.innerText = employeeJson[rowIdx].StageName;
+    
+    informationModalStationID.innerText = employeeJson[rowIdx].StationId;
+    informationModalStationName.innerText = employeeJson[rowIdx].StationName;
 }
 
 
