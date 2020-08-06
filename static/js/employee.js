@@ -81,6 +81,8 @@ function initialize()
     getAllStationData();
     loadListHeader();
     cookieValue = getCookie('csrftoken');
+
+    clearFilterBtn.disabled = true; //so that clear filter button isnt called ceaselessly
 }
 
 initialize();
@@ -108,6 +110,8 @@ function eventListeners()
     
     clearFilterBtn.addEventListener("click", clearFilters);
     deleteEmpButton.addEventListener("click", deleteSelected);
+
+    filterStationDropdown.addEventListener("change", filterData);
 }
 
 
@@ -208,9 +212,41 @@ function cancelModal()
     informationModal.style.display = "none";
 }
 
-function clearFilters()
+
+function filterData(event)
 {
-    console.log("Clear filters does nothing!!");
+    let stationValue = this.value;
+    console.log(event.target.id);
+
+    /*
+    stationValue = get value from stationDropdown and check against default
+    dateValue = get value from dateFilter and check against future dates
+    */
+
+    let filterArray = [];
+
+    for(let i = 0; i < employeeJson.length; i++)
+    {
+        if(employeeJson[i].StationName != stationValue) continue;
+        
+        else filterArray.push(employeeJson[i]);        
+    }
+
+    console.log(filterArray);
+
+    clearFilterBtn.disabled = false;
+    
+    loadEntireList(filterArray);
+}
+
+
+function clearFilters()
+{    
+    filterStationDropdown.selectedIndex = 0;
+    
+    loadEntireList(employeeJson);
+    
+    clearFilterBtn.disabled = true;
 }
 
 /*function submitData()
@@ -463,7 +499,7 @@ function loadList(listData)
 }
 
 function loadStationDropdown()
-{
+{        
     for(let i = 0; i < stationJson.length; i++)
     {        
         let stationName = stationJson[i].StationName;
@@ -473,10 +509,11 @@ function loadStationDropdown()
         filterChild.id = stationJson[i].StationId;
         filterChild.innerText = stationName;
         filterChild.classList.add("select_option");
-
+        
         let modalChild = filterChild.cloneNode(true);
 
         filterStationDropdown.appendChild(filterChild);
+        
         empModalStationDropdown.appendChild(modalChild);
     }
 }
@@ -513,22 +550,22 @@ function loadStageDropdown()
     }
 }
 
-function loadEntireList(employeeJson) 
-{   
+function loadEntireList(dataArray) 
+{
     empListBody.innerHTML = "";
         
-    if (employeeJson != null) 
+    if (dataArray != null) 
     {
         let noColumns = 5;
         
-        for (let i = 0; i < employeeJson.length; i++) 
+        for (let i = 0; i < dataArray.length; i++) 
         {                        
-            let employeeName = employeeJson[i].EmpName;
+            let employeeName = dataArray[i].EmpName;
             if(employeeName === "default") continue;
             
             let newRow = document.createElement("tr");
             newRow.id = i;
-            newRow.addEventListener("click", displayEmpData);
+            newRow.addEventListener("dblclick", displayEmpData);
 
             let tableData = [];
             
@@ -539,14 +576,14 @@ function loadEntireList(employeeJson)
 
             let newCheckBox = document.createElement("input");
             newCheckBox.type = "checkbox";
-            newCheckBox.id = employeeJson[i].EmpToken;
+            newCheckBox.id = dataArray[i].EmpToken;
             newCheckBox.addEventListener("click", selectRow);
             tableData[0].appendChild(newCheckBox);
 
-            tableData[1].innerText = employeeJson[i].EmpToken;
+            tableData[1].innerText = dataArray[i].EmpToken;
             tableData[2].innerText = employeeName;
-            tableData[3].innerText = employeeJson[i].DOJ;
-            tableData[4].innerText = employeeJson[i].Mobile;
+            tableData[3].innerText = dataArray[i].DOJ;
+            tableData[4].innerText = dataArray[i].Mobile;
 
             /*tableData[5].innerText = listData[i].StationName !== "Default Station" ? 
                                 listData[i].StationName : "";*/
