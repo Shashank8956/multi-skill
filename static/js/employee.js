@@ -313,13 +313,13 @@ function deleteSelected()
 }
 
 function displayEmpData(event)
-{
+{/*
     let rowIdx = parseInt(event.currentTarget.id); //returns string
 
     console.log(employeeJson[rowIdx]);
-
+*/
     informationModal.style.display = "inline-block";
-
+/*
     informationModalName.innerText = employeeJson[rowIdx].EmpName;
     informationModalID.innerText = employeeJson[rowIdx].EmployeeId;
     informationModalToken.innerText = employeeJson[rowIdx].EmpToken;
@@ -338,7 +338,7 @@ function displayEmpData(event)
     informationModalStageName.innerText = employeeJson[rowIdx].StageName;
     
     informationModalStationID.innerText = employeeJson[rowIdx].StationId;
-    informationModalStationName.innerText = employeeJson[rowIdx].StationName;
+    informationModalStationName.innerText = employeeJson[rowIdx].StationName;*/
 }
 
 

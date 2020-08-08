@@ -316,6 +316,18 @@ tr:hover{
     background-color: rgb(224, 224, 224);
 }
 
+.edit_modal_inputs{
+    height: 18px;
+    font-size: 13px;
+    padding-left: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+#information-modal-box-id{
+    width: 700px;
+}
+
 #new-token{
     width: 120px;
 }
@@ -350,6 +362,38 @@ tr:hover{
 
 #new-weeklyOff{
     width: 135px;
+}
+
+#edit-token{
+    width: 90px;
+}
+
+#edit-name{
+    width: 150px;
+}
+
+#edit-doj{
+    width: 130px;
+}
+
+#edit-gender{
+    width: 90px;
+}
+
+#edit-mobile{
+    width: 90px;
+}
+
+#edit-shift{
+    width: 90px;
+}
+
+#edit-role{
+    width: 90px;
+}
+
+#edit-language{
+    width: 70px;
 }
 
 #emp-station-modal{
@@ -398,6 +442,13 @@ tr:hover{
 
 #new-end-time{
     width: 100px;
+}
+
+.vertical-line{
+    margin: 5px 10px 5px 10px;
+    height: 500 px;
+    width: 1.5px;
+    background-color: gray;
 }
 
 .modalCancelBtn{
