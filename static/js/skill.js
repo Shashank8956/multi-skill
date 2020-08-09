@@ -1,7 +1,8 @@
 const empIDVar = 0;
 let skillJson = [];
-let stationJson = null;
-let shiftJson = null;
+let stationJson = [];
+let shiftJson = [];
+
 let cookieValue = null;
 let checkedCount = 0;
 
@@ -144,13 +145,15 @@ function getCookie(name)
 
 function prepareSkillData(listData) 
 {
-    skillDict = [];
+    let skillArray = [];
+
+    console.log(listData);
 
     if (listData != null) 
     {
         for (const [key, value] of Object.entries(listData)) 
         {
-            tempDict = {};
+            let tempDict = {};
             tempDict["EmpId"] = value[0].EmployeeId;
             tempDict["EmpToken"] = value[0].EmpToken;
             tempDict["EmpName"] = value[0].EmpName;
@@ -164,10 +167,10 @@ function prepareSkillData(listData)
                 }
                 j++;
             }
-            skillDict.push(tempDict);
+            skillArray.push(tempDict);
         }
     }
-    skillJson = skillDict;
+    skillJson = skillArray;
 }
 
 function updateSkill()
@@ -217,7 +220,7 @@ function getAllData()
     {
         if (this.readyState == 4 && this.status == 200) 
         {
-            tempJson = JSON.parse(this.responseText);
+            let tempJson = JSON.parse(this.responseText);
             
             prepareSkillData(tempJson);
 
