@@ -7,7 +7,6 @@ let stageJson = [];
 let cookieValue = null;
 let checkedCount = 0;
 
-
 ///////////////////////////// get elements /////////////////////////////
 const stationMenu = document.getElementById("id-stationMenu");
 const stationModal = document.getElementById("station-modal-id");
@@ -24,23 +23,22 @@ const shiftModal = document.getElementById("shift-modal-id");
 const cancelShiftBtn = document.getElementById("cancelShiftBtn");
 const saveShiftBtn = document.getElementById("submitShiftBtn");
 
-const informationMenu = document.getElementById("id-informationMenu");
 const informationModal = document.getElementById("information-modal-id");
 const cancelInformationBtn = document.getElementById("cancelInformationBtn");
+const saveInformationBtn = document.getElementById("editInformationBtn");
 
-const informationModalName = document.getElementById("information-data-name");
-const informationModalID = document.getElementById("information-data-id");
-const informationModalToken = document.getElementById("information-data-token");
+const informationModalName = document.getElementById("edit-name");
+const informationModalToken = document.getElementById("edit-token");
 
-const informationModalDOJ = document.getElementById("information-data-doj");
-const informationModalGender = document.getElementById("information-data-gender");
-const informationModalLanguage = document.getElementById("information-data-language");
-const informationModalMobile = document.getElementById("information-data-mobile");
+const informationModalDOJ = document.getElementById("edit-doj");
+const informationModalGender = document.getElementById("edit-gender");
+const informationModalLanguage = document.getElementById("edit-language");
+const informationModalMobile = document.getElementById("edit-mobile");
 
-const informationModalShiftID = document.getElementById("information-data-shiftID");
-const informationModalShiftName = document.getElementById("information-data-shiftName");
+const informationModalShiftName = document.getElementById("edit-shift");
+const informationModalRole = document.getElementById("edit-role");
 
-const informationModalSkillLevel = document.getElementById("information-data-skillLevel");
+//const informationModalSkillLevel = document.getElementById("information-data-skillLevel");
 
 const informationModalStageID = document.getElementById("information-data-stageID");
 const informationModalStageName = document.getElementById("information-data-stageName");
@@ -94,19 +92,22 @@ function eventListeners()
     stageMenu.addEventListener("click", loadStageModal);
     stationMenu.addEventListener("click", loadStationModal);
     shiftMenu.addEventListener("click", loadShiftModal);
-
-    //informationMenu.addEventListener("click", loadInformationModal);
-
-    addEmpBtn.addEventListener("click", loadEmpModal);
+    
+    addEmpBtn.addEventListener("click", loadEmpModal);    
     
     window.addEventListener("click", closeModal);
-    
+
     cancelEmpBtn.addEventListener("click", cancelModal);
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
     cancelShiftBtn.addEventListener("click", cancelModal);
-
     cancelInformationBtn.addEventListener("click", cancelModal);
+
+    /*cancelEmpBtn.addEventListener("click", closeModal);
+    cancelStationBtn.addEventListener("click", closeModal);
+    cancelStageBtn.addEventListener("click", closeModal);
+    cancelShiftBtn.addEventListener("click", closeModal);
+    cancelInformationBtn.addEventListener("click", closeModal);*/
     
     clearFilterBtn.addEventListener("click", clearFilters);
     deleteEmpButton.addEventListener("click", deleteSelected);
@@ -198,11 +199,6 @@ function loadShiftModal()
     shiftModal.style.display = "inline-block";
 }
 
-/*function loadInformationModal()
-{
-    informationModal.style.display = "inline-block";
-}*/
-
 function cancelModal()
 {
     empModal.style.display = "none";
@@ -265,7 +261,8 @@ function closeModal(e)
     else if(e.target == stageModal) stageModal.style.display = "none";
     
     else if(e.target == shiftModal) shiftModal.style.display = "none";*/
-
+    console.log(e.target);
+    
     switch(e.target)
     {
         case empModal:
@@ -313,23 +310,24 @@ function deleteSelected()
 }
 
 function displayEmpData(event)
-{/*
+{
     let rowIdx = parseInt(event.currentTarget.id); //returns string
 
-    console.log(employeeJson[rowIdx]);
-*/
-    informationModal.style.display = "inline-block";
-/*
-    informationModalName.innerText = employeeJson[rowIdx].EmpName;
-    informationModalID.innerText = employeeJson[rowIdx].EmployeeId;
-    informationModalToken.innerText = employeeJson[rowIdx].EmpToken;
+    console.log(stationJson);
 
-    informationModalDOJ.innerText = employeeJson[rowIdx].DOJ;
-    informationModalGender.innerText = employeeJson[rowIdx].Gender;
-    informationModalLanguage.innerText = employeeJson[rowIdx].LanguagePreference;
-    informationModalMobile.innerText = employeeJson[rowIdx].Mobile;
+    informationModal.style.display = "inline-block";
+
+    informationModalName.value = employeeJson[rowIdx].EmpName;
+    informationModalToken.value = employeeJson[rowIdx].EmpToken;    
+
+    informationModalDOJ.value = employeeJson[rowIdx].DOJ;
+    informationModalGender.value = employeeJson[rowIdx].Gender;
+    informationModalLanguage.value = employeeJson[rowIdx].LanguagePreference;
+    informationModalMobile.value = employeeJson[rowIdx].Mobile;
+
+    informationModalRole.value = employeeJson[rowIdx].IsAdmin;
     
-    informationModalShiftID.innerText = employeeJson[rowIdx].ShiftId;
+    /*informationModalShiftID.innerText = employeeJson[rowIdx].ShiftId;
     informationModalShiftName.innerText = employeeJson[rowIdx].ShiftName;
     
     informationModalSkillLevel.innerText = employeeJson[rowIdx].SkillLevel;
@@ -339,6 +337,8 @@ function displayEmpData(event)
     
     informationModalStationID.innerText = employeeJson[rowIdx].StationId;
     informationModalStationName.innerText = employeeJson[rowIdx].StationName;*/
+
+    //informationModalID.innerText = employeeJson[rowIdx].EmployeeId;
 }
 
 
@@ -466,6 +466,24 @@ function getAllStageData()
             loadStageDropdown();
         }
     };
+}
+
+function getEmployeeData()
+{
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'adminview/employeeSkillData', true);
+    xhr.send();
+
+    xhr.onreadystatechange = function()
+    {
+        if(this.readystate == 4 && this.status == 200)
+        {
+            let tempJson = JSON.parse(this.requestText);
+        }
+    }
+
+    
 }
 
 
