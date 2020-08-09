@@ -353,9 +353,9 @@
                   </div>
 
                   <div style="display: flex; flex-direction: row; width: 100%;">
-                    <div style="margin-right: 83px;">
-                      <label class="modal-labels">Role</label>
-                      <input id="edit-role" class="edit_modal_inputs">
+                    <div style="margin-right: 83px;display: flex;flex-direction: row;background-color: blueviolet;">
+                      <label style="background-color: brown;" class="modal-labels">Role</label>
+                      <input style="background-color: chocolate;" type="checkbox" id="edit-role" class="edit_modal_inputs">
                     </div>
 
                     <div>
@@ -411,6 +411,29 @@
                 </div>
               </div>
 
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="delete-modal-id" class="emp-modal">
+        <div id="delete-modal-box-id" class="modal-box">
+          <form action="./deleteData" method="POST">
+            {% csrf_token %}
+            <header class="modal-header">
+              <div class="modalHeaderTitle">
+                <h5>Delete</h5>
+              </div>
+            </header>
+            <div id="delete-modal-body-id" class="modal-body">
+              <div>
+                <h6>Are you sure you want to delete selected entries?</h6><br>
+              </div>
+
+              <div class="modal-buttons">
+                <button id="yesDeleteBtn" type="submit" class="modalSubmitBtn">Yes</button>
+                <button id="noDeleteBtn" type="button" class="modalCancelBtn">No</button>
+              </div>
             </div>
           </form>
         </div>

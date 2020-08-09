@@ -38,6 +38,11 @@ const informationModalMobile = document.getElementById("edit-mobile");
 const informationModalShiftName = document.getElementById("edit-shift");
 const informationModalRole = document.getElementById("edit-role");
 
+const deleteModal = document.getElementById("delete-modal-id");
+const noDeleteBtn = document.getElementById("noDeleteBtn");
+const yesDeleteBtn = document.getElementById("yesDeleteBtn");
+
+
 //const informationModalSkillLevel = document.getElementById("information-data-skillLevel");
 
 const informationModalStageID = document.getElementById("information-data-stageID");
@@ -102,6 +107,7 @@ function eventListeners()
     cancelStageBtn.addEventListener("click", cancelModal);
     cancelShiftBtn.addEventListener("click", cancelModal);
     cancelInformationBtn.addEventListener("click", cancelModal);
+    noDeleteBtn.addEventListener("click", cancelModal);
 
     /*cancelEmpBtn.addEventListener("click", closeModal);
     cancelStationBtn.addEventListener("click", closeModal);
@@ -110,7 +116,9 @@ function eventListeners()
     cancelInformationBtn.addEventListener("click", closeModal);*/
     
     clearFilterBtn.addEventListener("click", clearFilters);
-    deleteEmpButton.addEventListener("click", deleteSelected);
+    
+    deleteEmpButton.addEventListener("click", deleteSelectedConfirmation);
+    yesDeleteBtn.addEventListener("click", deleteSelected);
 
     filterStationDropdown.addEventListener("change", filterData);
 }
@@ -199,6 +207,11 @@ function loadShiftModal()
     shiftModal.style.display = "inline-block";
 }
 
+function deleteSelectedConfirmation()
+{
+    deleteModal.style.display = "inline-block";
+}
+
 function cancelModal()
 {
     empModal.style.display = "none";
@@ -206,6 +219,7 @@ function cancelModal()
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
     informationModal.style.display = "none";
+    deleteModal.style.display = "none";
 }
 
 
@@ -284,7 +298,11 @@ function closeModal(e)
         case informationModal:
             informationModal.style.display = "none";
             break;
-         
+
+        case deleteModal:
+            deleteModal.style.display = "none";
+            break;
+
          default:
             break;
     }

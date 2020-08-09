@@ -15,6 +15,10 @@ const stationModal = document.getElementById("station-modal-id");
 const stageModal = document.getElementById("stage-modal-id");
 const shiftModal = document.getElementById("shift-modal-id");
 
+const deleteModal = document.getElementById("delete-modal-id");
+const noDeleteBtn = document.getElementById("noDeleteBtn");
+const yesDeleteBtn = document.getElementById("yesDeleteBtn");
+
 const titleInput = document.getElementById("new-title");
 const stationInput = document.getElementById("new-station");
 const stageInput = document.getElementById("new-stage");
@@ -61,7 +65,8 @@ initialize();
 ///////////////////////////// ????????? /////////////////////////////
 function eventListeners()
 {
-    deleteTestBtn.addEventListener("click", deleteSelected);
+    deleteTestBtn.addEventListener("click", deleteSelectedConfirmation);
+    yesDeleteBtn.addEventListener("click", deleteSelected);
     addTestBtn.addEventListener("click", loadTestModal);
     
     stageMenu.addEventListener("click", loadStageModal);
@@ -77,7 +82,8 @@ function eventListeners()
     //submitStageBtn.addEventListener("click", loadStageModal);
     cancelStageBtn.addEventListener("click", cancelModal);
     cancelShiftBtn.addEventListener("click", cancelModal);
-    
+    noDeleteBtn.addEventListener("click", cancelModal);
+
     window.addEventListener("click", closeModal);
 }
 
@@ -101,12 +107,18 @@ function loadShiftModal()
     shiftModal.style.display = "inline-block";
 }
 
+function deleteSelectedConfirmation()
+{
+    deleteModal.style.display = "inline-block";
+}
+
 function cancelModal()
 {
     testModal.style.display = "none";
     stationModal.style.display = "none";
     stageModal.style.display = "none";
     shiftModal.style.display = "none";
+    deleteModal.style.display = "none";
 }
 
 function closeModal(e)
@@ -119,6 +131,8 @@ function closeModal(e)
         stageModal.style.display = "none";
     else if(e.target == shiftModal)
         shiftModal.style.display = "none";
+    else if(e.target == deleteModal)
+        deleteModal.style.display = "none";
 }
 
 function deleteSelected()
