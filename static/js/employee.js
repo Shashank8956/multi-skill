@@ -1,5 +1,8 @@
 const empIDVar = 0;
+
 let employeeJson = [];
+let skillJson = {};
+
 let stationJson = [];
 let shiftJson = [];
 let stageJson = [];
@@ -37,19 +40,11 @@ const informationModalMobile = document.getElementById("edit-mobile");
 
 const informationModalShiftName = document.getElementById("edit-shift");
 const informationModalRole = document.getElementById("edit-role");
+const informationStationDetail = document.getElementById("id-detail-body");
 
 const deleteModal = document.getElementById("delete-modal-id");
 const noDeleteBtn = document.getElementById("noDeleteBtn");
 const yesDeleteBtn = document.getElementById("yesDeleteBtn");
-
-
-//const informationModalSkillLevel = document.getElementById("information-data-skillLevel");
-
-const informationModalStageID = document.getElementById("information-data-stageID");
-const informationModalStageName = document.getElementById("information-data-stageName");
-
-const informationModalStationID = document.getElementById("information-data-stationID");
-const informationModalStationName = document.getElementById("information-data-stationName");
 
 const empModal = document.getElementById("emp-modal-id");
 const cancelEmpBtn = document.getElementById("cancelEmpBtn");
@@ -82,6 +77,8 @@ function initialize()
     getAllShiftData();
     getAllStageData();
     getAllStationData();
+    getEmployeeSkillData();
+    
     loadListHeader();
     cookieValue = getCookie('csrftoken');
 
@@ -331,32 +328,76 @@ function displayEmpData(event)
 {
     let rowIdx = parseInt(event.currentTarget.id); //returns string
 
-    console.log(stationJson);
-
     informationModal.style.display = "inline-block";
 
-    informationModalName.value = employeeJson[rowIdx].EmpName;
-    informationModalToken.value = employeeJson[rowIdx].EmpToken;    
+    let employeeToken = employeeJson[rowIdx].EmpToken;
 
+    informationModalName.value = employeeJson[rowIdx].EmpName;
+    informationModalToken.value = employeeToken;
     informationModalDOJ.value = employeeJson[rowIdx].DOJ;
     informationModalGender.value = employeeJson[rowIdx].Gender;
     informationModalLanguage.value = employeeJson[rowIdx].LanguagePreference;
     informationModalMobile.value = employeeJson[rowIdx].Mobile;
+    informationModalRole.checked = employeeJson[rowIdx].IsAdmin;
+    
+    let skillData = skillJson.find(function(value)
+        {
+            return value.empToken === employeeToken;
+        }
+    );
 
-    informationModalRole.value = employeeJson[rowIdx].IsAdmin;
-    
-    /*informationModalShiftID.innerText = employeeJson[rowIdx].ShiftId;
-    informationModalShiftName.innerText = employeeJson[rowIdx].ShiftName;
-    
-    informationModalSkillLevel.innerText = employeeJson[rowIdx].SkillLevel;
-    
-    informationModalStageID.innerText = employeeJson[rowIdx].StageId;
-    informationModalStageName.innerText = employeeJson[rowIdx].StageName;
-    
-    informationModalStationID.innerText = employeeJson[rowIdx].StationId;
-    informationModalStationName.innerText = employeeJson[rowIdx].StationName;*/
+    console.log(skillData);
+    console.log(stationJson);
 
-    //informationModalID.innerText = employeeJson[rowIdx].EmployeeId;
+      
+
+    for(let i = 0; i < stationJson.length; i++)
+    {
+        let stationNameVal = stationJson[i].StationName;
+        let skillVal = skillData[stationNameVal];
+
+        if(stationNameVal !== "Default Station" && skillVal !== 0)
+        {        
+            let newRow = document.createElement("tr")
+            let stationName = document.createElement("td");
+            let skillLevel = document.createElement("td");  
+
+            stationName.innerText = stationNameVal;
+            skillLevel.innerText = skillVal;
+
+            newRow.appendChild(stationName);
+            newRow.appendChild(skillLevel);
+
+            informationStationDetail.appendChild(newRow);
+        }        
+    }   
+}
+
+function prepareSkillData(tempJson)
+{
+    let skillArray = [];
+
+    //console.log(tempJson);
+
+    if(tempJson != null)
+    {
+        for(const [key, value] of Object.entries(tempJson))
+        {
+            let tempDict = {};
+            tempDict["empID"] = value[0].EmployeeId;
+            tempDict["empToken"] = value[0].EmpToken;
+            tempDict["empName"] = value[0].EmpName;
+
+            for(let i = 0; i < value.length; i++)
+            {
+                let stationName = value[i].StationName;
+                if(stationName != "Default Station")    tempDict[stationName] = value[i].SkillLevel;
+            }
+
+            skillArray.push(tempDict);
+        }
+    }
+    skillJson = skillArray;
 }
 
 
@@ -486,22 +527,22 @@ function getAllStageData()
     };
 }
 
-function getEmployeeData()
+function getEmployeeSkillData()
 {
     let xhr = new XMLHttpRequest();
-
-    xhr.open('GET', 'adminview/employeeSkillData', true);
-    xhr.send();
-
-    xhr.onreadystatechange = function()
-    {
-        if(this.readystate == 4 && this.status == 200)
-        {
-            let tempJson = JSON.parse(this.requestText);
-        }
-    }
-
     
+    xhr.open('GET', '/adminview/employeeSkillData', true);
+    xhr.send();
+    
+    xhr.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            let tempJson = JSON.parse(this.responseText);
+            
+            prepareSkillData(tempJson);
+        }
+    };    
 }
 
 
