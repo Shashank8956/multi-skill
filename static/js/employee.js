@@ -42,6 +42,9 @@ const informationModalShiftName = document.getElementById("edit-shift");
 const informationModalRole = document.getElementById("edit-role");
 const informationStationDetail = document.getElementById("id-detail-body");
 
+const cancelInformation = document.getElementById("cancelInformationBtn");
+const saveInformation = document.getElementById("editInformationBtn");
+
 const deleteModal = document.getElementById("delete-modal-id");
 const noDeleteBtn = document.getElementById("noDeleteBtn");
 const yesDeleteBtn = document.getElementById("yesDeleteBtn");
@@ -97,21 +100,33 @@ function eventListeners()
     
     addEmpBtn.addEventListener("click", loadEmpModal);    
     
-    window.addEventListener("click", closeModal);
-
-    cancelEmpBtn.addEventListener("click", cancelModal);
+    //window.addEventListener("click", closeModal);
+    
+    /*cancelEmpBtn.addEventListener("click", cancelModal);
     cancelStationBtn.addEventListener("click", cancelModal);
     cancelStageBtn.addEventListener("click", cancelModal);
     cancelShiftBtn.addEventListener("click", cancelModal);
     cancelInformationBtn.addEventListener("click", cancelModal);
-    noDeleteBtn.addEventListener("click", cancelModal);
-
-    /*cancelEmpBtn.addEventListener("click", closeModal);
-    cancelStationBtn.addEventListener("click", closeModal);
-    cancelStageBtn.addEventListener("click", closeModal);
-    cancelShiftBtn.addEventListener("click", closeModal);
-    cancelInformationBtn.addEventListener("click", closeModal);*/
+    noDeleteBtn.addEventListener("click", closeModal);*/
     
+    noDeleteBtn.addEventListener("click", closeModal);
+    deleteModal.addEventListener("click", closeModal);
+
+    cancelEmpBtn.addEventListener("click", closeModal);
+    empModal.addEventListener("click", closeModal);
+
+    cancelStationBtn.addEventListener("click", closeModal);
+    stationModal.addEventListener("click", closeModal);
+
+    cancelStageBtn.addEventListener("click", closeModal);
+    stageModal.addEventListener("click", closeModal);
+
+    cancelShiftBtn.addEventListener("click", closeModal);
+    shiftModal.addEventListener("click", closeModal);
+
+    cancelInformationBtn.addEventListener("click", closeModal);
+    informationModal.addEventListener("click", closeModal);
+        
     clearFilterBtn.addEventListener("click", clearFilters);
     
     deleteEmpButton.addEventListener("click", deleteSelectedConfirmation);
@@ -209,7 +224,7 @@ function deleteSelectedConfirmation()
     deleteModal.style.display = "inline-block";
 }
 
-function cancelModal()
+/*function cancelModal()
 {
     empModal.style.display = "none";
     stationModal.style.display = "none";
@@ -217,7 +232,7 @@ function cancelModal()
     shiftModal.style.display = "none";
     informationModal.style.display = "none";
     deleteModal.style.display = "none";
-}
+}*/
 
 
 function filterData(event)
@@ -265,38 +280,40 @@ function clearFilters()
 
 function closeModal(e)
 {
-    /*if(e.target == empModal) empModal.style.display = "none";
-
-    else if(e.target == stationModal) stationModal.style.display = "none";
-
-    else if(e.target == stageModal) stageModal.style.display = "none";
-    
-    else if(e.target == shiftModal) shiftModal.style.display = "none";*/
     console.log(e.target);
     
     switch(e.target)
     {
         case empModal:
+        case cancelEmpBtn:
             empModal.style.display = "none";
             break;
         
         case stationModal:
+        case cancelStationBtn:
             stationModal.style.display = "none";
             break;
 
         case stageModal:
+        case cancelStageBtn:
             stageModal.style.display = "none";
             break;
         
         case shiftModal:
+        case cancelShiftBtn:
             shiftModal.style.display = "none";
             break;
         
         case informationModal:
+        case cancelInformationBtn:
+        {
+            informationStationDetail.innerText = "";
             informationModal.style.display = "none";
             break;
+        }
 
         case deleteModal:
+        case noDeleteBtn:
             deleteModal.style.display = "none";
             break;
 
