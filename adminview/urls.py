@@ -13,6 +13,7 @@ urlpatterns = [
     path('skillPlatform', TemplateView.as_view(template_name='admin/skillPlatform.html'), name='skillPlatform'),
     path('shiftManagement', TemplateView.as_view(template_name='admin/shift.html'), name='shiftManagement'),
     path('trainingManagement', TemplateView.as_view(template_name='admin/training.html'), name='trainingManagement'),
+    path('trainingOverview', TemplateView.as_view(template_name='admin/trainingOverview.html'), name='trainingOverview'),
 
     path('employeeData', EmployeeView.as_view(), name="employeeData"),
     path('testData', TestView.as_view(), name="testData"),
