@@ -66,10 +66,7 @@ function initialize()
     //getData();
     //loadList();
     eventListeners();
-    
-    console.log(trainingYear);
-    console.log(trainedEmployeeData);
-    
+        
     /*getAllData();
     getAllShiftData();
     getAllStageData();
@@ -260,8 +257,11 @@ function loadTable(dataArray)
     }
 }
 
-function filterData()
+function filterData(event)
 {
+    let yearValue = this.value;
+    console.log(yearValue + " " + typeof(yearValue));
+    
     loadTable(trainedEmployeeData);
 }
 
