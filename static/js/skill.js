@@ -1,10 +1,10 @@
 const empIDVar = 0;
-let skillJson = [];
-let stationJson = [];
-let shiftJson = [];
+var skillJson = [];
+var stationJson = [];
+var shiftJson = [];
 
-let cookieValue = null;
-let checkedCount = 0;
+var cookieValue = null;
+var checkedCount = 0;
 
 ///////////////////////////// get elements /////////////////////////////
 const stageMenu = document.getElementById("id-stageMenu");

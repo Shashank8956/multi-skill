@@ -1,43 +1,43 @@
 //Element declarations
-let titleInput = document.getElementById("titlebar");
-let stationInput = document.getElementById("new-station");
-let stageInput = document.getElementById("new-stage");
-let questionNoInput = document.getElementById("new-questionNo");
-let timeInput = document.getElementById("new-time");
-let marksInput = document.getElementById("new-marks");
+var titleInput = document.getElementById("titlebar");
+var stationInput = document.getElementById("new-station");
+var stageInput = document.getElementById("new-stage");
+var questionNoInput = document.getElementById("new-questionNo");
+var timeInput = document.getElementById("new-time");
+var marksInput = document.getElementById("new-marks");
 
-let addQuestionButton = document.getElementById("addQuestionBtn");
-let questionList = document.getElementById("questionList");
-let questionCard = document.getElementsByClassName("list-item-card");
-let midPanel = document.getElementById("mid-panel");
-let rightPanel = document.getElementById("right-panel");
-let midQuestionNo = document.getElementById("id-listQuestionNo");
-let rightQuestionNo = document.getElementById("right-panel-questionNo");
-let rightQuestionText = document.getElementById("input-questionEdit");
-let rightOp1 = document.getElementById("edit-option1");
-let rightOp2 = document.getElementById("edit-option2");
-let rightOp3 = document.getElementById("edit-option3");
-let rightOp4 = document.getElementById("edit-option4");
-let rightSaveButton = document.getElementById("saveQuestionBtn");
-let resetButton = document.getElementById("resetBtn");
-let cancelButton = document.getElementById("cancelTestBtn");
-let submitButton = document.getElementById("createTestBtn");
+var addQuestionButton = document.getElementById("addQuestionBtn");
+var questionList = document.getElementById("questionList");
+var questionCard = document.getElementsByClassName("list-item-card");
+var midPanel = document.getElementById("mid-panel");
+var rightPanel = document.getElementById("right-panel");
+var midQuestionNo = document.getElementById("id-listQuestionNo");
+var rightQuestionNo = document.getElementById("right-panel-questionNo");
+var rightQuestionText = document.getElementById("input-questionEdit");
+var rightOp1 = document.getElementById("edit-option1");
+var rightOp2 = document.getElementById("edit-option2");
+var rightOp3 = document.getElementById("edit-option3");
+var rightOp4 = document.getElementById("edit-option4");
+var rightSaveButton = document.getElementById("saveQuestionBtn");
+var resetButton = document.getElementById("resetBtn");
+var cancelButton = document.getElementById("cancelTestBtn");
+var submitButton = document.getElementById("createTestBtn");
 
 const stationDropdown = document.getElementById("new-station");
 const stageDropdown = document.getElementById("new-stage");
 
 //Array declarations
-let questionNoArray = [];
-let questionTextArray = [];
-let questionOp1Array = [];
-let questionOp2Array = [];
-let questionOp3Array = [];
-let questionOp4Array = [];
-let correctOpArray = [];
-let stationJson = [];
-let stageJson = [];
-let questionCounter = 0;
-let cookieValue = '';
+var questionNoArray = [];
+var questionTextArray = [];
+var questionOp1Array = [];
+var questionOp2Array = [];
+var questionOp3Array = [];
+var questionOp4Array = [];
+var correctOpArray = [];
+var stationJson = [];
+var stageJson = [];
+var questionCounter = 0;
+var cookieValue = '';
 
 initializePage();
 

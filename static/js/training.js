@@ -1,3 +1,10 @@
+var trainingJson = [];
+var stationJson = [];
+var shiftJson = [];
+var stageJson = [];
+var cookieValue = null;
+var checkedCount = 0;
+
 const stageMenu = document.getElementById("id-stageMenu");
 const stationMenu = document.getElementById("id-stationMenu");
 const shiftMenu = document.getElementById("id-shiftMenu");
@@ -33,13 +40,6 @@ const trainingListHead = document.getElementById("id_trainingList_head");
 const trainingListBody = document.getElementById("id_trainingList_body");
 
 const empIDVar = 0;
-let trainingJson = [];
-let stationJson = [];
-let shiftJson = [];
-let stageJson = [];
-let cookieValue = null;
-let checkedCount = 0;
-
 
 function getCookie(name) {
     let cookieValue = null;

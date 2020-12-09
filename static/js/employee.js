@@ -1,14 +1,14 @@
 const empIDVar = 0;
 
-let employeeJson = [];
-let skillJson = {};
+var employeeJson = [];
+var skillJson = {};
 
-let stationJson = [];
-let shiftJson = [];
-let stageJson = [];
+var stationJson = [];
+var shiftJson = [];
+var stageJson = [];
 
-let cookieValue = null;
-let checkedCount = 0;
+var cookieValue = null;
+var checkedCount = 0;
 
 ///////////////////////////// get elements /////////////////////////////
 const stationMenu = document.getElementById("id-stationMenu");
@@ -280,7 +280,7 @@ function clearFilters()
 
 function closeModal(e)
 {
-    console.log(e.target);
+    //console.log(e.target);
     
     switch(e.target)
     {
@@ -343,7 +343,7 @@ function deleteSelected()
 
 function displayEmpData(event)
 {
-    let rowIdx = parseInt(event.currentTarget.id); //returns string
+    let rowIdx = parseInt(event.currentTarget.id);
 
     informationModal.style.display = "inline-block";
 
@@ -357,6 +357,7 @@ function displayEmpData(event)
     informationModalMobile.value = employeeJson[rowIdx].Mobile;
     informationModalRole.checked = employeeJson[rowIdx].IsAdmin;
     
+
     let skillData = skillJson.find(function(value)
         {
             return value.empToken === employeeToken;

@@ -1,12 +1,12 @@
-let switchButton = document.getElementById("switchBtn");
-let frontSlider = document.getElementById("front_slider");
-let bottomSlider = document.getElementById("bottom_slider");
-let bottom_slider_title = document.getElementById("bottom_slider_title");
-let infoText = document.getElementById("infoText");
-let username_input = document.getElementById("username_input");
-let password_input = document.getElementById("password_input");
-let loginBtn = document.getElementById("loginBtn");
-let isAdmin = true;
+var switchButton = document.getElementById("switchBtn");
+var frontSlider = document.getElementById("front_slider");
+var bottomSlider = document.getElementById("bottom_slider");
+var bottom_slider_title = document.getElementById("bottom_slider_title");
+var infoText = document.getElementById("infoText");
+var username_input = document.getElementById("username_input");
+var password_input = document.getElementById("password_input");
+var loginBtn = document.getElementById("loginBtn");
+var isAdmin = true;
 
 switchButton.addEventListener("click", switchPanel);
 loginBtn.addEventListener("click", Login);

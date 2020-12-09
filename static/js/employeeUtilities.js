@@ -1,5 +1,5 @@
 const searchBar = document.getElementById("searchBar");
-let selectedCheckBoxList = [];
+var selectedCheckBoxList = [];
 
 initialize()
 

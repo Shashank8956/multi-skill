@@ -1,7 +1,7 @@
-let testJson = [];
-let stationJson = [];
-let stageJson = [];
-let checkedCount = 0;
+var testJson = [];
+var stationJson = [];
+var stageJson = [];
+var checkedCount = 0;
 
 
 ///////////////////////////// get elements /////////////////////////////
