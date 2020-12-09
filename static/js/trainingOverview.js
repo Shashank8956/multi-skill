@@ -1,11 +1,27 @@
 const empIDVar = 0;
-let employeeJson = null;
-let stationJson = null;
-let shiftJson = null;
-let stageJson = null;
-let cookieValue = null;
-let checkedCount = 0;
+var employeeJson = null;
+var stationJson = null;
+var shiftJson = null;
+var stageJson = null;
+var cookieValue = null;
+var checkedCount = 0;
 
+var trainedEmployeeData = [                        //Grouped by month, sorted by month (?)
+    {"Name": "Shashank", "Trained_On": "2020-01-05"},
+    {"Name": "Ashutosh", "Trained_On": "2020-01-15"},
+    {"Name": "Vikram", "Trained_On": "2020-08-05"},
+    {"Name": "Rohan", "Trained_On": "2020-11-22"},
+    {"Name": "Shashank", "Trained_On": "2020-12-01"},    
+]
+
+var trainingYear = [                           //Distinct years
+    {"Trained_On": "2020-04-01"},
+    {"Trained_On": "2019-04-01"},
+    {"Trained_On": "2018-04-01"},
+    {"Trained_On": "2017-04-01"}
+]
+
+var RowArray = [];
 
 ///////////////////////////// get elements /////////////////////////////
 const stageMenu = document.getElementById("id-stageMenu");
@@ -36,9 +52,12 @@ const empModalStageDropdown = document.getElementById("new-stage");
 const addEmpBtn = document.getElementById("addEmpBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 const deleteEmpButton = document.getElementById("deleteEmpBtn");
+
 const empList = document.getElementById("id_EmpList");
 const empListHead = document.getElementById("id_EmpList_head");
 const empListBody = document.getElementById("id_EmpList_body");
+
+const filterYearDropDown = document.getElementById("year-filter");
 
 
 ///////////////////////////// initialize /////////////////////////////
@@ -47,16 +66,204 @@ function initialize()
     //getData();
     //loadList();
     eventListeners();
-        
-    getAllData();
+    
+    console.log(trainingYear);
+    console.log(trainedEmployeeData);
+    
+    /*getAllData();
     getAllShiftData();
     getAllStageData();
-    getAllStationData();
+    getAllStationData();*/
     loadListHeader();
     cookieValue = getCookie('csrftoken');
+
+    loadYearDropdown(trainingYear);
+    //loadTable(trainedEmployeeArr);
 }
 
 initialize();
+
+/// imp ///
+
+function loadYearDropdown(dataArray)
+{
+    for(let i = 0; i < dataArray.length; i++)
+    {
+        let trainedYear = dataArray[i].Trained_On.split("-")[0];
+        //console.log(year);
+
+        let dropDownChild = document.createElement("option");
+        dropDownChild.id = "year " + trainedYear;
+        dropDownChild.innerText = trainedYear;
+        dropDownChild.classList.add("select_option");
+
+        filterYearDropDown.appendChild(dropDownChild);
+    }
+}
+
+function getRowWithEmptyCell(index)
+{
+    //console.log(index);
+    
+    if (RowArray.length === 0) return -1;
+
+    for(let i = 0; i < RowArray.length; i++)
+    {
+        //console.log(RowArray[i] + " month " + index);
+        let cell = document.getElementById(RowArray[i] + " month " + index);
+        
+        if(cell.textContent.trim() == "")
+        {
+            //console.log("Empty Component");
+            return RowArray[i];
+        }
+    }
+
+    return -1;
+}
+
+function getNewRowId()
+{
+    let newRow = document.createElement("tr");
+    newRow.id = "Row " + (RowArray.length + 1);
+    
+    RowArray.push(newRow.id);
+
+    newRow.innerHTML =  `
+                        <td > </td>
+                        <td id = "` + newRow.id + ` sno">` + RowArray.length + `</td>
+                        <td id = "` + newRow.id + ` month 1"> </td>
+                        <td id = "` + newRow.id + ` month 2"> </td>
+                        <td id = "` + newRow.id + ` month 3"> </td>
+                        <td id = "` + newRow.id + ` month 4"> </td>
+                        <td id = "` + newRow.id + ` month 5"> </td>
+                        <td id = "` + newRow.id + ` month 6"> </td>
+                        <td id = "` + newRow.id + ` month 7"> </td>
+                        <td id = "` + newRow.id + ` month 8"> </td>
+                        <td id = "` + newRow.id + ` month 9"> </td>
+                        <td id = "` + newRow.id + ` month 10"> </td>
+                        <td id = "` + newRow.id + ` month 11"> </td>
+                        <td id = "` + newRow.id + ` month 12"> </td>`;
+
+    empListBody.appendChild(newRow);
+
+    //console.log(newRow.id);
+    return newRow.id;
+}
+
+
+function setCellValue(index, employeeName) 
+{
+    let rowIdx = getRowWithEmptyCell(index);
+
+    //console.log(rowIdx);
+
+    if (rowIdx === -1) 
+    {
+        let row = document.getElementById(getNewRowId());
+        //console.log("ID: "+ row.id + " month 1");
+
+        let cell = document.getElementById(row.id + " month " + index.toString());
+        //console.log(cell);
+
+        cell.innerText = employeeName;
+    }
+
+    else 
+    {
+        let row = document.getElementById(rowIdx);
+        let cell = document.getElementById(row.id + " month " + index.toString());
+        
+        //console.log(cell);        
+        cell.innerText = employeeName;
+    }
+
+}
+
+
+function loadTable(dataArray)
+{
+    empListBody.innerHTML = "";
+
+    for(let i = 0; i < dataArray.length; i++)
+    {
+        let employeeName = dataArray[i].Name;
+        let month = dataArray[i].Trained_On.split("-")[1];
+
+        switch(month)
+        {
+            case "1": case "01":
+            {   setCellValue(1, employeeName);
+                break;
+            }
+
+            case "2": case "02":
+            {   setCellValue(2, employeeName);
+                break;
+            }
+
+            case "3": case "03":
+            {   setCellValue(3, employeeName);
+                break;
+            }
+
+            case "4": case "04":
+            {   setCellValue(4, employeeName);
+                break;
+            }
+
+            case "5": case "05":
+            {   setCellValue(5, employeeName);
+                break;
+            }
+
+            case "6": case "06":
+            {   setCellValue(6, employeeName);
+                break;
+            }
+
+            case "7": case "07":
+            {   setCellValue(7, employeeName);
+                break;
+            }
+
+            case "8": case "08":
+            {   setCellValue(8, employeeName);
+                break;
+            }
+
+            case "9": case "09":
+            {   setCellValue(9, employeeName);
+                break;                
+            }
+
+            case "10":
+            {   setCellValue(10, employeeName);
+                break;
+            }
+
+            case "11":
+            {   setCellValue(11, employeeName);
+                break;
+            }
+
+            case "12":
+            {   setCellValue(12, employeeName);
+                break;
+            }
+
+            default:
+            {   console.log("incorrect month");
+                break;
+            }
+        }
+    }
+}
+
+function filterData()
+{
+    loadTable(trainedEmployeeData);
+}
 
 
 ///////////////////////////// ????????? /////////////////////////////
@@ -77,6 +284,8 @@ function eventListeners()
     
     clearFilterBtn.addEventListener("click", clearFilters);
     deleteEmpButton.addEventListener("click", deleteSelected);
+
+    filterYearDropDown.addEventListener("change", filterData)
 }
 
 
@@ -302,11 +511,14 @@ function getAllStageData()
 ///////////////////////////// load data into elements //////////////////////
 function loadList(listData)
 {
-    if(listData!=null){
+    if(listData!=null)
+    {
 
             let newRow = document.createElement("tr");
-            let tableData = []
-            for(let i=0; i<6; i++){
+            let tableData = [];
+
+            for(let i=0; i<6; i++)
+            {
                 tableData.push(document.createElement("td"));
             }
 
@@ -320,7 +532,8 @@ function loadList(listData)
             tableData[4].innerText = listData.mobile;
             tableData[5].innerText = listData.current_station;
 
-            for(let i=0; i<6; i++){
+            for(let i=0; i<6; i++)
+            {
                 newRow.appendChild(tableData[i]);
             }
 
@@ -427,11 +640,19 @@ function loadListHeader()
     let tableHeader = `<thead>
                         <tr>    
                             <th><input type="checkbox"></th>
-                            <th data-columnName = "EmpToken" data-order="desc" onclick="sortColumn(event);">Token No &#x25B4</th>
-                            <th data-columnName = "EmpName" data-order="desc" onclick="sortColumn(event);">Name &#x25B4</th>
-                            <th data-columnName = "DOJ" data-order="desc" onclick="sortColumn(event);">Doj &#x25B4</th>
-                            <th data-columnName = "Mobile" data-order="desc" onclick="sortColumn(event);">Contact &#x25B4</th>
-                            <th data-columnName = "StationName" data-order="desc" onclick="sortColumn(event);">Station &#x25B4</th>
+                            <th data-columnName = "SNo." data-order="desc" onclick="sortColumn(event);">S No. &#x25B4</th>
+                            <th data-columnName = "January" data-order="desc" onclick="sortColumn(event);">January &#x25B4</th>
+                            <th data-columnName = "Fabruary" data-order="desc" onclick="sortColumn(event);">Fabruary &#x25B4</th>
+                            <th data-columnName = "March" data-order="desc" onclick="sortColumn(event);">March &#x25B4</th>
+                            <th data-columnName = "April" data-order="desc" onclick="sortColumn(event);">April &#x25B4</th>
+                            <th data-columnName = "May" data-order="desc" onclick="sortColumn(event);">May &#x25B4</th>
+                            <th data-columnName = "June" data-order="desc" onclick="sortColumn(event);">June &#x25B4</th>
+                            <th data-columnName = "July" data-order="desc" onclick="sortColumn(event);">July &#x25B4</th>
+                            <th data-columnName = "August" data-order="desc" onclick="sortColumn(event);">August &#x25B4</th>
+                            <th data-columnName = "September" data-order="desc" onclick="sortColumn(event);">September &#x25B4</th>
+                            <th data-columnName = "October" data-order="desc" onclick="sortColumn(event);">October &#x25B4</th>
+                            <th data-columnName = "November" data-order="desc" onclick="sortColumn(event);">November &#x25B4</th>
+                            <th data-columnName = "December" data-order="desc" onclick="sortColumn(event);">December &#x25B4</th>
                         </tr>
                     </thead>`;
     empListHead.innerHTML += tableHeader;
